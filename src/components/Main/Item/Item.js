@@ -136,7 +136,7 @@ function Item(props) {
               </TextDefault>
               <View style={[styles().aboutRestaurant, { width: '23%' }]}>
                 <Ionicons name="md-star" size={scale(11)} color="#4165b9" />
-                <TextDefault
+                {/* <TextDefault
                   textColor={currentTheme.fontMainColor}
                   style={{ marginLeft: 2 }}
                   bolder
@@ -149,7 +149,7 @@ function Item(props) {
                   bold
                   smaller>
                   ({item.reviewData.reviews.length})
-                </TextDefault>
+                </TextDefault> */}
               </View>
             </View>
             <TextDefault

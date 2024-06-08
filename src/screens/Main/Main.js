@@ -48,6 +48,9 @@ import { LocationContext } from '../../context/Location'
 import { alignment } from '../../utils/alignment'
 import Spinner from '../../components/Spinner/Spinner'
 import Analytics from '../../utils/analytics'
+import { fetchRestaurantsWithDetails } from '../../firebase/restaurants';
+import { firestore } from '../../../firebase.config';
+
 
 // const RESTAURANTS = gql`
 //   ${restaurantList}
@@ -68,79 +71,79 @@ function Main(props) {
   const { getCurrentLocation } = useLocation()
 
   // Dummy data to replace backend connections
-  const dummyData = {
-    nearByRestaurants: {
-      restaurants: [
-        {
-          _id: '1',
-          name: 'Restaurant 1',
-          image: 'https://via.placeholder.com/150',
-          categories: [
-            { title: 'Category 1', foods: [{ title: 'Food 1' }] }
-          ],
-          options: [{ title: 'Option 1' }],
-          addons: [{ title: 'Addon 1' }],
-          reviewData: {
-            ratings: 4.5,
-            reviews: [
-              { id: 1, text: 'Great place!', rating: 5 },
-              { id: 2, text: 'Not bad', rating: 3 }
-            ]
-          },
-          deliveryTime: 30,
-          minimumOrder: 10,
-          isAvailable: true,
-          openingTimes: [
-            { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-            { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
-          ],
-        },
-        {
-          _id: '2',
-          name: 'Restaurant 2',
-          image: 'https://via.placeholder.com/150',
-          categories: [
-            { title: 'Category 2', foods: [{ title: 'Food 2' }] }
-          ],
-          options: [{ title: 'Option 2' }],
-          addons: [{ title: 'Addon 2' }],
-          reviewData: {
-            ratings: 4.0,
-            reviews: [
-              { id: 1, text: 'Good food!', rating: 4 },
-              { id: 2, text: 'Could be better', rating: 3 }
-            ]
-          },
-          deliveryTime: 40,
-          minimumOrder: 15,
-          isAvailable: true,
-          openingTimes: [
-            {
-              day: 'Tuesday',
-              times: [
-                { startTime: [8, 0], endTime: [22, 0] }
-              ]
-            }
-          ]
-        }
-      ],
-      sections: [
-        {
-          _id: '1',
-          title: 'Section 1',
-          restaurants: ['1', '2']
-        }
-      ]
-    }
-  };
+  // const dummyData = {
+  //   nearByRestaurants: {
+  //     restaurants: [
+  //       {
+  //         _id: '1',
+  //         name: 'Restaurant 1',
+  //         image: 'https://via.placeholder.com/150',
+  //         categories: [
+  //           { title: 'Category 1', foods: [{ title: 'Food 1' }] }
+  //         ],
+  //         options: [{ title: 'Option 1' }],
+  //         addons: [{ title: 'Addon 1' }],
+  //         reviewData: {
+  //           ratings: 4.5,
+  //           reviews: [
+  //             { id: 1, text: 'Great place!', rating: 5 },
+  //             { id: 2, text: 'Not bad', rating: 3 }
+  //           ]
+  //         },
+  //         deliveryTime: 30,
+  //         minimumOrder: 10,
+  //         isAvailable: true,
+  //         openingTimes: [
+  //           { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
+  //           { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
+  //         ],
+  //       },
+  //       {
+  //         _id: '2',
+  //         name: 'Restaurant 2',
+  //         image: 'https://via.placeholder.com/150',
+  //         categories: [
+  //           { title: 'Category 2', foods: [{ title: 'Food 2' }] }
+  //         ],
+  //         options: [{ title: 'Option 2' }],
+  //         addons: [{ title: 'Addon 2' }],
+  //         reviewData: {
+  //           ratings: 4.0,
+  //           reviews: [
+  //             { id: 1, text: 'Good food!', rating: 4 },
+  //             { id: 2, text: 'Could be better', rating: 3 }
+  //           ]
+  //         },
+  //         deliveryTime: 40,
+  //         minimumOrder: 15,
+  //         isAvailable: true,
+  //         openingTimes: [
+  //           {
+  //             day: 'Tuesday',
+  //             times: [
+  //               { startTime: [8, 0], endTime: [22, 0] }
+  //             ]
+  //           }
+  //         ]
+  //       }
+  //     ],
+  //     sections: [
+  //       {
+  //         _id: '1',
+  //         title: 'Section 1',
+  //         restaurants: ['1', '2']
+  //       }
+  //     ]
+  //   }
+  // };
 
   // Replace GraphQL query with dummy data
-  const data = dummyData;
+  // const data = [{nearByRestaurants: []}];
   const refetch = () => {};
   const networkStatus = 7;
   const loading = false;
@@ -162,6 +165,77 @@ function Main(props) {
       themeContext.ThemeValue === 'Dark' ? 'light-content' : 'dark-content'
     )
   })
+
+
+  useEffect(() => {
+    const getRestaurants = async () => {
+      try {
+        const restaurantsList = await fetchRestaurantsWithDetails();
+        setRestaurants(restaurantsList);
+      } catch (error) {
+        console.error('Error fetching restaurants:', error);
+      }
+    };
+
+    getRestaurants();
+  }, []);
+
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const restaurantsCollection = await firestore.collection('restaurants').get();
+
+  //       const restaurantsList = restaurantsCollection.docs.map(doc => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       for (let restaurantDoc of restaurantsList) {
+  //         const categoriesSnapshot = await firestore.collection('restaurants/' + restaurantDoc.id + "/categories").get();
+  //         const openingTimesSnapshot = await firestore.collection('restaurants/' + restaurantDoc.id + "/openingTimes").get();
+  //         const categoriesList = categoriesSnapshot.docs.map(doc => ({
+  //           id: doc.id,
+  //           ...doc.data(),
+  //         }));
+  //         const openingTimesList = openingTimesSnapshot.docs.map(doc => ({
+  //           id: doc.id,
+  //           ...doc.data(),
+  //         }));
+
+  //         restaurantDoc.categories = categoriesList;
+  //         restaurantDoc.openingTimes = openingTimesList;
+
+  //       }
+
+  //       console.log('restaurantsList');
+  //       console.log('restaurantsList:', JSON.stringify(restaurantsList, null, 2));
+  //       // data.nearByRestaurants = {
+  //       //   restaurants: restaurantsList,
+  //       //   sections: [
+  //       //     {
+  //       //       _id: '1',
+  //       //       title: 'Section 1',
+  //       //       restaurants: restaurantsList.map(restaurant => restaurant.id)
+  //       //     }
+  //       //   ]
+  //       // }
+
+  //       restaurants = restaurantsList;
+
+
+  //     } catch (error) {
+  //       console.error("Error fetching users: ", error);
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   };
+
+  //   fetchUsers();
+  // }, []);
+
+
+
+
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_MAIN)
@@ -353,7 +427,7 @@ function Main(props) {
 
   if (loading || mutationLoading || loadingOrders) return loadingScreen()
 
-  const { restaurants, sections } = data.nearByRestaurants
+  const [restaurants, setRestaurants] = useState([]);
 
   const searchRestaurants = searchText => {
     const data = []
@@ -392,12 +466,12 @@ function Main(props) {
   }
 
   // Flatten the array. That is important for data sequence
-  const restaurantSections = sections.map(sec => ({
-    ...sec,
-    restaurants: sec.restaurants
-      .map(id => restaurants.filter(res => res._id === id))
-      .flat()
-  }))
+  // const restaurantSections = sections.map(sec => ({
+  //   ...sec,
+  //   restaurants: sec.restaurants
+  //     .map(id => restaurants.filter(res => res._id === id))
+  //     .flat()
+  // }))
   return (
     <>
       <SafeAreaView edges={['bottom', 'left', 'right']} style={styles().flex}>
