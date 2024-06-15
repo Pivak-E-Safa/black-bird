@@ -18,7 +18,7 @@ function CheckComponent(props) {
 
   function onPress(option) {
     const tempOptions = options
-    const index = tempOptions.findIndex(opt => opt._id === option._id)
+    const index = tempOptions.findIndex(opt => opt.id === option.id)
     tempOptions[index].checked = !tempOptions[index].checked
     setOptions(tempOptions)
     props.onPress(option)
@@ -30,7 +30,7 @@ function CheckComponent(props) {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={onPress.bind(this, option)}
-          key={option._id}
+          key={option.id}
           style={styles.mainContainer}>
           <View style={styles.leftContainer}>
             <CheckboxBtn

@@ -29,17 +29,16 @@ function ImageTextCenterHeader(props, ref) {
   const navigation = useNavigation()
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
-
   const aboutObject = {
-    latitude: props.restaurant ? props.restaurant.location.coordinates[1] : '',
-    longitude: props.restaurant ? props.restaurant.location.coordinates[0] : '',
+    latitude: props.restaurant ? props.restaurant.location.latitude : '',
+    longitude: props.restaurant ? props.restaurant.location.longitude : '',
     address: props.restaurant ? props.restaurant.address : '',
-    restaurantName: props.restaurantName,
-    restaurantImage: props.restaurantImage,
+    restaurantName: props.restaurant ? props.restaurant.name : '...',
+    restaurantImage: props.restaurant ? props.restaurant.image : '...',
     deliveryTime: props.restaurant ? props.restaurant.deliveryTime : '...',
-    average: props.restaurant ? props.restaurant.reviewData.ratings : '...',
-    total: props.restaurant ? props.restaurant.reviewData.total : '...',
-    reviews: props.restaurant ? props.restaurant.reviewData.reviews : '...',
+    // average: props.restaurant ? props.restaurant.reviewData.ratings : '...',
+    // total: props.restaurant ? props.restaurant.reviewData.total : '...',
+    // reviews: props.restaurant ? props.restaurant.reviewData.reviews : '...',
     isAvailable: props.restaurant ? props.restaurant.isAvailable : true,
     openingTimes: props.restaurant ? props.restaurant.openingTimes : [],
     isOpen: () => {
@@ -189,7 +188,7 @@ function ImageTextCenterHeader(props, ref) {
                       tab: false
                     })
                   }}>
-                  <MaterialIcons
+                  {/* <MaterialIcons
                     name="star"
                     size={scale(15)}
                     color={currentTheme.white}
@@ -199,7 +198,7 @@ function ImageTextCenterHeader(props, ref) {
                     textColor="white"
                     bold>
                     {aboutObject.average} ({aboutObject.total})
-                  </TextDefault>
+                  </TextDefault> */}
                 </TouchableOpacity>
               )}
             </View>

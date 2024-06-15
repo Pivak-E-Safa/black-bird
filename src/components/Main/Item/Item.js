@@ -28,7 +28,7 @@ const PROFILE = gql`
 function Item(props) {
   const navigation = useNavigation()
   const { profile } = useContext(UserContext)
-  const heart = profile ? profile.favourite.includes(props.item._id) : false
+  const heart = profile ? profile.favourite.includes(props.item.id) : false
   const item = props.item
   const category = item.categories.map(category => category.title)
   const configuration = useContext(ConfigurationContext)
@@ -63,8 +63,8 @@ function Item(props) {
   return (
     <TouchableOpacity
       activeOpacity={1}
-      onPress={() => navigation.navigate('Restaurant', { ...item })}>
-      <View key={item._id} style={styles().mainContainer}>
+      onPress={() => navigation.navigate('Restaurant', { item })}>
+      <View key={item.id} style={styles().mainContainer}>
         <View style={[styles(currentTheme).restaurantContainer]}>
           <View style={styles().imageContainer}>
             <Image
@@ -78,7 +78,7 @@ function Item(props) {
                 disabled={loadingMutation}
                 style={styles(currentTheme).favOverlay}
                 onPress={() =>
-                  profile ? mutate({ variables: { id: item._id } }) : null
+                  profile ? mutate({ variables: { id: item.id } }) : null
                 }>
                 {loadingMutation ? (
                   <Spinner size={'small'} backColor={'transparent'} />
@@ -134,9 +134,9 @@ function Item(props) {
                 bolder>
                 {item.name}
               </TextDefault>
-              <View style={[styles().aboutRestaurant, { width: '23%' }]}>
+              {/* <View style={[styles().aboutRestaurant, { width: '23%' }]}>
                 <Ionicons name="md-star" size={scale(11)} color="#4165b9" />
-                {/* <TextDefault
+                <TextDefault
                   textColor={currentTheme.fontMainColor}
                   style={{ marginLeft: 2 }}
                   bolder
@@ -149,8 +149,8 @@ function Item(props) {
                   bold
                   smaller>
                   ({item.reviewData.reviews.length})
-                </TextDefault> */}
-              </View>
+                </TextDefault>
+              </View> */}
             </View>
             <TextDefault
               style={styles().offerCategoty}

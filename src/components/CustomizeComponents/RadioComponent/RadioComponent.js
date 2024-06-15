@@ -26,7 +26,7 @@ function RadioComponent(props) {
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={onPress.bind(this, option)}
-          key={option._id}
+          key={option.id}
           style={styles.mainContainer}>
           <View style={styles.leftContainer}>
             <RadioButton
@@ -34,7 +34,7 @@ function RadioComponent(props) {
               outerColor={currentTheme.radioOuterColor}
               innerColor={currentTheme.radioColor}
               animation={'bounceIn'}
-              isSelected={selected ? selected._id === option._id : false}
+              isSelected={selected ? selected.id === option.id : false}
               onPress={onPress.bind(this, option)}
             />
             <TextDefault

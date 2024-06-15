@@ -24,21 +24,24 @@ import { scale } from '../../utils/scaling'
 import Analytics from '../../utils/analytics'
 
 function ItemDetail(props) {
-  const { food, addons, options, restaurant } = props.route.params
+  // const { food, addons, restaurant } = props.route.params
+  const { food, restaurant } = props.route.params
+  // const { food, addons, options, restaurant } = props.route.params
   const navigation = useNavigation()
 
   const [selectedVariation, setSelectedVariation] = useState({
     ...food.variations[0],
-    addons: food.variations[0].addons.map(fa => {
-      const addon = addons.find(a => a._id === fa)
-      const addonOptions = addon.options.map(ao => {
-        return options.find(o => o._id === ao)
-      })
-      return {
-        ...addon,
-        options: addonOptions
-      }
-    })
+    addons: food.addons
+      // addons: food.variations[0].addons.map(fa => {
+      // const addon = addons.find(a => a.id === fa)
+      // const addonOptions = addon.options.map(ao => {
+      //   return options.find(o => o.id === ao)
+      // })
+      // return {
+      //   ...addon,
+      //   // options: addonOptions
+      // }
+    // })
   })
 
   const [selectedAddons, setSelectedAddons] = useState([])
@@ -64,7 +67,7 @@ function ItemDetail(props) {
     async function Track() {
       await Analytics.track(Analytics.events.OPENED_RESTAURANT_ITEM, {
         restaurantID: restaurant,
-        foodID: food._id,
+        foodID: food.id,
         foodName: food.title,
         foodRestaurantName: food.restaurantName
       })
@@ -82,15 +85,16 @@ function ItemDetail(props) {
     if (!selectedVariation) return false
     const validatedAddons = []
     selectedVariation.addons.forEach(addon => {
-      const selected = selectedAddons.find(ad => ad._id === addon._id)
-      if (!selected && addon.quantityMinimum === 0) {
+      const selected = selectedAddons.find(ad => ad.id === addon.id)
+      // if (!selected && addon.quantityMinimum === 0) {
+      if (!selected) {
         validatedAddons.push(false)
-      } else if (
-        selected &&
-        selected.options.length >= addon.quantityMinimum &&
-        selected.options.length <= addon.quantityMaximum
-      ) {
-        validatedAddons.push(false)
+      // } else if (
+      //   selected &&
+      //   selected.options.length >= addon.quantityMinimum &&
+      //   selected.options.length <= addon.quantityMaximum
+      // ) {
+        // validatedAddons.push(false)
       } else validatedAddons.push(true)
     })
     return validatedAddons.every(val => val === false)
@@ -131,8 +135,8 @@ function ItemDetail(props) {
   const addToCart = async(quantity, clearFlag) => {
     const addons = selectedAddons.map(addon => ({
       ...addon,
-      options: addon.options.map(({ _id }) => ({
-        _id
+      options: addon.options.map(({ id }) => ({
+        id
       }))
     }))
 
@@ -140,20 +144,20 @@ function ItemDetail(props) {
       ? null
       : cart.find(cartItem => {
         if (
-          cartItem._id === food._id &&
-            cartItem.variation._id === selectedVariation._id
+          cartItem.id === food.id &&
+            cartItem.variation.id === selectedVariation.id
         ) {
           if (cartItem.addons.length === addons.length) {
             if (addons.length === 0) return true
             const addonsResult = addons.every(newAddon => {
               const cartAddon = cartItem.addons.find(
-                ad => ad._id === newAddon._id
+                ad => ad.id === newAddon.id
               )
 
               if (!cartAddon) return false
               const optionsResult = newAddon.options.every(newOption => {
                 const cartOption = cartAddon.options.find(
-                  op => op._id === newOption._id
+                  op => op.id === newOption.id
                 )
 
                 if (!cartOption) return false
@@ -172,8 +176,8 @@ function ItemDetail(props) {
     if (!cartItem) {
       await setCartRestaurant(restaurant)
       await addCartItem(
-        food._id,
-        selectedVariation._id,
+        food.id,
+        selectedVariation.id,
         quantity,
         addons,
         clearFlag,
@@ -188,31 +192,34 @@ function ItemDetail(props) {
   function onSelectVariation(variation) {
     setSelectedVariation({
       ...variation,
-      addons: variation.addons.map(fa => {
-        const addon = addons.find(a => a._id === fa)
-        const addonOptions = addon.options.map(ao => {
-          return options.find(o => o._id === ao)
-        })
-        return {
-          ...addon,
-          options: addonOptions
-        }
+      addons: variation?.addons?.map(fa => {
+        return addons.find(a => a.id === fa)
+        // const addonOptions = addon.options.map(ao => {
+        //   return options.find(o => o.id === ao)
+        // })
+        // return {
+        //   ...addon,
+        //   // options: addonOptions
+        // }
       })
     })
   }
 
   async function onSelectOption(addon, option) {
-    const index = selectedAddons.findIndex(ad => ad._id === addon._id)
+    console.log('onSelectOptionNNNNNNNNN');
+    console.log('ADDON', addon);
+    console.log('option', option);
+    const index = selectedAddons.findIndex(ad => ad.id === addon.id)
     if (index > -1) {
       if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
         selectedAddons[index].options = [option]
       } else {
         const optionIndex = selectedAddons[index].options.findIndex(
-          opt => opt._id === option._id
+          opt => opt.id === option.id
         )
         if (optionIndex > -1) {
           selectedAddons[index].options = selectedAddons[index].options.filter(
-            opt => opt._id !== option._id
+            opt => opt.id !== option.id
           )
         } else {
           selectedAddons[index].options.push(option)
@@ -222,12 +229,15 @@ function ItemDetail(props) {
         }
       }
     } else {
-      selectedAddons.push({ _id: addon._id, options: [option] })
+      selectedAddons.push({ id: addon.id, options: [option] })
     }
     setSelectedAddons([...selectedAddons])
   }
 
   function calculatePrice() {
+    console.log('calculatePrice');
+    console.log('selectedVariation', selectedVariation);
+    console.log('selectedAddons', selectedAddons);
     const variation = selectedVariation.price
     let addons = 0
     selectedAddons.forEach(addon => {
@@ -239,8 +249,8 @@ function ItemDetail(props) {
   }
 
   function validateOrderItem() {
-    const validatedAddons = selectedVariation.addons.map(addon => {
-      const selected = selectedAddons.find(ad => ad._id === addon._id)
+    const validatedAddons = selectedVariation?.addons?.map(addon => {
+      const selected = selectedAddons.find(ad => ad.id === addon.id)
 
       if (!selected && addon.quantityMinimum === 0) {
         addon.error = false
@@ -266,12 +276,12 @@ function ItemDetail(props) {
         />
       )
     } else {
-      return (
-        <CheckComponent
-          options={addon.options}
-          onPress={onSelectOption.bind(this, addon)}
-        />
-      )
+      // return (
+      //   <CheckComponent
+      //     options={addon.options}
+      //     onPress={onSelectOption.bind(this, addon)}
+      //   />
+      // )
     }
   }
 
@@ -307,17 +317,18 @@ function ItemDetail(props) {
                   />
                 </View>
               )}
-              {selectedVariation.addons.map(addon => (
-                <View key={addon._id}>
+              {selectedVariation?.addons?.map(addon => (
+                <View key={addon.id}>
                   <TitleComponent
                     title={addon.title}
                     subTitle={addon.description}
                     error={addon.error}
-                    status={
-                      addon.quantityMinimum === 0
-                        ? 'OPTIONAL'
-                        : `${addon.quantityMinimum} REQUIRED`
-                    }
+                    status={'OPTIONAL'}
+                    // status={
+                    //   addon.quantityMinimum === 0
+                    //     ? 'OPTIONAL'
+                    //     : `${addon.quantityMinimum} REQUIRED`
+                    // }
                   />
                   {renderOption(addon)}
                 </View>

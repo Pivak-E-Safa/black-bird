@@ -48,7 +48,7 @@ import { LocationContext } from '../../context/Location'
 import { alignment } from '../../utils/alignment'
 import Spinner from '../../components/Spinner/Spinner'
 import Analytics from '../../utils/analytics'
-import { fetchRestaurantsWithDetails } from '../../firebase/restaurants';
+import { fetchRestaurantList } from '../../firebase/restaurants';
 import { firestore } from '../../../firebase.config';
 
 
@@ -75,7 +75,7 @@ function Main(props) {
   //   nearByRestaurants: {
   //     restaurants: [
   //       {
-  //         _id: '1',
+  //         id: '1',
   //         name: 'Restaurant 1',
   //         image: 'https://via.placeholder.com/150',
   //         categories: [
@@ -104,7 +104,7 @@ function Main(props) {
   //         ],
   //       },
   //       {
-  //         _id: '2',
+  //         id: '2',
   //         name: 'Restaurant 2',
   //         image: 'https://via.placeholder.com/150',
   //         categories: [
@@ -134,7 +134,7 @@ function Main(props) {
   //     ],
   //     sections: [
   //       {
-  //         _id: '1',
+  //         id: '1',
   //         title: 'Section 1',
   //         restaurants: ['1', '2']
   //       }
@@ -170,7 +170,7 @@ function Main(props) {
   useEffect(() => {
     const getRestaurants = async () => {
       try {
-        const restaurantsList = await fetchRestaurantsWithDetails();
+        const restaurantsList = await fetchRestaurantList();
         setRestaurants(restaurantsList);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
@@ -213,7 +213,7 @@ function Main(props) {
   //       //   restaurants: restaurantsList,
   //       //   sections: [
   //       //     {
-  //       //       _id: '1',
+  //       //       id: '1',
   //       //       title: 'Section 1',
   //       //       restaurants: restaurantsList.map(restaurant => restaurant.id)
   //       //     }
@@ -273,14 +273,14 @@ function Main(props) {
 
   const setAddressLocation = async address => {
     setLocation({
-      _id: address._id,
+      id: address.id,
       label: address.label,
       latitude: Number(address.location.coordinates[1]),
       longitude: Number(address.location.coordinates[0]),
       deliveryAddress: address.deliveryAddress,
       details: address.details
     })
-    // mutate({ variables: { id: address._id } })
+    // mutate({ variables: { id: address.id } })
     modalRef.current.close()
   }
 
@@ -469,7 +469,7 @@ function Main(props) {
   // const restaurantSections = sections.map(sec => ({
   //   ...sec,
   //   restaurants: sec.restaurants
-  //     .map(id => restaurants.filter(res => res._id === id))
+  //     .map(id => restaurants.filter(res => res.id === id))
   //     .flat()
   // }))
   return (
@@ -537,7 +537,7 @@ function Main(props) {
               ListHeaderComponent: modalHeader(),
               ListFooterComponent: modalFooter(),
               showsVerticalScrollIndicator: false,
-              keyExtractor: item => item._id,
+              keyExtractor: item => item.id,
               renderItem: ({ item: address }) => (
                 <View style={styles().addressbtn}>
                   <TouchableOpacity
@@ -723,14 +723,14 @@ export default Main
 
 //   const setAddressLocation = async address => {
 //     setLocation({
-//       _id: address._id,
+//       id: address.id,
 //       label: address.label,
 //       latitude: Number(address.location.coordinates[1]),
 //       longitude: Number(address.location.coordinates[0]),
 //       deliveryAddress: address.deliveryAddress,
 //       details: address.details
 //     })
-//     mutate({ variables: { id: address._id } })
+//     mutate({ variables: { id: address.id } })
 //     modalRef.current.close()
 //   }
 
@@ -919,7 +919,7 @@ export default Main
 //   const restaurantSections = sections.map(sec => ({
 //     ...sec,
 //     restaurants: sec.restaurants
-//       .map(id => restaurants.filter(res => res._id === id))
+//       .map(id => restaurants.filter(res => res.id === id))
 //       .flat()
 //   }))
 //   return (
@@ -987,7 +987,7 @@ export default Main
 //               ListHeaderComponent: modalHeader(),
 //               ListFooterComponent: modalFooter(),
 //               showsVerticalScrollIndicator: false,
-//               keyExtractor: item => item._id,
+//               keyExtractor: item => item.id,
 //               renderItem: ({ item: address }) => (
 //                 <View style={styles().addressbtn}>
 //                   <TouchableOpacity
