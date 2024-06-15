@@ -245,7 +245,8 @@ function ItemDetail(props) {
         return acc + option.price
       }, 0)
     })
-    return (variation + addons).toFixed(2)
+    // return (variation + addons).toFixed(2)
+    return 0
   }
 
   function validateOrderItem() {
@@ -268,21 +269,24 @@ function ItemDetail(props) {
   }
 
   function renderOption(addon) {
-    if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
+    console.log("RENDEROPTIONS");
+    console.log(addon);
+    // if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
+    //   return (
+    //     <RadioComponent
+    //       options={addon.options}
+    //       onPress={onSelectOption.bind(this, addon)}
+    //     />
+    //   )
+    // } else {
       return (
-        <RadioComponent
-          options={addon.options}
+        <CheckComponent
+          options={[addon]}
+          // options={addon.options}
           onPress={onSelectOption.bind(this, addon)}
         />
       )
-    } else {
-      // return (
-      //   <CheckComponent
-      //     options={addon.options}
-      //     onPress={onSelectOption.bind(this, addon)}
-      //   />
-      // )
-    }
+    // }
   }
 
   return (
@@ -317,7 +321,22 @@ function ItemDetail(props) {
                   />
                 </View>
               )}
-              {selectedVariation?.addons?.map(addon => (
+
+              {selectedVariation.addons?.length > 1 && (
+                    <View>
+                    <TitleComponent
+                      title="Select Addons"
+                      subTitle="Select multiple"
+                      status="Optional"
+                    />
+                    <CheckComponent
+                      options={selectedVariation.addons}
+                      onPress={onSelectOption.bind(this, selectedVariation.addons)}
+                    />
+                  </View>
+              )}
+
+              {/* {selectedVariation?.addons?.map(addon => (
                 <View key={addon.id}>
                   <TitleComponent
                     title={addon.title}
@@ -332,7 +351,7 @@ function ItemDetail(props) {
                   />
                   {renderOption(addon)}
                 </View>
-              ))}
+              ))} */}
             </View>
             <View style={styles(currentTheme).line}></View>
             <View style={{ width: '90%', alignSelf: 'center' }}>

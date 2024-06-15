@@ -9,6 +9,9 @@ import TextDefault from '../../Text/TextDefault/TextDefault'
 import { alignment } from '../../../utils/alignment'
 
 function CheckComponent(props) {
+  console.log('CheckComponent');
+  console.log(props.options);
+  console.log(props);
   const [options, setOptions] = useState(
     props.options.map(option => ({ ...option, checked: false }))
   )
