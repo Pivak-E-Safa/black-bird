@@ -89,6 +89,7 @@ function Restaurant(props) {
   //   propsData.id
   // )
   const restaurantId = props.route.params.item.id;
+  // console.log(restaurantId)
 
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
@@ -237,11 +238,13 @@ function Restaurant(props) {
     //   animate()
     // } else {
     if (clearFlag) await clearCart()
+      console.log('HEREEEEEE2');
+    console.log(restaurantId);
     navigation.navigate('ItemDetail', {
       food,
       // addons: addons,
       // options: restaurant.options,
-      restaurant: restaurant.id
+      restaurant: restaurantId
     })
     // }
   }

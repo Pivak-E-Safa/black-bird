@@ -25,6 +25,10 @@ import Analytics from '../../utils/analytics'
 
 function ItemDetail(props) {
   // const { food, addons, restaurant } = props.route.params
+  // console.log('PROPSSSSSS')
+  // // console.log(props)
+  // console.log(props.route.params)
+  // // console.log(props.route.params.restaurant)
   const { food, restaurant } = props.route.params
   // const { food, addons, options, restaurant } = props.route.params
   const navigation = useNavigation()
@@ -84,7 +88,7 @@ function ItemDetail(props) {
   function validateButton() {
     if (!selectedVariation) return false
     const validatedAddons = []
-    selectedVariation.addons.forEach(addon => {
+    selectedVariation.addons?.forEach(addon => {
       const selected = selectedAddons.find(ad => ad.id === addon.id)
       // if (!selected && addon.quantityMinimum === 0) {
       if (!selected) {
@@ -102,14 +106,16 @@ function ItemDetail(props) {
 
   async function onPressAddToCart(quantity) {
     if (validateOrderItem()) {
-      Analytics.track(Analytics.events.ADD_TO_CART, {
-        title: food.title,
-        restaurantName: food.restaurantName,
-        variations: food.variations
-      })
+      // Analytics.track(Analytics.events.ADD_TO_CART, {
+      //   title: food.title,
+      //   restaurantName: food.restaurantName,
+      //   variations: food.variations
+      // })
       if (!restaurantCart || restaurant === restaurantCart) {
+        console.log('firstIF');
         await addToCart(quantity, restaurant !== restaurantCart)
       } else if (food.restaurant !== restaurantCart) {
+        onsole.log('secondIF');
         Alert.alert(
           '',
           'By leaving this restaurant page, the items you`ve added to cart will be cleared',
@@ -139,7 +145,9 @@ function ItemDetail(props) {
         id
       }))
     }))
-
+    console.log('methodstart')
+    console.log(clearFlag)
+    console.log(cart)
     const cartItem = clearFlag
       ? null
       : cart.find(cartItem => {
@@ -173,7 +181,12 @@ function ItemDetail(props) {
         return false
       })
 
+      console.log('cartItem');
+      console.log(cartItem);
+
     if (!cartItem) {
+      console.log('here')
+      console.log(restaurant)
       await setCartRestaurant(restaurant)
       await addCartItem(
         food.id,
@@ -184,6 +197,7 @@ function ItemDetail(props) {
         specialInstructions
       )
     } else {
+      console.log('here two')
       await addQuantity(cartItem.key, quantity)
     }
     navigation.goBack()
@@ -206,9 +220,9 @@ function ItemDetail(props) {
   }
 
   async function onSelectOption(addon, option) {
-    console.log('onSelectOptionNNNNNNNNN');
-    console.log('ADDON', addon);
-    console.log('option', option);
+    // console.log('onSelectOptionNNNNNNNNN');
+    // console.log('ADDON', addon);
+    // console.log('option', option);
     const index = selectedAddons.findIndex(ad => ad.id === addon.id)
     if (index > -1) {
       if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
@@ -235,9 +249,9 @@ function ItemDetail(props) {
   }
 
   function calculatePrice() {
-    console.log('calculatePrice');
-    console.log('selectedVariation', selectedVariation);
-    console.log('selectedAddons', selectedAddons);
+    // console.log('calculatePrice');
+    // console.log('selectedVariation', selectedVariation);
+    // console.log('selectedAddons', selectedAddons);
     const variation = selectedVariation.price
     let addons = 0
     selectedAddons.forEach(addon => {
@@ -253,7 +267,7 @@ function ItemDetail(props) {
     const validatedAddons = selectedVariation?.addons?.map(addon => {
       const selected = selectedAddons.find(ad => ad.id === addon.id)
 
-      if (!selected && addon.quantityMinimum === 0) {
+      if (!selected && addon.quantityMinimum === 0 || true) { // TODO: Revisit this logic, I donn't think we need this since we don't have max or min quantities for addons
         addon.error = false
       } else if (
         selected &&
@@ -265,12 +279,15 @@ function ItemDetail(props) {
       return addon
     })
     setSelectedVariation({ ...selectedVariation, addons: validatedAddons })
+    // console.log('validateOrderItem');
+    // console.log(validatedAddons);
+    // console.log(validatedAddons.every(addon => addon.error === false));
     return validatedAddons.every(addon => addon.error === false)
   }
 
   function renderOption(addon) {
-    console.log("RENDEROPTIONS");
-    console.log(addon);
+    // console.log("RENDEROPTIONS");
+    // console.log(addon);
     // if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
     //   return (
     //     <RadioComponent
@@ -329,10 +346,10 @@ function ItemDetail(props) {
                       subTitle="Select multiple"
                       status="Optional"
                     />
-                    <CheckComponent
+                    {/* <CheckComponent
                       options={selectedVariation.addons}
                       onPress={onSelectOption.bind(this, selectedVariation.addons)}
-                    />
+                    /> */}
                   </View>
               )}
 

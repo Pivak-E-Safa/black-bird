@@ -50,7 +50,7 @@ const cartItem = props => {
           small>
           {props.dealName}
         </TextDefault>
-        {props.optionsTitle.map((option, index) => (
+        {props.optionsTitle?.map((option, index) => (
           <TextDefault
             key={`options${props.dealName + option + index}`}
             numberOfLines={1}

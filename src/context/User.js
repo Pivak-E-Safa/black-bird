@@ -170,7 +170,10 @@ export const UserProvider = props => {
     clearFlag,
     specialInstructions = ''
   ) => {
+    // console.log("IN THE ADD TO CART METHOD");
     const cartItems = clearFlag ? [] : cart
+    // console.log('cartItems')
+    // console.log(cartItems)
     cartItems.push({
       key: uuid.v4(),
       _id,
@@ -181,6 +184,8 @@ export const UserProvider = props => {
       addons,
       specialInstructions
     })
+    // console.log('cartItems')
+    // console.log(cartItems)
 
     await AsyncStorage.setItem('cartItems', JSON.stringify([...cartItems]))
     setCart([...cartItems])
@@ -193,7 +198,11 @@ export const UserProvider = props => {
 
   const setCartRestaurant = async id => {
     setRestaurant(id)
+    // console.log('setCartRestaurant')
+    // console.log(id)
     await AsyncStorage.setItem('restaurant', id)
+    // console.log('ASYNC')
+    // console.log(AsyncStorage.getItem('restaurant'))
   }
 
   return (

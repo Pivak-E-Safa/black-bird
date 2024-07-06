@@ -49,7 +49,6 @@ import { alignment } from '../../utils/alignment'
 import Spinner from '../../components/Spinner/Spinner'
 import Analytics from '../../utils/analytics'
 import { fetchRestaurantList } from '../../firebase/restaurants';
-import { firestore } from '../../../firebase.config';
 
 
 // const RESTAURANTS = gql`
@@ -172,6 +171,8 @@ function Main(props) {
       try {
         const restaurantsList = await fetchRestaurantList();
         setRestaurants(restaurantsList);
+        // console.log('LISTTTTTT')
+        // console.log(restaurants)
       } catch (error) {
         console.error('Error fetching restaurants:', error);
       }
