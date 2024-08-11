@@ -45,12 +45,12 @@ export const OrdersProvider = ({ children }) => {
     try {
       const unsubscribeOrders = subscribeToMoreOrders({
         document: SUBSCRIPTION_ORDERS,
-        variables: { userId: profile._id },
+        variables: { userId: profile.id },
         updateQuery: (prev, { subscriptionData }) => {
           if (!subscriptionData.data) return prev
-          const { _id } = subscriptionData.data.orderStatusChanged.order
+          const { id } = subscriptionData.data.orderStatusChanged.order
           if (subscriptionData.data.orderStatusChanged.origin === 'new') {
-            if (prev.orders.findIndex(o => o._id === _id) > -1) return prev
+            if (prev.orders.findIndex(o => o.id === id) > -1) return prev
             return {
               orders: [
                 subscriptionData.data.orderStatusChanged.order,

@@ -90,7 +90,7 @@ function Addresses() {
         <FlatList
           data={profile.addresses}
           ListEmptyComponent={emptyView}
-          keyExtractor={item => item._id}
+          keyExtractor={item => item.id}
           ItemSeparatorComponent={() => (
             <View style={styles(currentTheme).line} />
           )}
@@ -128,7 +128,7 @@ function Addresses() {
                     disabled={loadingMutation}
                     style={styles().width10}
                     onPress={() => {
-                      mutate({ variables: { id: address._id } })
+                      mutate({ variables: { id: address.id } })
                     }}>
                     <EvilIcons
                       name="trash"

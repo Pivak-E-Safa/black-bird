@@ -50,6 +50,8 @@ import { textStyles } from '../../utils/textStyles'
 import Pickup from '../../components/Pickup'
 import { calculateDistance } from '../../utils/customFunctions'
 import Analytics from '../../utils/analytics'
+import { placeAnOrder } from '../../firebase/order';
+import { Timestamp } from 'firebase/firestore';
 
 // Constants
 // const PLACEORDER = gql`
@@ -73,6 +75,8 @@ function Cart(props) {
     deleteItem,
     updateCart
   } = useContext(UserContext)
+  console.log('CARTTT');
+  console.log(cart);
   const themeContext = useContext(ThemeContext)
   const { location } = useContext(LocationContext)
   const currentTheme = theme[themeContext.ThemeValue]
@@ -142,27 +146,27 @@ function Cart(props) {
   }, [tip, data])
 
   useEffect(() => {
-    // let isSubscribed = true
-    // ;(async() => {
-    //   if (data && !!data.restaurant) {
-    //     const latOrigin = Number(data.restaurant.location.coordinates[1])
-    //     const lonOrigin = Number(data.restaurant.location.coordinates[0])
-    //     const latDest = Number(location.latitude)
-    //     const longDest = Number(location.longitude)
-    //     const distance = await calculateDistance(
-    //       latOrigin,
-    //       lonOrigin,
-    //       latDest,
-    //       longDest
-    //     )
-    //     const amount = Math.ceil(distance) * configuration.deliveryRate
-    //     isSubscribed &&
-    //       setDeliveryCharges(amount > 0 ? amount : configuration.deliveryRate)
-    //   }
-    // })()
-    // return () => {
-    //   isSubscribed = false
-    // }
+    let isSubscribed = true
+    ;(async() => {
+      if (data && !!data.restaurant) {
+        const latOrigin = Number(data.restaurant.location.coordinates[1])
+        const lonOrigin = Number(data.restaurant.location.coordinates[0])
+        const latDest = Number(location.latitude)
+        const longDest = Number(location.longitude)
+        const distance = await calculateDistance(
+          latOrigin,
+          lonOrigin,
+          latDest,
+          longDest
+        )
+        const amount = Math.ceil(distance) * configuration.deliveryRate
+        isSubscribed &&
+          setDeliveryCharges(amount > 0 ? amount : configuration.deliveryRate)
+      }
+    })()
+    return () => {
+      isSubscribed = false
+    }
   }, [data, location])
 
   useFocusEffect(() => {
@@ -254,7 +258,7 @@ function Cart(props) {
 
   async function onCompleted(data) {
     // await Analytics.track(Analytics.events.ORDER_PLACED, {
-    //   userId: data.placeOrder.user._id,
+    //   userId: data.placeOrder.user.id,
     //   orderId: data.placeOrder.orderId,
     //   name: data.placeOrder.user.name,
     //   email: data.placeOrder.user.email,
@@ -275,18 +279,18 @@ function Cart(props) {
     //       { name: 'Main' },
     //       {
     //         name: 'OrderDetail',
-    //         params: { _id: data.placeOrder._id }
+    //         params: { id: data.placeOrder.id }
     //       }
     //     ]
     //   })
     // } else if (paymentMethod.payment === 'PAYPAL') {
     //   props.navigation.replace('Paypal', {
-    //     _id: data.placeOrder.orderId,
+    //     id: data.placeOrder.orderId,
     //     currency: configuration.currency
     //   })
     // } else if (paymentMethod.payment === 'STRIPE') {
     //   props.navigation.replace('StripeCheckout', {
-    //     _id: data.placeOrder.orderId,
+    //     id: data.placeOrder.orderId,
     //     amount: data.placeOrder.orderAmount,
     //     email: data.placeOrder.user.email,
     //     currency: configuration.currency
@@ -339,7 +343,7 @@ function Cart(props) {
   function calculatePrice(delivery = 0, withDiscount) {
     let itemTotal = 0
     cart.forEach(cartItem => {
-      itemTotal += cartItem.price * cartItem.quantity
+      itemTotal += cartItem.variation?.price * cartItem.quantity
     })
     if (withDiscount && coupon && coupon.discount) {
       itemTotal = itemTotal - (coupon.discount / 100) * itemTotal
@@ -358,37 +362,38 @@ function Cart(props) {
   }
 
   function validateOrder() {
-    if (!data.restaurant.isAvailable || !isOpen()) {
-      showAvailablityMessage()
-      return
-    }
-    if (!cart.length) {
+    return true;  // TODO: remove this
+    // if (!data.restaurant.isAvailable || !isOpen()) {// TODO: FIX THIS condition, it gives null exception
+    //   showAvailablityMessage()
+    //   return
+    // }
+    if (!cart.length && false) { // TODO: FIX THIS and remove && false
       FlashMessage({
         message: i18n.t('validateItems')
       })
       return false
     }
-    if (calculatePrice(deliveryCharges, true) < minimumOrder) {
+    if (calculatePrice(deliveryCharges, true) < minimumOrder && false) { // TODO: FIX THIS and remove && false
       FlashMessage({
         message: `The minimum amount of (${configuration.currencySymbol} ${minimumOrder}) for your order has not been reached.`
       })
       return false
     }
-    if (!location._id) {
+    if (!location.id && false) { // TODO: FIX THIS and remove && false
       props.navigation.navigate('CartAddress')
       return false
     }
-    if (!paymentMethod) {
+    if (!paymentMethod && false) { // TODO: FIX THIS and remove && false
       FlashMessage({
         message: 'Set payment method before checkout'
       })
       return false
     }
-    if (profile.phone.length < 1) {
+    if (profile.phone.length < 1 && false) { // TODO: FIX THIS and remove && false
       props.navigation.navigate('Profile', { backScreen: 'Cart' })
       return false
     }
-    if (profile.phone.length > 0 && !profile.phoneIsVerified) {
+    if (profile.phone.length > 0 && !profile.phoneIsVerified && false) { // TODO: FIX THIS and remove && false
       FlashMessage({
         message: 'Phone number is not verified. Kindly verify phone number.'
       })
@@ -399,54 +404,85 @@ function Cart(props) {
   }
 
   function checkPaymentMethod(currency) {
-    if (paymentMethod.payment === 'STRIPE') {
-      return stripeCurrencies.find(val => val.currency === currency)
-    }
-    if (paymentMethod.payment === 'PAYPAL') {
-      return paypalCurrencies.find(val => val.currency === currency)
-    }
+    // if (paymentMethod.payment === 'STRIPE') { // TODO: needed or not?
+    //   return stripeCurrencies.find(val => val.currency === currency)
+    // }
+    // if (paymentMethod.payment === 'PAYPAL') {
+    //   return paypalCurrencies.find(val => val.currency === currency)
+    // }
     return true
   }
 
   function transformOrder(cartData) {
     return cartData.map(food => {
       return {
-        food: food._id,
         quantity: food.quantity,
-        variation: food.variation._id,
-        addons: food.addons
-          ? food.addons.map(({ _id, options }) => ({
-              _id,
-              options: options.map(({ _id }) => _id)
-            }))
-          : [],
+        variation: food.variation.title,
+        price: food.variation.price,
+        // addons: food.addons // TODO: handle add ons
+        //   ? food.addons.map(({ id, options }) => ({
+        //       id,
+        //       options: options.map(({ id }) => id)
+        //     }))
+        //   : [],
         specialInstructions: food.specialInstructions
       }
     })
   }
   async function onPayment() {
+    console.log('onPayment');
     if (checkPaymentMethod(configuration.currency)) {
-      const items = transformOrder(cart)
-      mutateOrder({
-        variables: {
-          restaurant: cartRestaurant,
-          orderInput: items,
-          paymentMethod: paymentMethod.payment,
-          couponCode: coupon ? coupon.title : null,
-          tipping: +calculateTip(),
-          taxationAmount: +taxCalculation(),
-          orderDate: orderDate,
-          isPickedUp: isPickedUp,
-          deliveryCharges: isPickedUp ? 0 : deliveryCharges,
-          address: {
-            label: location.label,
-            deliveryAddress: location.deliveryAddress,
-            details: location.details,
-            longitude: '' + location.longitude,
-            latitude: '' + location.latitude
-          }
-        }
-      })
+      // const items = transformOrder(cart)
+      // mutateOrder({
+      //   variables: {
+      //     restaurant: cartRestaurant,
+      //     orderInput: items,
+      //     paymentMethod: paymentMethod.payment,
+      //     couponCode: coupon ? coupon.title : null,
+      //     tipping: +calculateTip(),
+      //     taxationAmount: +taxCalculation(),
+      //     orderDate: orderDate,
+      //     isPickedUp: isPickedUp,
+      //     deliveryCharges: isPickedUp ? 0 : deliveryCharges,
+      //     address: {
+      //       label: location.label,
+      //       deliveryAddress: location.deliveryAddress,
+      //       details: location.details,
+      //       longitude: '' + location.longitude,
+      //       latitude: '' + location.latitude
+      //     }
+      //   }
+      // })
+
+      const orderData = {
+        paymentMethod: paymentMethod.payment,
+        couponCode: coupon ? coupon.title : null,
+        tipping: +calculateTip(),
+        taxationAmount: +taxCalculation(),
+        // orderDate: Timestamp.fromDate(moment().toDate()), // TODO: uncomment this and change orderData everywhere if needed
+        isPickedUp: isPickedUp,
+        deliveryCharges: isPickedUp ? 0 : deliveryCharges,
+        userName: profile.name,
+        userId: profile.id,
+        // number: profile.number // TODO: fix and uncomment this
+      }
+
+      const itemsData = transformOrder(cart);
+
+      const addressData = {
+        label: location.label,
+        deliveryAddress: location.deliveryAddress,
+        details: location.details,
+        location: [location.latitude, location.longitude],
+      }
+
+      console.log('HEREEEEEEEE');
+      console.log('cartRestaurant:', JSON.stringify(cartRestaurant, null, 2))
+      console.log('orderData:', JSON.stringify(orderData, null, 2))
+      console.log('itemsData:', JSON.stringify(itemsData, null, 2))
+      console.log('addressData:', JSON.stringify(addressData, null, 2))
+
+      placeAnOrder(cartRestaurant, orderData, itemsData, addressData);
     } else {
       FlashMessage({
         message: i18n.t('paymentNotSupported')
@@ -482,10 +518,10 @@ function Cart(props) {
     try {
       if (cartCount && cart) {
         const transformCart = cart.map(cartItem => {
-          const food = foods.find(food => food._id === cartItem._id)
+          const food = foods.find(food => food.id === cartItem.id)
           if (!food) return null
           const variation = food.variations.find(
-            variation => variation._id === cartItem.variation._id
+            variation => variation.id === cartItem.variation.id
           )
           if (!variation) return null
 
@@ -496,10 +532,10 @@ function Cart(props) {
           const optionsTitle = []
           if (cartItem.addons) {
             cartItem.addons.forEach(addon => {
-              const cartAddon = addons.find(add => add._id === addon._id)
+              const cartAddon = addons.find(add => add.id === addon.id)
               if (!cartAddon) return null
               addon.options.forEach(option => {
-                const cartOption = options.find(opt => opt._id === option._id)
+                const cartOption = options.find(opt => opt.id === option.id)
                 if (!cartOption) return null
                 price += cartOption.price
                 optionsTitle.push(cartOption.title)
@@ -735,7 +771,7 @@ function Cart(props) {
                         dealName={food.title}
                         optionsTitle={food.optionsTitle}
                         dealPrice={(
-                          parseFloat(food.price) * food.quantity
+                          parseFloat(food.variation?.price) * food.quantity
                         ).toFixed(2)}
                         addQuantity={() => {
                           addQuantity(food.key)
@@ -1594,7 +1630,7 @@ export default Cart
 
 //   async function onCompleted(data) {
 //     await Analytics.track(Analytics.events.ORDER_PLACED, {
-//       userId: data.placeOrder.user._id,
+//       userId: data.placeOrder.user.id,
 //       orderId: data.placeOrder.orderId,
 //       name: data.placeOrder.user.name,
 //       email: data.placeOrder.user.email,
@@ -1615,18 +1651,18 @@ export default Cart
 //           { name: 'Main' },
 //           {
 //             name: 'OrderDetail',
-//             params: { _id: data.placeOrder._id }
+//             params: { id: data.placeOrder.id }
 //           }
 //         ]
 //       })
 //     } else if (paymentMethod.payment === 'PAYPAL') {
 //       props.navigation.replace('Paypal', {
-//         _id: data.placeOrder.orderId,
+//         id: data.placeOrder.orderId,
 //         currency: configuration.currency
 //       })
 //     } else if (paymentMethod.payment === 'STRIPE') {
 //       props.navigation.replace('StripeCheckout', {
-//         _id: data.placeOrder.orderId,
+//         id: data.placeOrder.orderId,
 //         amount: data.placeOrder.orderAmount,
 //         email: data.placeOrder.user.email,
 //         currency: configuration.currency
@@ -1714,7 +1750,7 @@ export default Cart
 //       })
 //       return false
 //     }
-//     if (!location._id) {
+//     if (!location.id) {
 //       props.navigation.navigate('CartAddress')
 //       return false
 //     }
@@ -1751,13 +1787,13 @@ export default Cart
 //   function transformOrder(cartData) {
 //     return cartData.map(food => {
 //       return {
-//         food: food._id,
+//         food: food.id,
 //         quantity: food.quantity,
-//         variation: food.variation._id,
+//         variation: food.variation.id,
 //         addons: food.addons
-//           ? food.addons.map(({ _id, options }) => ({
-//               _id,
-//               options: options.map(({ _id }) => _id)
+//           ? food.addons.map(({ id, options }) => ({
+//               id,
+//               options: options.map(({ id }) => id)
 //             }))
 //           : [],
 //         specialInstructions: food.specialInstructions
@@ -1822,10 +1858,10 @@ export default Cart
 //     try {
 //       if (cartCount && cart) {
 //         const transformCart = cart.map(cartItem => {
-//           const food = foods.find(food => food._id === cartItem._id)
+//           const food = foods.find(food => food.id === cartItem.id)
 //           if (!food) return null
 //           const variation = food.variations.find(
-//             variation => variation._id === cartItem.variation._id
+//             variation => variation.id === cartItem.variation.id
 //           )
 //           if (!variation) return null
 
@@ -1836,10 +1872,10 @@ export default Cart
 //           const optionsTitle = []
 //           if (cartItem.addons) {
 //             cartItem.addons.forEach(addon => {
-//               const cartAddon = addons.find(add => add._id === addon._id)
+//               const cartAddon = addons.find(add => add.id === addon.id)
 //               if (!cartAddon) return null
 //               addon.options.forEach(option => {
-//                 const cartOption = options.find(opt => opt._id === option._id)
+//                 const cartOption = options.find(opt => opt.id === option.id)
 //                 if (!cartOption) return null
 //                 price += cartOption.price
 //                 optionsTitle.push(cartOption.title)

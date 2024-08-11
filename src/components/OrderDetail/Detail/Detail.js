@@ -90,7 +90,7 @@ export default function Detail({
       <View style={[styles.itemsContainer, styles.shadowBox(theme)]}>
         {items.map(item => (
           <ItemRow
-            key={item._id}
+            key={item.id}
             theme={theme}
             quantity={item.quantity}
             title={`${item.title} ${item.variation.title}`}

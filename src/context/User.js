@@ -4,6 +4,7 @@ import uuid from 'uuid'
 import { LocationContext } from './Location'
 import AuthContext from './Auth'
 import Analytics from '../utils/analytics'
+import { getUserByEmail } from '../firebase/profile';
 
 const UserContext = React.createContext({})
 
@@ -11,6 +12,7 @@ export const UserProvider = props => {
   const { token, setToken } = useContext(AuthContext)
   const { location, setLocation } = useContext(LocationContext)
   const [cart, setCart] = useState([])
+  const [userEmail, setUserEmail] = useState(null)
   const [restaurant, setRestaurant] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
@@ -38,26 +40,9 @@ export const UserProvider = props => {
   const fetchProfile = async () => {
     setLoadingProfile(true)
     try {
-      // Replace with dummy data
-      const dummyProfile = {
-        _id: '12345',
-        name: 'John Doe',
-        phone: '1234567890',
-        email: 'john.doe@example.com',
-        addresses: [
-          {
-            _id: '1',
-            label: 'Home',
-            deliveryAddress: '123 Main St',
-            details: 'Apt 4B',
-            location: { coordinates: [0, 0] },
-            selected: true
-          }
-        ],
-        favourite: []
-      }
-      setProfile(dummyProfile)
-      onCompleted({ profile: dummyProfile })
+      const userInfo = await getUserByEmail(userEmail);
+      setProfile(userInfo)
+      onCompleted({ profile: userInfo })
     } catch (error) {
       setErrorProfile(error)
       onError(error)
@@ -71,7 +56,7 @@ export const UserProvider = props => {
   }
 
   async function onCompleted(data) {
-    const { _id: userId, name, email, phone } = data.profile
+    const { id: userId, name, email, phone } = data.profile
     await Analytics.identify(
       {
         userId,
@@ -82,7 +67,7 @@ export const UserProvider = props => {
       userId
     )
     await Analytics.track(Analytics.events.USER_RECONNECTED, {
-      userId: data.profile._id
+      userId: data.profile.id
     })
   }
 
@@ -90,7 +75,7 @@ export const UserProvider = props => {
     try {
       await AsyncStorage.removeItem('token')
       setToken(null)
-      if (location._id) {
+      if (location.id) {
         setLocation({
           label: 'Selected Location',
           latitude: location.latitude,
@@ -139,7 +124,7 @@ export const UserProvider = props => {
   }
 
   const checkItemCart = itemId => {
-    const cartIndex = cart.findIndex(c => c._id === itemId)
+    const cartIndex = cart.findIndex(c => c.id === itemId)
     if (cartIndex < 0) {
       return {
         exist: false,
@@ -163,7 +148,7 @@ export const UserProvider = props => {
   }
 
   const addCartItem = async (
-    _id,
+    food,
     variation,
     quantity = 1,
     addons = [],
@@ -176,11 +161,9 @@ export const UserProvider = props => {
     // console.log(cartItems)
     cartItems.push({
       key: uuid.v4(),
-      _id,
+      ...food,
       quantity: quantity,
-      variation: {
-        _id: variation
-      },
+      variation: variation,
       addons,
       specialInstructions
     })
@@ -224,7 +207,8 @@ export const UserProvider = props => {
         deleteItem,
         restaurant,
         setCartRestaurant,
-        refetchProfile: fetchProfile
+        refetchProfile: fetchProfile,
+        setUserEmail
       }}>
       {props.children}
     </UserContext.Provider>
@@ -291,7 +275,7 @@ export default UserContext
 //     console.log('error context user', error.message)
 //   }
 //   async function onCompleted(data) {
-//     const { _id: userId, name, email, phone } = data.profile
+//     const { id: userId, name, email, phone } = data.profile
 //     await Analytics.identify(
 //       {
 //         userId,
@@ -302,7 +286,7 @@ export default UserContext
 //       userId
 //     )
 //     await Analytics.track(Analytics.events.USER_RECONNECTED, {
-//       userId: data.profile._id
+//       userId: data.profile.id
 //     })
 //   }
 
@@ -310,7 +294,7 @@ export default UserContext
 //     try {
 //       await AsyncStorage.removeItem('token')
 //       setToken(null)
-//       if (location._id) {
+//       if (location.id) {
 //         setLocation({
 //           label: 'Selected Location',
 //           latitude: location.latitude,
@@ -319,7 +303,7 @@ export default UserContext
 //         })
 //       }
 //       client.cache.evict({
-//         id: `${dataProfile.profile.__typename}:${dataProfile.profile._id}`
+//         id: `${dataProfile.profile.__typename}:${dataProfile.profile.id}`
 //       })
 //       await client.resetStore()
 //     } catch (error) {
@@ -362,7 +346,7 @@ export default UserContext
 //   }
 
 //   const checkItemCart = itemId => {
-//     const cartIndex = cart.findIndex(c => c._id === itemId)
+//     const cartIndex = cart.findIndex(c => c.id === itemId)
 //     if (cartIndex < 0) {
 //       return {
 //         exist: false,
@@ -385,7 +369,7 @@ export default UserContext
 //   }
 
 //   const addCartItem = async(
-//     _id,
+//     id,
 //     variation,
 //     quantity = 1,
 //     addons = [],
@@ -395,10 +379,10 @@ export default UserContext
 //     const cartItems = clearFlag ? [] : cart
 //     cartItems.push({
 //       key: uuid.v4(),
-//       _id,
+//       id,
 //       quantity: quantity,
 //       variation: {
-//         _id: variation
+//         id: variation
 //       },
 //       addons,
 //       specialInstructions

@@ -21,7 +21,7 @@ const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        _id: {
+        id: {
           keyArgs: ['string']
         },
         orders: offsetLimitPagination()

@@ -150,7 +150,7 @@ function MyOrders(props) {
             error={errorOrders}
           />
         }
-        keyExtractor={item => item._id}
+        keyExtractor={item => item.id}
         refreshing={networkStatusOrders === 4}
         onRefresh={() => networkStatusOrders === 7 && reFetchOrders()}
         renderItem={({ item }) => (
@@ -158,7 +158,7 @@ function MyOrders(props) {
             activeOpacity={0.7}
             onPress={() =>
               props.navigation.navigate('OrderDetail', {
-                _id: item._id,
+                id: item.id,
                 currencySymbol: configuration.currencySymbol,
                 restaurant: item.restaurant,
                 user: item.user

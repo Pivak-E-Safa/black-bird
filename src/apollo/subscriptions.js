@@ -1,9 +1,9 @@
 export const subscriptionOrder = `subscription SubscriptionOrder($id:String!){
     subscriptionOrder(id:$id){
-        _id
+        id
         orderStatus
         rider{
-            _id
+            id
         }
         completionTime
     }
@@ -11,7 +11,7 @@ export const subscriptionOrder = `subscription SubscriptionOrder($id:String!){
 
 export const subscriptionRiderLocation = `subscription SubscriptionRiderLocation($riderId:String!){
     subscriptionRiderLocation(riderId:$riderId) {
-      _id
+      id
       location {coordinates}
     }
   }`
@@ -21,10 +21,10 @@ export const orderStatusChanged = `subscription OrderStatusChanged($userId:Strin
       userId
       origin
       order{
-        _id
+        id
       orderId
       restaurant{
-        _id
+        id
         name
         image
         address
@@ -35,21 +35,21 @@ export const orderStatusChanged = `subscription OrderStatusChanged($userId:Strin
         deliveryAddress
       }
       items{
-        _id
+        id
         title
         food
         description
         quantity
         variation{
-          _id
+          id
           title
           price
           discounted
         }
         addons{
-          _id
+          id
           options{
-            _id
+            id
             title
             description
             price
@@ -61,16 +61,16 @@ export const orderStatusChanged = `subscription OrderStatusChanged($userId:Strin
         }
       }
       user{
-        _id
+        id
         name
         phone
       }
       rider{
-        _id
+        id
         name
       }
       review{
-        _id
+        id
       }
       paymentMethod
       paidAmount

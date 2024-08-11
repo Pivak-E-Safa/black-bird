@@ -103,7 +103,7 @@ const ChatScreen = ({ navigation, route }) => {
     <GiftedChat
       messages={messages}
       user={{
-        _id: profile._id
+        id: profile.id
       }}
       renderBubble={renderBubble}
       renderSend={renderSend}

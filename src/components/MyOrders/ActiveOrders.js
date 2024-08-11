@@ -52,12 +52,12 @@ const Item = ({ item, navigation, currentTheme }) => {
     gql`
       ${subscriptionOrder}
     `,
-    { variables: { id: item._id } }
+    { variables: { id: item.id } }
   )
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      onPress={() => navigation.navigate('OrderDetail', { _id: item._id })}>
+      onPress={() => navigation.navigate('OrderDetail', { id: item.id })}>
       <View style={styles(currentTheme).container}>
         <View style={styles().leftContainer}>
           <TextDefault

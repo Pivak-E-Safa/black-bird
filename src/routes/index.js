@@ -179,7 +179,7 @@ function AppContainer() {
   const lastNotificationResponse = Notifications.useLastNotificationResponse()
   const handleNotification = useCallback(
     async response => {
-      const { _id } = response.notification.request.content.data
+      const { id } = response.notification.request.content.data
       const lastNotificationHandledId = await AsyncStorage.getItem(
         '@lastNotificationHandledId'
       )
@@ -193,7 +193,7 @@ function AppContainer() {
       if (lastNotificationHandledId === identifier) return
       await AsyncStorage.setItem('@lastNotificationHandledId', identifier)
       navigationService.navigate('OrderDetail', {
-        _id
+        id
       })
     },
     [lastNotificationResponse]

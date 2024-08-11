@@ -21,7 +21,7 @@ const REVIEWORDER = gql`
 `
 
 function RateAndReview(props) {
-  const [id] = useState(props.route.params._id ?? null)
+  const [id] = useState(props.route.params.id ?? null)
   const [rating, setRating] = useState(0)
   const [description, setDescription] = useState('')
   const themeContext = useContext(ThemeContext)

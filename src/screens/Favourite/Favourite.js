@@ -38,7 +38,7 @@ function Favourite() {
         // Simulate a fetch with dummy data
         const dummyData = [
           {
-            _id: '1',
+            id: '1',
             name: 'Restaurant 1',
             image: 'https://via.placeholder.com/150',
             categories: [
@@ -67,7 +67,7 @@ function Favourite() {
             ],
           },
           {
-            _id: '2',
+            id: '2',
             name: 'Restaurant 2',
             image: 'https://via.placeholder.com/150',
             categories: [
@@ -167,7 +167,7 @@ function Favourite() {
     <SafeAreaView edges={['bottom']} style={styles().flex}>
       <FlatList
         data={data || []}
-        keyExtractor={(item, index) => item._id}
+        keyExtractor={(item, index) => item.id}
         showsVerticalScrollIndicator={false}
         refreshing={loading}
         onRefresh={() => setLoading(true)}
@@ -289,7 +289,7 @@ export default Favourite
 //     <SafeAreaView edges={['bottom']} style={styles().flex}>
 //       <FlatList
 //         data={data ? data.userFavourite : []}
-//         keyExtractor={(item, index) => item._id}
+//         keyExtractor={(item, index) => item.id}
 //         showsVerticalScrollIndicator={false}
 //         refreshing={networkStatus === 4}
 //         onRefresh={() => networkStatus === 7 && refetch()}

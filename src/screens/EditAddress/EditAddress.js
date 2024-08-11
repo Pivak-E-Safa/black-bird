@@ -58,7 +58,7 @@ const LONGITUDE_DELTA = 0.0021
 function EditAddress(props) {
   const addressRef = useRef(null)
   const { location, setLocation } = useContext(LocationContext)
-  const [_id] = useState(props.route.params._id ?? null)
+  const [id] = useState(props.route.params.id ?? null)
   const [selectedLabel, setSelectedLabel] = useState(
     props.route.params.label ?? labelValues[0].value
   )
@@ -122,7 +122,7 @@ function EditAddress(props) {
   }
 
   function onCompleted({ editAddress }) {
-    if (location._id === editAddress._id) {
+    if (location.id === editAddress.id) {
       setLocation({
         ...editAddress,
         latitude: parseFloat(editAddress.latitude),
@@ -352,7 +352,7 @@ function EditAddress(props) {
                   mutate({
                     variables: {
                       addressInput: {
-                        _id: _id,
+                        id: id,
                         latitude: `${region.latitude}`,
                         longitude: `${region.longitude}`,
                         deliveryAddress: deliveryAddress.trim(),

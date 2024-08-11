@@ -37,11 +37,11 @@ export const useChatScreen = ({ navigation, route }) => {
     if (chatData) {
       setMessages(
         chatData.chat.map(message => ({
-          _id: message.id,
+          id: message.id,
           text: message.message,
           createdAt: message.createdAt,
           user: {
-            _id: message.user.id,
+            id: message.user.id,
             name: message.user.name
           }
         }))
@@ -128,7 +128,7 @@ export const useChatScreen = ({ navigation, route }) => {
         messageInput: {
           message: inputMessage,
           user: {
-            id: profile._id,
+            id: profile.id,
             name: profile.name
           }
         }

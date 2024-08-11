@@ -48,20 +48,20 @@ function CartAddresses(props) {
 
   const onSelectAddress = address => {
     setLocation({
-      _id: address._id,
+      id: address.id,
       label: address.label,
       latitude: Number(address.location.coordinates[1]),
       longitude: Number(address.location.coordinates[0]),
       deliveryAddress: address.deliveryAddress,
       details: address.details
     })
-    mutate({ variables: { id: address._id } })
+    mutate({ variables: { id: address.id } })
     props.navigation.goBack()
   }
 
   return (
     <>
-      {!location._id && (
+      {!location.id && (
         <View
           style={{
             backgroundColor: currentTheme.themeBackground,
@@ -124,7 +124,7 @@ function CartAddresses(props) {
       <FlatList
         style={{ backgroundColor: currentTheme.themeBackground }}
         data={profile.addresses}
-        keyExtractor={item => item._id}
+        keyExtractor={item => item.id}
         contentContainerStyle={{ flexGrow: 1 }}
         ItemSeparatorComponent={() => <View style={styles().line} />}
         ListHeaderComponent={() => <View style={{ ...alignment.MTmedium }} />}
@@ -144,7 +144,7 @@ function CartAddresses(props) {
                       outerColor={currentTheme.radioOuterColor}
                       innerColor={currentTheme.radioColor}
                       animation={'bounceIn'}
-                      isSelected={address._id === location._id}
+                      isSelected={address.id === location.id}
                       onPress={() => {
                         onSelectAddress(address)
                       }}

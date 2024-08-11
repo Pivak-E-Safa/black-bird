@@ -21,7 +21,7 @@ function ActiveOrdersAndSections(props) {
     <View style={styles().PB10}>
       <View>{isLoggedIn && profile && <ActiveOrders />}</View>
       {sections.map(resSection => (
-        <View key={resSection._id}>
+        <View key={resSection.id}>
           <TextDefault
             numberOfLines={1}
             textColor={currentTheme.fontMainColor}
@@ -38,7 +38,7 @@ function ActiveOrdersAndSections(props) {
               showsHorizontalScrollIndicator={false}
               horizontal={true}
               data={resSection ? resSection.restaurants : []}
-              keyExtractor={(item, index) => item._id}
+              keyExtractor={(item, index) => item.id}
               renderItem={({ item }) => {
                 return <RestaurantCard {...item} />
               }}

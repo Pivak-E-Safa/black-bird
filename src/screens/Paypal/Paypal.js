@@ -17,7 +17,7 @@ function Paypal(props) {
   const [loading, loadingSetter] = useState(true)
   const { clearCart } = useContext(UserContext)
   const client = useApolloClient()
-  const [_id] = useState(props.route.params._id ?? null)
+  const [id] = useState(props.route.params.id ?? null)
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_PAYPAL)
@@ -37,14 +37,14 @@ function Paypal(props) {
         query: MYORDERS,
         fetchPolicy: 'network-only'
       })
-      const order = result.data.orders.find(order => order.orderId === _id)
+      const order = result.data.orders.find(order => order.orderId === id)
       await clearCart()
       props.navigation.reset({
         routes: [
           { name: 'Main' },
           {
             name: 'OrderDetail',
-            params: { _id: order._id }
+            params: { id: order.id }
           }
         ]
       })
@@ -57,7 +57,7 @@ function Paypal(props) {
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        source={{ uri: `${SERVER_URL}paypal?id=${_id}` }}
+        source={{ uri: `${SERVER_URL}paypal?id=${id}` }}
         onNavigationStateChange={data => {
           handleResponse(data)
         }}

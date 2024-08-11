@@ -18,7 +18,7 @@ import { mapStyles } from './mapStyles'
 const { height: HEIGHT } = Dimensions.get('screen')
 
 function OrderDetail(props) {
-  const id = props.route.params ? props.route.params._id : null
+  const routeId = props.route.params ? props.route.params.id : null
   const { loadingOrders, errorOrders, orders } = useContext(OrdersContext)
   const configuration = useContext(ConfigurationContext)
   const themeContext = useContext(ThemeContext)
@@ -26,19 +26,19 @@ function OrderDetail(props) {
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_ORDER_DETAIL, {
-        orderId: id
+        orderId: routeId
       })
     }
     Track()
   }, [])
 
-  const order = orders.find(o => o._id === id)
+  const order = orders.find(o => o.id === routeId)
 
   if (loadingOrders || !order) return <Spinner />
   if (errorOrders) return <TextError text={JSON.stringify(errorOrders)} />
 
   const {
-    _id,
+    id,
     restaurant,
     deliveryAddress,
     items,
@@ -83,7 +83,7 @@ function OrderDetail(props) {
             }}>
             <CustomerMarker />
           </Marker>
-          {order.rider && <TrackingRider id={order.rider._id} />}
+          {order.rider && <TrackingRider routeId={order.rider.id} />}
         </MapView>
         <Status
           orderStatus={order.orderStatus}
@@ -108,7 +108,7 @@ function OrderDetail(props) {
           deliveryCharges={deliveryCharges}
           total={total}
           theme={currentTheme}
-          id={_id}
+          routeId={id}
           rider={order.rider}
         />
       </ScrollView>

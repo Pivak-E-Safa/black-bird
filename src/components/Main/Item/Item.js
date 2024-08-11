@@ -26,12 +26,9 @@ const PROFILE = gql`
 `
 
 function Item(props) {
-  // console.log('ITEMMMM');
-  // console.log(props.item);
-  // console.log(props.item.id);
   const navigation = useNavigation()
   const { profile } = useContext(UserContext)
-  const heart = profile ? profile.favourite.includes(props.item.id) : false
+  const heart = profile ? profile.favourite?.includes(props.item.id) : false
   const item = props.item
   const category = item.categories.map(category => category.title)
   const configuration = useContext(ConfigurationContext)

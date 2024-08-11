@@ -180,24 +180,17 @@ function ItemDetail(props) {
         }
         return false
       })
-
-      console.log('cartItem');
-      console.log(cartItem);
-
     if (!cartItem) {
-      console.log('here')
-      console.log(restaurant)
       await setCartRestaurant(restaurant)
       await addCartItem(
-        food.id,
-        selectedVariation.id,
+        food,
+        selectedVariation,
         quantity,
         addons,
         clearFlag,
         specialInstructions
       )
     } else {
-      console.log('here two')
       await addQuantity(cartItem.key, quantity)
     }
     navigation.goBack()

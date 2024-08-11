@@ -35,7 +35,7 @@ function calculatePrice(food) {
 }
 
 function OrderDetail(props) {
-  const id = props.route.params ? props.route.params._id : null
+  const id = props.route.params ? props.route.params.id : null
   const restaurant = props.route.params ? props.route.params.restaurant : null
   const user = props.route.params ? props.route.params.user : null
   const inset = useSafeAreaInsets()
@@ -76,7 +76,7 @@ function OrderDetail(props) {
     }
   }, [orders])
 
-  const order = orders.find(o => o._id === id)
+  const order = orders.find(o => o.id === id)
 
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
@@ -141,7 +141,7 @@ function OrderDetail(props) {
           {order.orderStatus === 'PICKED' && order.rider && (
             <TrackingRider
               deliveryAddress={order.deliveryAddress}
-              id={order.rider._id}
+              id={order.rider.id}
             />
           )}
         </View>
@@ -260,7 +260,7 @@ function OrderDetail(props) {
                     <TextDefault
                       textColor={currentTheme.fontSecondColor}
                       small
-                      key={option._id + index}>
+                      key={option.id + index}>
                       +{option.title}
                     </TextDefault>
                   ))
@@ -402,7 +402,7 @@ function OrderDetail(props) {
               style={[styles().floatView, { justifyContent: 'center' }]}
               onPress={() =>
                 props.navigation.navigate('RateAndReview', {
-                  _id: order._id,
+                  id: order.id,
                   restaurant: restaurant,
                   user: user
                 })

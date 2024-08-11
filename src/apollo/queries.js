@@ -1,7 +1,7 @@
 export const User = `
 query Users {
   users {
-    _id
+    id
    email
  }
 }`
@@ -9,7 +9,7 @@ query Users {
 export const profile = `
         query{
           profile{
-            _id
+            id
             name
             phone
             phoneIsVerified
@@ -20,7 +20,7 @@ export const profile = `
             isOrderNotification
             isOfferNotification
             addresses{
-              _id
+              id
               label
               deliveryAddress
               details
@@ -33,7 +33,7 @@ export const profile = `
 
 export const order = `query Order($id:String!){
   order(id:$id){
-    _id
+    id
     orderId
     deliveryAddress{
       location{coordinates}
@@ -42,7 +42,7 @@ export const order = `query Order($id:String!){
       label
     }
     restaurant{
-      _id
+      id
       name
       image
       address
@@ -69,7 +69,7 @@ export const order = `query Order($id:String!){
       }
     }
     user{
-      _id
+      id
       name
       email
     }
@@ -90,10 +90,10 @@ export const order = `query Order($id:String!){
 
 export const myOrders = `query Orders($offset:Int){
   orders(offset:$offset){
-    _id
+    id
     orderId
     restaurant{
-      _id
+      id
       name
       image
       address
@@ -104,21 +104,21 @@ export const myOrders = `query Orders($offset:Int){
       deliveryAddress
     }
     items{
-      _id
+      id
       title
       food
       description
       quantity
       variation{
-        _id
+        id
         title
         price
         discounted
       }
       addons{
-        _id
+        id
         options{
-          _id
+          id
           title
           description
           price
@@ -130,16 +130,16 @@ export const myOrders = `query Orders($offset:Int){
       }
     }
     user{
-      _id
+      id
       name
       phone
     }
     rider{
-      _id
+      id
       name
     }
     review{
-      _id
+      id
     }
     paymentMethod
     paidAmount
@@ -164,7 +164,7 @@ export const myOrders = `query Orders($offset:Int){
 
 export const getConfiguration = `query Configuration{
   configuration{
-    _id
+    id
     currency
     currencySymbol
     deliveryRate
@@ -174,18 +174,18 @@ export const getConfiguration = `query Configuration{
 export const restaurantList = `query Restaurants($latitude:Float,$longitude:Float){
   nearByRestaurants(latitude:$latitude,longitude:$longitude){
     offers{
-      _id
+      id
       name
       tag
       restaurants
     }
     sections{
-      _id
+      id
       name
       restaurants
     }
     restaurants{
-      _id
+      id
       orderId
       orderPrefix
       name
@@ -199,10 +199,10 @@ export const restaurantList = `query Restaurants($latitude:Float,$longitude:Floa
           total
           ratings
           reviews{
-            _id
+            id
             order{
               user{
-                _id
+                id
                 name
                 email
               }
@@ -213,15 +213,15 @@ export const restaurantList = `query Restaurants($latitude:Float,$longitude:Floa
           }
       }
       categories{
-        _id
+        id
         title
         foods{
-          _id
+          id
           title
           image
           description
           variations{
-            _id
+            id
             title
             price
             discounted
@@ -230,13 +230,13 @@ export const restaurantList = `query Restaurants($latitude:Float,$longitude:Floa
         }
       }
       options{
-        _id
+        id
         title
         description
         price
       }
       addons{
-        _id
+        id
         options
         title
         description
@@ -258,7 +258,7 @@ export const restaurantList = `query Restaurants($latitude:Float,$longitude:Floa
 
 export const restaurant = `query Restaurant($id:String){
   restaurant(id:$id){
-    _id
+    id
     orderId
     orderPrefix
     name
@@ -272,10 +272,10 @@ export const restaurant = `query Restaurant($id:String){
       total
       ratings
       reviews{
-        _id
+        id
         order{
           user{
-            _id
+            id
             name
             email
           }
@@ -286,15 +286,15 @@ export const restaurant = `query Restaurant($id:String){
       }
     }
     categories{
-      _id
+      id
       title
       foods{
-        _id
+        id
         title
         image
         description
         variations{
-          _id
+          id
           title
           price
           discounted
@@ -303,13 +303,13 @@ export const restaurant = `query Restaurant($id:String){
       }
     }
     options{
-      _id
+      id
       title
       description
       price
     }
     addons{
-      _id
+      id
       options
       title
       description
@@ -317,7 +317,7 @@ export const restaurant = `query Restaurant($id:String){
       quantityMaximum
     }
     zone{
-      _id
+      id
       title
       tax
     }
@@ -335,14 +335,14 @@ export const restaurant = `query Restaurant($id:String){
 
 export const rider = `query Rider($id:String){
   rider(id:$id){
-    _id
+    id
     location {coordinates}
   }
 }`
 
 export const getTaxation = `query Taxes{
   taxes {
-    _id
+    id
     taxationCharges
     enabled
     }
@@ -350,7 +350,7 @@ export const getTaxation = `query Taxes{
 
 export const getTipping = `query Tips{
     tips {
-      _id
+      id
       tipVariations
       enabled
     }
@@ -358,7 +358,7 @@ export const getTipping = `query Tips{
 
 export const FavouriteRestaurant = `query UserFavourite ($latitude:Float,$longitude:Float){
     userFavourite(latitude:$latitude,longitude:$longitude) {
-      _id
+      id
       orderId
       orderPrefix
       name
@@ -372,10 +372,10 @@ export const FavouriteRestaurant = `query UserFavourite ($latitude:Float,$longit
         total
         ratings
         reviews{
-          _id
+          id
           order{
             user{
-              _id
+              id
               name
               email
             }
@@ -386,15 +386,15 @@ export const FavouriteRestaurant = `query UserFavourite ($latitude:Float,$longit
         }
       }
       categories{
-        _id
+        id
         title
         foods{
-          _id
+          id
           title
           image
           description
           variations{
-            _id
+            id
             title
             price
             discounted
@@ -403,13 +403,13 @@ export const FavouriteRestaurant = `query UserFavourite ($latitude:Float,$longit
         }
       }
       options{
-        _id
+        id
         title
         description
         price
       }
       addons{
-        _id
+        id
         options
         title
         description
@@ -429,10 +429,10 @@ export const FavouriteRestaurant = `query UserFavourite ($latitude:Float,$longit
   }`
 
 export const orderFragment = `fragment NewOrder on Order {
-  _id
+  id
   orderId
   restaurant{
-    _id
+    id
     name
     image
     address
@@ -443,21 +443,21 @@ export const orderFragment = `fragment NewOrder on Order {
     deliveryAddress
   }
   items{
-    _id
+    id
     title
     food
     description
     quantity
     variation{
-      _id
+      id
       title
       price
       discounted
     }
     addons{
-      _id
+      id
       options{
-        _id
+        id
         title
         description
         price
@@ -469,16 +469,16 @@ export const orderFragment = `fragment NewOrder on Order {
     }
   }
   user{
-    _id
+    id
     name
     phone
   }
   rider{
-    _id
+    id
     name
   }
   review{
-    _id
+    id
   }
   paymentMethod
   paidAmount

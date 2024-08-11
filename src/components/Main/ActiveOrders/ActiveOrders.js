@@ -67,7 +67,7 @@ const ActiveOrders = () => {
       showsHorizontalScrollIndicator={false}
       horizontal={true}
       data={orders.filter(o => orderStatusActive.includes(o.orderStatus))}
-      keyExtractor={item => item._id}
+      keyExtractor={item => item.id}
       renderItem={({ item, index }) => (
         <Item
           key={index}
@@ -85,7 +85,7 @@ const Item = ({ navigation, configuration, currentTheme, item }) => {
     gql`
       ${subscriptionOrder}
     `,
-    { variables: { id: item._id } }
+    { variables: { id: item.id } }
   )
 
   const checkStatus = status => {
@@ -100,10 +100,10 @@ const Item = ({ navigation, configuration, currentTheme, item }) => {
       activeOpacity={1}
       onPress={() => {
         Analytics.track(Analytics.events.NAVIGATE_TO_ORDER_DETAIL, {
-          orderId: item._id
+          orderId: item.id
         })
         navigation.navigate('OrderDetail', {
-          _id: item._id,
+          id: item.id,
           currencySymbol: configuration.currencySymbol
         })
       }}>

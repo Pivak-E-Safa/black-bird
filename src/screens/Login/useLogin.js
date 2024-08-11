@@ -66,7 +66,7 @@
 
 //   function onCompleted({ emailExist}) {
 //     if (validateCredentials()) {
-//       if (emailExist._id !== null) {
+//       if (emailExist.id !== null) {
 //         if (
 //           emailExist.userType !== 'apple' &&
 //           emailExist.userType !== 'google' &&
@@ -203,6 +203,8 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import AuthContext from '../../context/Auth'
 import { BackHandler } from 'react-native';
+import UserContext from '../../context/User'
+// import { getUserByEmail } from '../../firebase/profile';
 
 export const useLogin = () => {
   const navigation = useNavigation();
@@ -216,6 +218,7 @@ export const useLogin = () => {
   const currentTheme = theme[themeContext.ThemeValue];
   const { setTokenAsync } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const { setUserEmail } = useContext(UserContext)
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid);
@@ -239,7 +242,10 @@ export const useLogin = () => {
         try {
           const userCredential = await auth.signInWithEmailAndPassword(email, password);
           const token = await userCredential.user.getIdToken();
+          setEmail(email);
+          setUserEmail(email);
           await setTokenAsync(token);
+
           navigation.navigate('Main');
         } catch (error) {
             if (error.code === 'auth/wrong-password') {

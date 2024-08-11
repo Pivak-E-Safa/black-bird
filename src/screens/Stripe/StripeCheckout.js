@@ -16,7 +16,7 @@ function StripeCheckout(props) {
   const [loading, loadingSetter] = useState(true)
   const { clearCart } = useContext(UserContext)
   const client = useApolloClient()
-  const { _id } = props.route.params
+  const { id } = props.route.params
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -40,14 +40,14 @@ function StripeCheckout(props) {
       query: MYORDERS,
       fetchPolicy: 'network-only'
     })
-    const order = result.data.orders.find(order => order.orderId === _id)
+    const order = result.data.orders.find(order => order.orderId === id)
     await clearCart()
     props.navigation.reset({
       routes: [
         { name: 'Main' },
         {
           name: 'OrderDetail',
-          params: { _id: order._id }
+          params: { id: order.id }
         }
       ]
     })
@@ -63,7 +63,7 @@ function StripeCheckout(props) {
           loadingSetter(false)
         }}
         source={{
-          uri: SERVER_URL + 'stripe/create-checkout-session?id=' + _id
+          uri: SERVER_URL + 'stripe/create-checkout-session?id=' + id
         }}
         scalesPageToFit={true}
         onNavigationStateChange={data => {

@@ -18,10 +18,10 @@ export const sendChatMessage = `mutation SendChatMessage($orderId: ID!, $message
 export const placeOrder = `
   mutation PlaceOrder($restaurant:String!,$orderInput:[OrderInput!]!,$paymentMethod:String!,$couponCode:String,$tipping:Float!, $taxationAmount: Float!,$address:AddressInput!, $orderDate: String!,$isPickedUp: Boolean!, $deliveryCharges: Float!){
     placeOrder(restaurant:$restaurant,orderInput: $orderInput,paymentMethod:$paymentMethod,couponCode:$couponCode,tipping:$tipping, taxationAmount: $taxationAmount, address:$address, orderDate: $orderDate,isPickedUp: $isPickedUp, deliveryCharges:$deliveryCharges) {
-      _id
+      id
       orderId
       restaurant{
-        _id
+        id
         name
         image
         address
@@ -32,21 +32,21 @@ export const placeOrder = `
         deliveryAddress
       }
       items{
-        _id
+        id
         title
         food
         description
         quantity
         variation{
-          _id
+          id
           title
           price
           discounted
         }
         addons{
-          _id
+          id
           options{
-            _id
+            id
             title
             description
             price
@@ -58,16 +58,16 @@ export const placeOrder = `
         }
       }
       user{
-        _id
+        id
         name
         phone
       }
       rider{
-        _id
+        id
         name
       }
       review{
-        _id
+        id
       }
       paymentMethod
       paidAmount
@@ -91,7 +91,7 @@ export const placeOrder = `
 
 export const pushToken = `mutation PushToken($token:String){
     pushToken(token:$token){
-      _id
+      id
       notificationToken
     }
   }`
@@ -110,7 +110,7 @@ export const resetPassword = `mutation ResetPassword($password:String!,$email:St
 
 export const getCoupon = `mutation Coupon($coupon:String!){
     coupon(coupon:$coupon){
-      _id
+      id
       title
       discount
       enabled
@@ -119,9 +119,9 @@ export const getCoupon = `mutation Coupon($coupon:String!){
 
 export const deleteAddress = `mutation DeleteAddress($id:ID!){
     deleteAddress(id:$id){
-      _id
+      id
       addresses{
-        _id
+        id
         label
         deliveryAddress
         details
@@ -132,9 +132,9 @@ export const deleteAddress = `mutation DeleteAddress($id:ID!){
 
 export const createAddress = `mutation CreateAddress($addressInput:AddressInput!){
     createAddress(addressInput:$addressInput){
-      _id
+      id
       addresses{
-        _id
+        id
         label
         deliveryAddress
         details
@@ -146,9 +146,9 @@ export const createAddress = `mutation CreateAddress($addressInput:AddressInput!
 
 export const editAddress = `mutation EditAddress($addressInput:AddressInput!){
     editAddress(addressInput:$addressInput){
-      _id
+      id
       addresses{
-        _id
+        id
         label
         deliveryAddress
         details
@@ -164,9 +164,9 @@ export const changePassword = `mutation ChangePassword($oldPassword:String!,$new
 
 export const selectAddress = `mutation SelectAddress($id:String!){
     selectAddress(id:$id){
-      _id
+      id
       addresses{
-        _id
+        id
         label
         deliveryAddress
         details
@@ -186,10 +186,10 @@ export const reviewOrder = `mutation ReviewOrder(
       rating:$rating,
       description:$description,
     }){
-      _id
+      id
       orderId
       restaurant{
-        _id
+        id
         name
         image
         address
@@ -200,21 +200,21 @@ export const reviewOrder = `mutation ReviewOrder(
         deliveryAddress
       }
       items{
-        _id
+        id
         title
         food
         description
         quantity
         variation{
-          _id
+          id
           title
           price
           discounted
         }
         addons{
-          _id
+          id
           options{
-            _id
+            id
             title
             description
             price
@@ -226,16 +226,16 @@ export const reviewOrder = `mutation ReviewOrder(
         }
       }
       user{
-        _id
+        id
         name
         phone
       }
       rider{
-        _id
+        id
         name
       }
       review{
-        _id
+        id
       }
       paymentMethod
       paidAmount
@@ -259,9 +259,9 @@ export const reviewOrder = `mutation ReviewOrder(
 
 export const addFavouriteRestaurant = `mutation AddFavourite($id:String!){
     addFavourite(id:$id){
-      _id
+      id
       addresses{
-        _id
+        id
         label
         deliveryAddress
         details
@@ -275,7 +275,7 @@ export const emailExist = `
   mutation EmailExist($email: String!) {
     emailExist(email: $email) {
       userType
-      _id
+      id
       email
     }
   }`
@@ -337,7 +337,7 @@ export const createUser = `
 export const updateUser = `
       mutation UpdateUser($name:String!,$phone:String!,$phoneIsVerified:Boolean,$emailIsVerified:Boolean){
           updateUser(updateUserInput:{name:$name,phone:$phone,phoneIsVerified:$phoneIsVerified,emailIsVerified:$emailIsVerified}){
-            _id
+            id
             name
             phone
             phoneIsVerified
@@ -348,7 +348,7 @@ export const updateUser = `
 export const updateNotificationStatus = `
           mutation UpdateNotificationStatus($offerNotification:Boolean!,$orderNotification:Boolean!){
             updateNotificationStatus(offerNotification:$offerNotification,orderNotification:$orderNotification){
-              _id
+              id
               notificationToken
               isOrderNotification
               isOfferNotification
