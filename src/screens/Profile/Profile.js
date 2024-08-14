@@ -13,7 +13,7 @@ import {
   Platform,
   StatusBar
 } from 'react-native'
-import { useMutation } from '@apollo/client'
+// import { useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
 import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
@@ -32,6 +32,8 @@ import screenOptions from './screenOptions'
 import { useFocusEffect } from '@react-navigation/native'
 import Analytics from '../../utils/analytics'
 import { Feather } from '@expo/vector-icons'
+import { updateUserProfileByEmail } from '../../firebase/profile';
+
 const UPDATEUSER = gql`
   ${updateUser}
 `
@@ -49,10 +51,10 @@ function Profile(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const backScreen = props.route.params ? props.route.params.backScreen : null
-  const [mutate, { loading: loadingMutation }] = useMutation(UPDATEUSER, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading: loadingMutation }] = useMutation(UPDATEUSER, {
+  //   onCompleted,
+  //   onError
+  // })
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
       StatusBar.setBackgroundColor(currentTheme.headerBackground)
@@ -304,17 +306,22 @@ function Profile(props) {
                   </View>
 
                   <TouchableOpacity
-                    disabled={loadingMutation}
+                    // disabled={loadingMutation}
                     activeOpacity={0.7}
                     style={styles(currentTheme).saveContainer}
                     onPress={() => {
                       if (validateInfo()) {
-                        mutate({
-                          variables: {
-                            name: refName.current.value(),
-                            phone: profile.phone
-                          }
-                        })
+                        const profileDate = {
+                          name: refName.current.value(),
+                          phone: profile.phone
+                        }
+                        updateUserProfileByEmail(profile.email, profileDate, false)
+                        // mutate({
+                        //   variables: {
+                        //     name: refName.current.value(),
+                        //     phone: profile.phone
+                        //   }
+                        // })
                       }
                     }}>
                     <TextDefault

@@ -6,17 +6,27 @@ const AuthContext = React.createContext()
 
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null)
+  const [email, setEmail] = useState(null)
 
   const setTokenAsync = async token => {
     await AsyncStorage.setItem('token', token)
     setToken(token)
   }
 
+  const setEmailAsync = async email => {
+    await AsyncStorage.setItem('email', email)
+    setToken(email)
+  }
+
   useEffect(() => {
     let isSubscribed = true
     ;(async() => {
       const token = await AsyncStorage.getItem('token')
-      isSubscribed && setToken(token)
+      const email = await AsyncStorage.getItem('email')
+      if (isSubscribed) {
+        setToken(token);
+        setEmail(email);
+      }
     })()
     return () => {
       isSubscribed = false
@@ -24,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ token, setToken, setTokenAsync}}>
+    <AuthContext.Provider value={{ token, setToken, setTokenAsync, email, setEmail, setEmailAsync }}>
       {children}
     </AuthContext.Provider>
   )

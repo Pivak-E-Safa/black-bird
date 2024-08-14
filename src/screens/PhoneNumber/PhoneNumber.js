@@ -30,7 +30,7 @@ function PhoneNumber(props) {
     registerAction,
     onCountrySelect,
     currentTheme,
-    loading
+    // loading
   } = usePhoneNumber()
 
   useLayoutEffect(() => {
@@ -145,7 +145,7 @@ function PhoneNumber(props) {
                       textColor={currentTheme.buttonTextPink}
                       style={alignment.MLsmall}
                       bold>
-                      {loading ? (
+                      {false ? ( // TODO: there was loading variable here, is it needed?
                         <Spinner size="small" backColor="transparent" />
                       ) : (
                         i18n.t('continueBtn')

@@ -10,9 +10,9 @@ const UserContext = React.createContext({})
 
 export const UserProvider = props => {
   const { token, setToken } = useContext(AuthContext)
+  const { email, setEmail } = useContext(AuthContext)
   const { location, setLocation } = useContext(LocationContext)
   const [cart, setCart] = useState([])
-  const [userEmail, setUserEmail] = useState(null)
   const [restaurant, setRestaurant] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loadingProfile, setLoadingProfile] = useState(false)
@@ -32,15 +32,15 @@ export const UserProvider = props => {
   }, [])
 
   useEffect(() => {
-    if (token) {
+    if (token && email) {
       fetchProfile()
     }
-  }, [token])
+  }, [token, email])
 
   const fetchProfile = async () => {
     setLoadingProfile(true)
     try {
-      const userInfo = await getUserByEmail(userEmail);
+      const userInfo = await getUserByEmail(email);
       setProfile(userInfo)
       onCompleted({ profile: userInfo })
     } catch (error) {
@@ -208,7 +208,6 @@ export const UserProvider = props => {
         restaurant,
         setCartRestaurant,
         refetchProfile: fetchProfile,
-        setUserEmail
       }}>
       {props.children}
     </UserContext.Provider>

@@ -26,7 +26,7 @@ const useEmailOtp = () => {
   const otpFrom = useRef(null)
   const [seconds, setSeconds] = useState(5)
   const [user] = useState(route.params?.user)
-  const { setTokenAsync } = useContext(AuthContext)
+  const { setTokenAsync, setEmailAsync } = useContext(AuthContext)
   const { profile } = useContext(UserContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
@@ -78,7 +78,8 @@ const useEmailOtp = () => {
         email: data.createUser.email,
         type: 'email'
       })
-      await setTokenAsync(data.createUser.token)
+      await setTokenAsync(data.createUser.token);
+      await setEmailAsync(ata.createUser.email);
       navigation.navigate('PhoneOtp')
     } catch (e) {
       console.log(e)

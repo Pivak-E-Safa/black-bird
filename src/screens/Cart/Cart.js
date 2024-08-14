@@ -464,6 +464,8 @@ function Cart(props) {
         deliveryCharges: isPickedUp ? 0 : deliveryCharges,
         userName: profile.name,
         userId: profile.id,
+        restaurantId: cartRestaurant,
+        status: 'PENDING',
         // number: profile.number // TODO: fix and uncomment this
       }
 
@@ -482,7 +484,7 @@ function Cart(props) {
       console.log('itemsData:', JSON.stringify(itemsData, null, 2))
       console.log('addressData:', JSON.stringify(addressData, null, 2))
 
-      placeAnOrder(cartRestaurant, orderData, itemsData, addressData);
+      placeAnOrder(orderData, itemsData, addressData);
     } else {
       FlashMessage({
         message: i18n.t('paymentNotSupported')

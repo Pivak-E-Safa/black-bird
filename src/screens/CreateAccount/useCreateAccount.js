@@ -35,7 +35,7 @@ export const useCreateAccount = () => {
   const [enableApple, setEnableApple] = useState(false)
   const [loginButton, loginButtonSetter] = useState(null)
   const [loading, setLoading] = useState(false)
-  const { setTokenAsync } = useContext(AuthContext)
+  const { setTokenAsync, setEmailAsync } = useContext(AuthContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const [
@@ -158,6 +158,7 @@ export const useCreateAccount = () => {
           })
         }
         setTokenAsync(data.login.token)
+        setEmailAsync(data.login.email);
         // eslint-disable-next-line no-unused-expressions
         data.login?.phone === '' ? navigateToPhone() : navigateToMain()
       } catch (e) {

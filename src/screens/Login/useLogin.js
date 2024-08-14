@@ -216,9 +216,8 @@ export const useLogin = () => {
   const [registeredEmail, setRegisteredEmail] = useState(false);
   const themeContext = useContext(ThemeContext);
   const currentTheme = theme[themeContext.ThemeValue];
-  const { setTokenAsync } = useContext(AuthContext);
+  const { setTokenAsync, setEmailAsync } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const { setUserEmail } = useContext(UserContext)
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', onBackButtonPressAndroid);
@@ -243,8 +242,8 @@ export const useLogin = () => {
           const userCredential = await auth.signInWithEmailAndPassword(email, password);
           const token = await userCredential.user.getIdToken();
           setEmail(email);
-          setUserEmail(email);
           await setTokenAsync(token);
+          await setEmailAsync(email);
 
           navigation.navigate('Main');
         } catch (error) {

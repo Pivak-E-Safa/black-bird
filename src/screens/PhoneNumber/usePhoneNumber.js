@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
-import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
-import { updateUser } from '../../apollo/mutations'
+// import { useMutation } from '@apollo/client'
+// import gql from 'graphql-tag'
+// import { updateUser } from '../../apollo/mutations'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
@@ -9,10 +9,11 @@ import { phoneRegex } from '../../utils/regex'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import UserContext from '../../context/User'
 import i18n from '../../../i18n'
+import { updateUserProfileByEmail } from '../../firebase/profile';
 
-const UPDATEUSER = gql`
-  ${updateUser}
-`
+// const UPDATEUSER = gql`
+//   ${updateUser}
+// `
 
 const useRegister = () => {
   const navigation = useNavigation()
@@ -40,10 +41,10 @@ const useRegister = () => {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
 
-  const [mutate, { loading }] = useMutation(UPDATEUSER, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(UPDATEUSER, {
+  //   onCompleted,
+  //   onError
+  // })
 
   function validateCredentials() {
     let result = true
@@ -78,19 +79,25 @@ const useRegister = () => {
     }
   }
 
-  async function mutateRegister() {
-    mutate({
-      variables: {
-        name: profile.name,
-        phone: '+'.concat(country.callingCode[0]).concat(phone),
-        phoneIsVerified: false
-      }
-    })
+  async function updatePhoneNumber() {
+    const profileDate = {
+      name: profile.name,
+      phone: '+'.concat(country.callingCode[0]).concat(phone),
+      phoneIsVerified: false
+    }
+    updateUserProfileByEmail(profile.email, profileDate, true)
+    // mutate({
+    //   variables: {
+    //     name: profile.name,
+    //     phone: '+'.concat(country.callingCode[0]).concat(phone),
+    //     phoneIsVerified: false
+    //   }
+    // })
   }
 
   function registerAction() {
     if (validateCredentials()) {
-      mutateRegister()
+      updatePhoneNumber();
     }
   }
   return {
@@ -102,7 +109,7 @@ const useRegister = () => {
     onCountrySelect,
     themeContext,
     currentTheme,
-    loading,
+    // loading,
     registerAction
   }
 }
