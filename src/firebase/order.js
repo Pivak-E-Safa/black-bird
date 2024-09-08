@@ -15,8 +15,8 @@ async function placeAnOrder(orderData, itemsData, addressData) {
       batch.set(newItemRef, item);
     });
 
-    const addressesRef = firestore.collection(`orders/${newOrderRef.id}/addresses`);
-    const newAddressRef = addressesRef.doc();
+    const addressRef = firestore.collection(`orders/${newOrderRef.id}/address`);
+    const newAddressRef = addressRef.doc();
     batch.set(newAddressRef, addressData);
 
     await batch.commit();
@@ -40,7 +40,7 @@ async function fetchOrdersByUserId(userId) {
       const itemsSnapshot = await firestore.collection(`orders/${doc.id}/items`).get();
       const items = itemsSnapshot.docs.map(itemDoc => itemDoc.data());
 
-      const addressSnapshot = await firestore.collection(`orders/${doc.id}/addresses`).get();
+      const addressSnapshot = await firestore.collection(`orders/${doc.id}/address`).get();
       const address = addressSnapshot.docs.map(addressDoc => addressDoc.data());
 
       orders.push({
@@ -72,7 +72,7 @@ async function fetchOrdersByRestaurantId(restaurantId) {
       const itemsSnapshot = await firestore.collection(`orders/${doc.id}/items`).get();
       const items = itemsSnapshot.docs.map(itemDoc => itemDoc.data());
 
-      const addressSnapshot = await firestore.collection(`orders/${doc.id}/addresses`).get();
+      const addressSnapshot = await firestore.collection(`orders/${doc.id}/address`).get();
       const address = addressSnapshot.docs.map(addressDoc => addressDoc.data());
 
       orders.push({

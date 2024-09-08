@@ -266,8 +266,6 @@ export const useLogin = () => {
       // If it succeeds, user exists
       return true;
     } catch (error) {
-      console.log('ERRORRRR');
-      console.log(error.code);
       if (error.code === 'auth/wrong-password') {
         // Wrong password means the user exists
         return true;

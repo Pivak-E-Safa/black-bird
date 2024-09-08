@@ -51,7 +51,8 @@ import Pickup from '../../components/Pickup'
 import { calculateDistance } from '../../utils/customFunctions'
 import Analytics from '../../utils/analytics'
 import { placeAnOrder } from '../../firebase/order';
-import { Timestamp } from 'firebase/firestore';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 // Constants
 // const PLACEORDER = gql`
@@ -75,8 +76,6 @@ function Cart(props) {
     deleteItem,
     updateCart
   } = useContext(UserContext)
-  console.log('CARTTT');
-  console.log(cart);
   const themeContext = useContext(ThemeContext)
   const { location } = useContext(LocationContext)
   const currentTheme = theme[themeContext.ThemeValue]
@@ -91,6 +90,7 @@ function Cart(props) {
   const [deliveryCharges, setDeliveryCharges] = useState(0)
 
   const { loading, data } = useRestaurant(cartRestaurant)
+  const Timestamp = firebase.firestore.Timestamp
 
   // const { loading: loadingTip, data: dataTip } = useQuery(TIPPING, {
   //   fetchPolicy: 'network-only'
@@ -149,8 +149,8 @@ function Cart(props) {
     let isSubscribed = true
     ;(async() => {
       if (data && !!data.restaurant) {
-        const latOrigin = Number(data.restaurant.location.coordinates[1])
-        const lonOrigin = Number(data.restaurant.location.coordinates[0])
+        const latOrigin = Number(data.restaurant.location[1])
+        const lonOrigin = Number(data.restaurant.location[0])
         const latDest = Number(location.latitude)
         const longDest = Number(location.longitude)
         const distance = await calculateDistance(
@@ -430,7 +430,6 @@ function Cart(props) {
     })
   }
   async function onPayment() {
-    console.log('onPayment');
     if (checkPaymentMethod(configuration.currency)) {
       // const items = transformOrder(cart)
       // mutateOrder({
@@ -459,14 +458,15 @@ function Cart(props) {
         couponCode: coupon ? coupon.title : null,
         tipping: +calculateTip(),
         taxationAmount: +taxCalculation(),
-        // orderDate: Timestamp.fromDate(moment().toDate()), // TODO: uncomment this and change orderData everywhere if needed
+        orderDate: Timestamp.fromDate(new Date()),
         isPickedUp: isPickedUp,
         deliveryCharges: isPickedUp ? 0 : deliveryCharges,
         userName: profile.name,
         userId: profile.id,
         restaurantId: cartRestaurant,
         status: 'PENDING',
-        // number: profile.number // TODO: fix and uncomment this
+        total: calculateTotal(),
+        number: profile.phone
       }
 
       const itemsData = transformOrder(cart);
@@ -477,13 +477,6 @@ function Cart(props) {
         details: location.details,
         location: [location.latitude, location.longitude],
       }
-
-      console.log('HEREEEEEEEE');
-      console.log('cartRestaurant:', JSON.stringify(cartRestaurant, null, 2))
-      console.log('orderData:', JSON.stringify(orderData, null, 2))
-      console.log('itemsData:', JSON.stringify(itemsData, null, 2))
-      console.log('addressData:', JSON.stringify(addressData, null, 2))
-
       placeAnOrder(orderData, itemsData, addressData);
     } else {
       FlashMessage({

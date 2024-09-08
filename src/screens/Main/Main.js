@@ -171,8 +171,6 @@ function Main(props) {
       try {
         const restaurantsList = await fetchRestaurantList();
         setRestaurants(restaurantsList);
-        // console.log('LISTTTTTT')
-        // console.log(restaurants)
       } catch (error) {
         console.error('Error fetching restaurants:', error);
       }

@@ -25,10 +25,6 @@ import Analytics from '../../utils/analytics'
 
 function ItemDetail(props) {
   // const { food, addons, restaurant } = props.route.params
-  // console.log('PROPSSSSSS')
-  // // console.log(props)
-  // console.log(props.route.params)
-  // // console.log(props.route.params.restaurant)
   const { food, restaurant } = props.route.params
   // const { food, addons, options, restaurant } = props.route.params
   const navigation = useNavigation()
@@ -112,7 +108,6 @@ function ItemDetail(props) {
       //   variations: food.variations
       // })
       if (!restaurantCart || restaurant === restaurantCart) {
-        console.log('firstIF');
         await addToCart(quantity, restaurant !== restaurantCart)
       } else if (restaurant.id !== restaurantCart) {
         Alert.alert(
@@ -144,9 +139,6 @@ function ItemDetail(props) {
         id
       }))
     }))
-    console.log('methodstart')
-    console.log(clearFlag)
-    console.log(cart)
     const cartItem = clearFlag
       ? null
       : cart.find(cartItem => {
@@ -212,9 +204,6 @@ function ItemDetail(props) {
   }
 
   async function onSelectOption(addon, option) {
-    // console.log('onSelectOptionNNNNNNNNN');
-    // console.log('ADDON', addon);
-    // console.log('option', option);
     const index = selectedAddons.findIndex(ad => ad.id === addon.id)
     if (index > -1) {
       if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
@@ -268,15 +257,10 @@ function ItemDetail(props) {
       return addon
     })
     setSelectedVariation({ ...selectedVariation, addons: validatedAddons })
-    // console.log('validateOrderItem');
-    // console.log(validatedAddons);
-    // console.log(validatedAddons.every(addon => addon.error === false));
     return validatedAddons.every(addon => addon.error === false)
   }
 
   function renderOption(addon) {
-    // console.log("RENDEROPTIONS");
-    // console.log(addon);
     // if (addon.quantityMinimum === 1 && addon.quantityMaximum === 1) {
     //   return (
     //     <RadioComponent

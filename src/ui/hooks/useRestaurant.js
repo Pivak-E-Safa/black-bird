@@ -321,8 +321,6 @@ export default function useRestaurant(id) {
   const [ restaurant, setRestaurant ] = useState(null);
 
   useEffect(() => {
-    console.log('id');
-    console.log(id);
     const getRestaurantDetails = async () => {
       try {
         const restaurantsList = await fetchRestaurantDetails(id);
