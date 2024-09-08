@@ -201,9 +201,9 @@ function Restaurant(props) {
       )
       return
     }
-    if (!restaurantCart || food.restaurant === restaurantCart) {
-      await addToCart(food, food.restaurant !== restaurantCart)
-    } else if (food.restaurant !== restaurantCart) {
+    if (!restaurantCart || restaurant.id === restaurantCart) {
+      await addToCart(food, restaurant.id !== restaurantCart)
+    } else if (restaurant.id !== restaurantCart) {
       Alert.alert(
         '',
         'By leaving this restaurant page, the items you`ve added to cart will be cleared',

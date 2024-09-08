@@ -57,19 +57,23 @@ async function fetchRestaurantList() {
   }
 }
 
-async function fetchRestaurantDetails(retaurantId) {
+async function fetchRestaurantDetails(restaurantId) {
   try {
     const restaurantDetails = await firestore
       .collection('restaurants')
-      .doc(retaurantId)
+      .doc(restaurantId)
       .get();
 
-    const restaurantDoc = restaurantDetails.data();
+    const restaurantDoc = {
+      id: restaurantId,
+      ...restaurantDetails.data()
+    };
+
     const categoriesSnapshot = await firestore
-      .collection('restaurants/' + retaurantId + '/categories')
+      .collection('restaurants/' + restaurantId + '/categories')
       .get()
     const openingTimesSnapshot = await firestore
-      .collection('restaurants/' + retaurantId + '/openingTimes')
+      .collection('restaurants/' + restaurantId + '/openingTimes')
       .get()
     const categoriesList = categoriesSnapshot.docs.map(doc => ({
       id: doc.id,
@@ -87,7 +91,7 @@ async function fetchRestaurantDetails(retaurantId) {
       const timesSnapshot = await firestore
         .collection(
           'restaurants/' +
-          retaurantId +
+          restaurantId +
             '/openingTimes/' +
             openingTimesDoc.id +
             '/times'
@@ -105,7 +109,7 @@ async function fetchRestaurantDetails(retaurantId) {
       const foodSnapshot = await firestore
         .collection(
           'restaurants/' +
-          retaurantId +
+          restaurantId +
             '/categories/' +
             categoriesDoc.id +
             '/foods'
@@ -114,7 +118,7 @@ async function fetchRestaurantDetails(retaurantId) {
       const addOnsSnapshot = await firestore
         .collection(
           'restaurants/' +
-          retaurantId +
+          restaurantId +
             '/categories/' +
             categoriesDoc.id +
             '/addons'
@@ -137,7 +141,7 @@ async function fetchRestaurantDetails(retaurantId) {
         const variationsSnapshot = await firestore
           .collection(
             'restaurants/' +
-            retaurantId +
+            restaurantId +
               '/categories/' +
               categoriesDoc.id +
               '/foods/' +

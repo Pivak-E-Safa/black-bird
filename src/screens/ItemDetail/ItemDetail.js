@@ -114,8 +114,7 @@ function ItemDetail(props) {
       if (!restaurantCart || restaurant === restaurantCart) {
         console.log('firstIF');
         await addToCart(quantity, restaurant !== restaurantCart)
-      } else if (food.restaurant !== restaurantCart) {
-        onsole.log('secondIF');
+      } else if (restaurant.id !== restaurantCart) {
         Alert.alert(
           '',
           'By leaving this restaurant page, the items you`ve added to cart will be cleared',
@@ -242,9 +241,6 @@ function ItemDetail(props) {
   }
 
   function calculatePrice() {
-    // console.log('calculatePrice');
-    // console.log('selectedVariation', selectedVariation);
-    // console.log('selectedAddons', selectedAddons);
     const variation = selectedVariation.price
     let addons = 0
     selectedAddons.forEach(addon => {
@@ -253,7 +249,7 @@ function ItemDetail(props) {
       }, 0)
     })
     // return (variation + addons).toFixed(2)
-    return 0
+    return variation
   }
 
   function validateOrderItem() {
