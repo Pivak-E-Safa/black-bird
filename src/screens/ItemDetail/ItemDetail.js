@@ -97,11 +97,12 @@ function ItemDetail(props) {
         // validatedAddons.push(false)
       } else validatedAddons.push(true)
     })
-    return validatedAddons.every(val => val === false)
+    return validatedAddons?.every(val => val === false) // TODO: Is it needed?
   }
 
   async function onPressAddToCart(quantity) {
-    if (validateOrderItem()) {
+    // if (validateOrderItem()) { // TODO: Needed?
+    if (true) { // TODO: Revisit this
       // Analytics.track(Analytics.events.ADD_TO_CART, {
       //   title: food.title,
       //   restaurantName: food.restaurantName,
@@ -257,7 +258,7 @@ function ItemDetail(props) {
       return addon
     })
     setSelectedVariation({ ...selectedVariation, addons: validatedAddons })
-    return validatedAddons.every(addon => addon.error === false)
+    return validatedAddons?.every(addon => addon.error === false) // TODO: Is it needed?
   }
 
   function renderOption(addon) {
