@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
   const setEmailAsync = async email => {
     await AsyncStorage.setItem('email', email)
-    setToken(email)
+    setEmail(email)
   }
 
   useEffect(() => {

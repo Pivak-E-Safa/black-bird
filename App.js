@@ -36,12 +36,12 @@ LogBox.ignoreAllLogs() // Ignore all log notifications
 const themeValue = 'Pink'
 const { SENTRY_DSN } = getEnvVars()
 const client = setupApolloClient()
-Sentry.init({
-  dsn: SENTRY_DSN,
-  enableInExpoDevelopment: true,
-  debug: !isProduction,
-  tracesSampleRate: 1.0 // to be changed to 0.2 in production
-})
+// Sentry.init({
+//   dsn: SENTRY_DSN,
+//   enableInExpoDevelopment: true,
+//   debug: !isProduction,
+//   tracesSampleRate: 1.0 // to be changed to 0.2 in production
+// })
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false)

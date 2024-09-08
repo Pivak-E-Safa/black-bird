@@ -203,8 +203,6 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import AuthContext from '../../context/Auth'
 import { BackHandler } from 'react-native';
-import UserContext from '../../context/User'
-// import { getUserByEmail } from '../../firebase/profile';
 
 export const useLogin = () => {
   const navigation = useNavigation();

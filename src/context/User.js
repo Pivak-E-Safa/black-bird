@@ -75,6 +75,7 @@ export const UserProvider = props => {
     try {
       await AsyncStorage.removeItem('token')
       setToken(null)
+      setEmail(null);
       if (location.id) {
         setLocation({
           label: 'Selected Location',
