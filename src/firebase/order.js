@@ -37,21 +37,30 @@ async function fetchOrdersByUserId(userId) {
     for (const doc of ordersQuerySnapshot.docs) {
       const orderData = doc.data();
 
-      const itemsSnapshot = await firestore.collection(`orders/${doc.id}/items`).get();
+      // Fetch items for the order
+      const itemsSnapshot = await firestore.collection('orders').doc(doc.id).collection('items').get();
       const items = itemsSnapshot.docs.map(itemDoc => itemDoc.data());
 
-      const addressSnapshot = await firestore.collection(`orders/${doc.id}/deliveryAddress`).get();
+      // Fetch delivery address for the order
+      const addressSnapshot = await firestore.collection('orders').doc(doc.id).collection('deliveryAddress').get();
       const address = addressSnapshot.docs.map(addressDoc => addressDoc.data());
 
+      // Fetch the restaurant data based on restaurantId
+      const restaurantDoc = await firestore.collection('restaurants').doc(orderData.restaurantId).get();
+      const restaurant = restaurantDoc.exists ? restaurantDoc.data() : null;
+
+      // Combine the data and push to the orders array
       orders.push({
         id: doc.id,
         ...orderData,
         items,
-        deliveryAddress: address[0]
+        deliveryAddress: address[0],
+        restaurant  // Add the restaurant data here
       });
     }
 
-    // console.log('Orders fetched successfully:', JSON.stringify(orders, null, 2))
+     console.log('Orders fetched successfully:', JSON.stringify(orders, null, 2))
+
 
     return orders;
   } catch (error) {
@@ -59,6 +68,7 @@ async function fetchOrdersByUserId(userId) {
     return null;
   }
 }
+
 
 async function fetchOrdersByRestaurantId(restaurantId) {
   try {

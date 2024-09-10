@@ -15,7 +15,6 @@ import CustomerMarker from '../../assets/SVG/customer-marker'
 import TrackingRider from '../../components/OrderDetail/TrackingRider/TrackingRider'
 import OrdersContext from '../../context/Orders'
 import { mapStyles } from './mapStyles'
-import { useRestaurant } from '../../ui/hooks'
 const { height: HEIGHT } = Dimensions.get('screen')
 
 function OrderDetail(props) {
@@ -24,7 +23,6 @@ function OrderDetail(props) {
   const configuration = useContext(ConfigurationContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
-  const { loading, data } = useRestaurant(props.route.params ? props.route.params.restaurantId : null)
 
   useEffect(() => {
     async function Track() {
@@ -42,7 +40,7 @@ function OrderDetail(props) {
 
   const {
     id,
-    // restaurant,
+    restaurant,
     deliveryAddress,
     items,
     tipping,
@@ -74,8 +72,8 @@ function OrderDetail(props) {
           provider={PROVIDER_GOOGLE}>
           <Marker
             coordinate={{
-              latitude: data?.restaurant?.location.latitude,
-              longitude: data?.restaurant?.location.longitude,
+              latitude: restaurant?.location.latitude,
+              longitude: restaurant?.location.longitude,
             }}>
             <RestaurantMarker />
           </Marker>
@@ -102,7 +100,7 @@ function OrderDetail(props) {
           navigation={props.navigation}
           currencySymbol={configuration.currencySymbol}
           items={items}
-          from={data?.restaurant?.name}
+          from={restaurant?.name}
           orderNo={order.id}
           deliveryAddress={deliveryAddress?.address}
           subTotal={subTotal}
