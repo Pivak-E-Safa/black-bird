@@ -198,7 +198,7 @@ function MyOrders(props) {
                   right>
                   {' '}
                   {configuration.currencySymbol}
-                  {parseFloat(item.orderAmount).toFixed(2)}
+                  {parseFloat(item.orderAmount)}
                 </TextDefault>
                 <TouchableOpacity
                   activeOpacity={0.7}

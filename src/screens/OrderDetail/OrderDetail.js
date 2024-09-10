@@ -15,6 +15,7 @@ import CustomerMarker from '../../assets/SVG/customer-marker'
 import TrackingRider from '../../components/OrderDetail/TrackingRider/TrackingRider'
 import OrdersContext from '../../context/Orders'
 import { mapStyles } from './mapStyles'
+import { useRestaurant } from '../../ui/hooks'
 const { height: HEIGHT } = Dimensions.get('screen')
 
 function OrderDetail(props) {
@@ -23,6 +24,8 @@ function OrderDetail(props) {
   const configuration = useContext(ConfigurationContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
+  const { loading, data } = useRestaurant(props.route.params ? props.route.params.restaurantId : null)
+
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_ORDER_DETAIL, {
@@ -39,15 +42,15 @@ function OrderDetail(props) {
 
   const {
     id,
-    restaurant,
+    // restaurant,
     deliveryAddress,
     items,
-    tipping: tip,
-    taxationAmount: tax,
-    orderAmount: total,
+    tipping,
+    taxationAmount,
+    total,
     deliveryCharges
   } = order
-  const subTotal = total - tip - tax - deliveryCharges
+  const subTotal = total - tipping - taxationAmount - deliveryCharges
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -59,8 +62,8 @@ function OrderDetail(props) {
           style={{ height: HEIGHT * 0.75 }}
           showsUserLocation={false}
           initialRegion={{
-            latitude: +deliveryAddress.location.coordinates[1],
-            longitude: +deliveryAddress.location.coordinates[0],
+            latitude: deliveryAddress?.location.latitude,
+            longitude: deliveryAddress?.location.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
@@ -71,15 +74,15 @@ function OrderDetail(props) {
           provider={PROVIDER_GOOGLE}>
           <Marker
             coordinate={{
-              longitude: +restaurant.location.coordinates[0],
-              latitude: +restaurant.location.coordinates[1]
+              latitude: data?.restaurant?.location.latitude,
+              longitude: data?.restaurant?.location.longitude,
             }}>
             <RestaurantMarker />
           </Marker>
           <Marker
             coordinate={{
-              latitude: +deliveryAddress.location.coordinates[1],
-              longitude: +deliveryAddress.location.coordinates[0]
+              latitude: deliveryAddress?.location.latitude,
+              longitude: deliveryAddress?.location.longitude
             }}>
             <CustomerMarker />
           </Marker>
@@ -99,12 +102,12 @@ function OrderDetail(props) {
           navigation={props.navigation}
           currencySymbol={configuration.currencySymbol}
           items={items}
-          from={restaurant.name}
-          orderNo={order.orderId}
-          deliveryAddress={deliveryAddress.deliveryAddress}
+          from={data?.restaurant?.name}
+          orderNo={order.id}
+          deliveryAddress={deliveryAddress?.address}
           subTotal={subTotal}
-          tip={tip}
-          tax={tax}
+          tip={tipping}
+          tax={taxationAmount}
           deliveryCharges={deliveryCharges}
           total={total}
           theme={currentTheme}

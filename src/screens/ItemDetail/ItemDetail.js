@@ -238,7 +238,7 @@ function ItemDetail(props) {
         return acc + option.price
       }, 0)
     })
-    // return (variation + addons).toFixed(2)
+    // return (variation + addons)
     return variation
   }
 

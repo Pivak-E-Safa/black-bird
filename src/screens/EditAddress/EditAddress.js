@@ -63,9 +63,9 @@ function EditAddress(props) {
     props.route.params.label ?? labelValues[0].value
   )
   const [region, setRegion] = useState({
-    latitude: parseFloat(props.route.params.location.coordinates[1] ?? null),
+    latitude: parseFloat(props.route.params.location.latitude ?? null),
     latitudeDelta: LATITUDE_DELTA,
-    longitude: parseFloat(props.route.params.location.coordinates[0] ?? null),
+    longitude: parseFloat(props.route.params.location.longitude ?? null),
     longitudeDelta: LONGITUDE_DELTA
   })
   const [deliveryAddress, setDeliveryAddress] = useState(

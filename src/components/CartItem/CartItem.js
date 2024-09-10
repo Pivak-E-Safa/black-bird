@@ -67,7 +67,7 @@ const cartItem = props => {
         small
         right>
         {configuration.currencySymbol}
-        {parseFloat(props.dealPrice).toFixed(2)}
+        {parseFloat(props.dealPrice)}
       </TextDefault>
     </View>
   )

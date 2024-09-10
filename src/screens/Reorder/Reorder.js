@@ -41,7 +41,7 @@ function Reorder(props) {
     await setCartRestaurant(order.restaurant.id)
     selectedItems.forEach(async index => {
       const item = order.items[index]
-      const addons = item.addons.map(addon => ({
+      const addons = item?.addons?.map(addon => ({
         id: addon.id,
         options: addon.options.map(({ id }) => ({
           id
@@ -96,7 +96,7 @@ function Reorder(props) {
                     textColor={currentTheme.fontSecondColor}>
                     {item.title}
                   </TextDefault>
-                  {item.addons.map((addon, index) => {
+                  {item?.addons?.map((addon, index) => {
                     return (
                       <View key={index}>
                         <TextDefault

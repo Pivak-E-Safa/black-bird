@@ -19,12 +19,12 @@ const PickUpMap = ({ deliveryAddress, pickupAddress }) => {
 
   useEffect(() => {
     const destination = {
-      latitude: parseFloat(pickupAddress.location.coordinates[1]),
-      longitude: parseFloat(pickupAddress.location.coordinates[0])
+      latitude: parseFloat(pickupAddress.location.latitude),
+      longitude: parseFloat(pickupAddress.location.longitude)
     }
     const origin = {
-      latitude: parseFloat(deliveryAddress.location.coordinates[1]),
-      longitude: parseFloat(deliveryAddress.location.coordinates[0])
+      latitude: parseFloat(deliveryAddress?.location.latitude),
+      longitude: parseFloat(deliveryAddress?.location.longitude)
     }
     fitMarkers([origin, destination])
   }, [])
@@ -50,16 +50,16 @@ const PickUpMap = ({ deliveryAddress, pickupAddress }) => {
         customMapStyle={themeContext.ThemeValue === 'Dark' ? mapStyle : null}
         style={{ flex: 1 }}
         initialRegion={{
-          latitude: parseFloat(pickupAddress.location.coordinates[1]),
+          latitude: parseFloat(pickupAddress.location.latitude),
           latitudeDelta: LATITUDE_DELTA,
-          longitude: parseFloat(pickupAddress.location.coordinates[0]),
+          longitude: parseFloat(pickupAddress.location.longitude),
           longitudeDelta: LONGITUDE_DELTA
         }}
         onPress={() => {
           linkToMapsApp(
             {
-              latitude: pickupAddress.location.coordinates[1],
-              longitude: pickupAddress.location.coordinates[0]
+              latitude: pickupAddress.location.latitude,
+              longitude: pickupAddress.location.longitude
             },
             pickupAddress.label
           )
@@ -68,8 +68,8 @@ const PickUpMap = ({ deliveryAddress, pickupAddress }) => {
         <Marker
           title="PickUp Address"
           coordinate={{
-            latitude: parseFloat(pickupAddress.location.coordinates[1]),
-            longitude: parseFloat(pickupAddress.location.coordinates[0])
+            latitude: parseFloat(pickupAddress.location.latitude),
+            longitude: parseFloat(pickupAddress.location.longitude)
           }}>
           <Image
             style={{ width: scale(30), height: scale(30) }}

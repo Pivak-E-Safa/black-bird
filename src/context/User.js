@@ -125,18 +125,18 @@ export const UserProvider = props => {
   }
 
   const checkItemCart = itemId => {
-    const cartIndex = cart.findIndex(c => c.id === itemId)
-    if (cartIndex < 0) {
+    const filteredItems = cart.filter(c => c.id === itemId);
+    if (filteredItems.length === 0) {
       return {
         exist: false,
         quantity: 0
-      }
-    } else {
-      return {
-        exist: true,
-        quantity: cart[cartIndex].quantity,
-        key: cart[cartIndex].key
-      }
+      };
+    }
+    const totalQuantity = filteredItems.reduce((total, item) => total + item.quantity, 0);
+    return {
+      exist: true,
+      quantity: totalQuantity,
+      key: filteredItems[0].key
     }
   }
 

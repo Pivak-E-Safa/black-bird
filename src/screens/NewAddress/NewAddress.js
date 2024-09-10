@@ -132,8 +132,8 @@ function NewAddress(props) {
     const cartAddress = props.route.params?.backScreen || null
     setLocation({
       ...address,
-      latitude: parseFloat(address.location.coordinates[1]),
-      longitude: parseFloat(address.location.coordinates[0])
+      latitude: parseFloat(address.location.latitude),
+      longitude: parseFloat(address.location.longitude)
     })
     if (cartAddress === 'Cart') {
       props.navigation.navigate('Cart')

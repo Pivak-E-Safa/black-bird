@@ -33,6 +33,7 @@ import { stripeCurrencies, paypalCurrencies } from '../../utils/currencies'
 import { theme } from '../../utils/themeColors'
 import Triangle from '../../ui/Triangle/Triangle'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
+import OrdersContext from '../../context/Orders'
 import ConfigurationContext from '../../context/Configuration'
 import UserContext from '../../context/User'
 import styles from './styles'
@@ -77,6 +78,7 @@ function Cart(props) {
     updateCart
   } = useContext(UserContext)
   const themeContext = useContext(ThemeContext)
+  const { subscribeOrders } = useContext(OrdersContext)
   const { location } = useContext(LocationContext)
   const currentTheme = theme[themeContext.ThemeValue]
 
@@ -256,7 +258,7 @@ function Cart(props) {
     // }
   }
 
-  async function onCompleted(data) {
+  async function onCompleted(orderId) {
     // await Analytics.track(Analytics.events.ORDER_PLACED, {
     //   userId: data.placeOrder.user.id,
     //   orderId: data.placeOrder.orderId,
@@ -273,16 +275,17 @@ function Cart(props) {
     //   orderDate: data.placeOrder.orderDate
     // })
     // if (paymentMethod.payment === 'COD') {
-    //   await clearCart()
-    //   props.navigation.reset({
-    //     routes: [
-    //       { name: 'Main' },
-    //       {
-    //         name: 'OrderDetail',
-    //         params: { id: data.placeOrder.id }
-    //       }
-    //     ]
-    //   })
+      await subscribeOrders();
+      await clearCart()
+      props.navigation.reset({
+        routes: [
+          { name: 'Main' },
+          {
+            name: 'OrderDetail',
+            params: { id: orderId, restaurantId: cartRestaurant }
+          }
+        ]
+      })
     // } else if (paymentMethod.payment === 'PAYPAL') {
     //   props.navigation.replace('Paypal', {
     //     id: data.placeOrder.orderId,
@@ -321,8 +324,8 @@ function Cart(props) {
       total += +taxCalculation()
       const tipPercentage = (
         (total / 100) *
-        parseFloat(selectedTip).toFixed(2)
-      ).toFixed(2)
+        parseFloat(selectedTip)
+      )
       return tipPercentage
     } else {
       return 0
@@ -332,11 +335,11 @@ function Cart(props) {
   function taxCalculation() {
     const tax = data.restaurant ? +data.restaurant.tax : 0
     if (tax === 0) {
-      return tax.toFixed(2)
+      return tax
     }
     const delivery = isPickedUp ? 0 : deliveryCharges
     const amount = +calculatePrice(delivery, true)
-    const taxAmount = ((amount / 100) * tax).toFixed(2)
+    const taxAmount = ((amount / 100) * tax)
     return taxAmount
   }
 
@@ -349,7 +352,7 @@ function Cart(props) {
       itemTotal = itemTotal - (coupon.discount / 100) * itemTotal
     }
     const deliveryAmount = delivery > 0 ? deliveryCharges : 0
-    return (itemTotal + deliveryAmount).toFixed(2)
+    return (itemTotal + deliveryAmount)
   }
 
   function calculateTotal() {
@@ -358,7 +361,7 @@ function Cart(props) {
     total += +calculatePrice(delivery, true)
     total += +taxCalculation()
     total += +calculateTip()
-    return parseFloat(total).toFixed(2)
+    return parseFloat(total)
   }
 
   function validateOrder() {
@@ -431,7 +434,6 @@ function Cart(props) {
   }
   async function onPayment() {
     if (checkPaymentMethod(configuration.currency)) {
-      // const items = transformOrder(cart)
       // mutateOrder({
       //   variables: {
       //     restaurant: cartRestaurant,
@@ -458,26 +460,29 @@ function Cart(props) {
         couponCode: coupon ? coupon.title : null,
         tipping: +calculateTip(),
         taxationAmount: +taxCalculation(),
-        orderDate: Timestamp.fromDate(new Date()),
+        createdAt: Timestamp.fromDate(new Date()),
         isPickedUp: isPickedUp,
         deliveryCharges: isPickedUp ? 0 : deliveryCharges,
         userName: profile.name,
         userId: profile.id,
         restaurantId: cartRestaurant,
-        status: 'PENDING',
+        orderStatus: 'PENDING',
         total: calculateTotal(),
-        number: profile.phone
+        number: profile.phone,
+        deliveryCharges: data.restaurant.deliveryCharges
       }
 
       const itemsData = transformOrder(cart);
 
       const addressData = {
         label: location.label,
-        deliveryAddress: location.deliveryAddress,
+        address: location.deliveryAddress,
         details: location.details,
-        location: [location.latitude, location.longitude],
+        // location: [location.latitude, location.longitude],
+        location: new firebase.firestore.GeoPoint(31.690823473174465, 73.00329238299295),
       }
-      placeAnOrder(orderData, itemsData, addressData);
+      const orderId = await placeAnOrder(orderData, itemsData, addressData);
+      onCompleted(orderId);
     } else {
       FlashMessage({
         message: i18n.t('paymentNotSupported')
@@ -541,7 +546,7 @@ function Cart(props) {
             ...cartItem,
             optionsTitle,
             title: title,
-            price: price.toFixed(2)
+            price: price
           }
         })
 
@@ -767,7 +772,7 @@ function Cart(props) {
                         optionsTitle={food.optionsTitle}
                         dealPrice={(
                           parseFloat(food.variation?.price) * food.quantity
-                        ).toFixed(2)}
+                        )}
                         addQuantity={() => {
                           addQuantity(food.key)
                         }}
@@ -819,7 +824,7 @@ function Cart(props) {
                       small
                       right>
                       {configuration.currencySymbol}
-                      {deliveryCharges.toFixed(2)}
+                      {deliveryCharges}
                     </TextDefault>
                   </View>
                 )}
@@ -889,7 +894,7 @@ function Cart(props) {
                         -{configuration.currencySymbol}
                         {parseFloat(
                           calculatePrice(0, false) - calculatePrice(0, true)
-                        ).toFixed(2)}
+                        )}
                       </TextDefault>
                     </View>
                   </View>
@@ -929,7 +934,7 @@ function Cart(props) {
                     </TouchableOpacity>
                     <TextDefault textColor={currentTheme.fontMainColor} small>
                       {configuration.currencySymbol}
-                      {parseFloat(calculateTip()).toFixed(2)}
+                      {parseFloat(calculateTip())}
                     </TextDefault>
                   </View>
                 </View>
@@ -1516,8 +1521,8 @@ export default Cart
 //     let isSubscribed = true
 //     ;(async() => {
 //       if (data && !!data.restaurant) {
-//         const latOrigin = Number(data.restaurant.location.coordinates[1])
-//         const lonOrigin = Number(data.restaurant.location.coordinates[0])
+//         const latOrigin = Number(data.restaurant.location[1])
+//         const lonOrigin = Number(data.restaurant.location[0])
 //         const latDest = Number(location.latitude)
 //         const longDest = Number(location.longitude)
 //         const distance = await calculateDistance(
@@ -1688,8 +1693,8 @@ export default Cart
 //       total += +taxCalculation()
 //       const tipPercentage = (
 //         (total / 100) *
-//         parseFloat(selectedTip).toFixed(2)
-//       ).toFixed(2)
+//         parseFloat(selectedTip)
+//       )
 //       return tipPercentage
 //     } else {
 //       return 0
@@ -1699,11 +1704,11 @@ export default Cart
 //   function taxCalculation() {
 //     const tax = data.restaurant ? +data.restaurant.tax : 0
 //     if (tax === 0) {
-//       return tax.toFixed(2)
+//       return tax
 //     }
 //     const delivery = isPickedUp ? 0 : deliveryCharges
 //     const amount = +calculatePrice(delivery, true)
-//     const taxAmount = ((amount / 100) * tax).toFixed(2)
+//     const taxAmount = ((amount / 100) * tax)
 //     return taxAmount
 //   }
 
@@ -1716,7 +1721,7 @@ export default Cart
 //       itemTotal = itemTotal - (coupon.discount / 100) * itemTotal
 //     }
 //     const deliveryAmount = delivery > 0 ? deliveryCharges : 0
-//     return (itemTotal + deliveryAmount).toFixed(2)
+//     return (itemTotal + deliveryAmount)
 //   }
 
 //   function calculateTotal() {
@@ -1725,7 +1730,7 @@ export default Cart
 //     total += +calculatePrice(delivery, true)
 //     total += +taxCalculation()
 //     total += +calculateTip()
-//     return parseFloat(total).toFixed(2)
+//     return parseFloat(total)
 //   }
 
 //   function validateOrder() {
@@ -1881,7 +1886,7 @@ export default Cart
 //             ...cartItem,
 //             optionsTitle,
 //             title: title,
-//             price: price.toFixed(2)
+//             price: price
 //           }
 //         })
 
@@ -2107,7 +2112,7 @@ export default Cart
 //                         optionsTitle={food.optionsTitle}
 //                         dealPrice={(
 //                           parseFloat(food.price) * food.quantity
-//                         ).toFixed(2)}
+//                         )}
 //                         addQuantity={() => {
 //                           addQuantity(food.key)
 //                         }}
@@ -2159,7 +2164,7 @@ export default Cart
 //                       small
 //                       right>
 //                       {configuration.currencySymbol}
-//                       {deliveryCharges.toFixed(2)}
+//                       {deliveryCharges}
 //                     </TextDefault>
 //                   </View>
 //                 )}
@@ -2229,7 +2234,7 @@ export default Cart
 //                         -{configuration.currencySymbol}
 //                         {parseFloat(
 //                           calculatePrice(0, false) - calculatePrice(0, true)
-//                         ).toFixed(2)}
+//                         )}
 //                       </TextDefault>
 //                     </View>
 //                   </View>
@@ -2269,7 +2274,7 @@ export default Cart
 //                     </TouchableOpacity>
 //                     <TextDefault textColor={currentTheme.fontMainColor} small>
 //                       {configuration.currencySymbol}
-//                       {parseFloat(calculateTip()).toFixed(2)}
+//                       {parseFloat(calculateTip())}
 //                     </TextDefault>
 //                   </View>
 //                 </View>

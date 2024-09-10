@@ -230,7 +230,7 @@ function OrderDetail(props) {
                 Delivery address:
               </TextDefault>
               <TextDefault textColor={currentTheme.fontMainColor} H5 bolder>
-                {order.deliveryAddress.deliveryAddress}
+                {order.deliveryAddress.address}
               </TextDefault>
               <TextDefault textColor={currentTheme.fontMainColor} bolder B700>
                 {order.deliveryAddress.details}
@@ -255,7 +255,7 @@ function OrderDetail(props) {
                 <TextDefault textColor={currentTheme.fontSecondColor}>
                   {item.title}
                 </TextDefault>
-                {item.addons.map(addon =>
+                {item?.addons?.map(addon =>
                   addon.options.map((option, index) => (
                     <TextDefault
                       textColor={currentTheme.fontSecondColor}
@@ -273,7 +273,7 @@ function OrderDetail(props) {
                 style={{ width: '25%' }}
                 right>
                 {configuration.currencySymbol}
-                {parseFloat(calculatePrice(item)).toFixed(2)}
+                {parseFloat(calculatePrice(item))}
               </TextDefault>
             </View>
           ))}
@@ -303,7 +303,7 @@ function OrderDetail(props) {
                   (order.isPickedUp ? 0 : order.deliveryCharges) -
                   order.tipping -
                   order.taxationAmount
-              ).toFixed(2)}
+              )}
             </TextDefault>
           </View>
           <View style={[styles().marginBottom10, styles().floatView]}>
@@ -321,7 +321,7 @@ function OrderDetail(props) {
               style={{ width: '60%' }}
               right>
               {configuration.currencySymbol}
-              {parseFloat(order.tipping).toFixed(2)}
+              {parseFloat(order.tipping)}
             </TextDefault>
           </View>
           <View style={[styles().marginBottom10, styles().floatView]}>
@@ -339,7 +339,7 @@ function OrderDetail(props) {
               style={{ width: '60%' }}
               right>
               {configuration.currencySymbol}
-              {parseFloat(order.taxationAmount).toFixed(2)}
+              {parseFloat(order.taxationAmount)}
             </TextDefault>
           </View>
           {!order.isPickedUp && (
@@ -358,7 +358,7 @@ function OrderDetail(props) {
                 style={{ width: '60%' }}
                 right>
                 {configuration.currencySymbol}
-                {parseFloat(order.deliveryCharges).toFixed(2)}
+                {parseFloat(order.deliveryCharges)}
               </TextDefault>
             </View>
           )}
@@ -377,7 +377,7 @@ function OrderDetail(props) {
               style={{ width: '60%' }}
               right>
               {configuration.currencySymbol}
-              {parseFloat(order.orderAmount).toFixed(2)}
+              {parseFloat(order.orderAmount)}
             </TextDefault>
           </View>
         </View>

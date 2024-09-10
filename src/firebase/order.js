@@ -15,16 +15,16 @@ async function placeAnOrder(orderData, itemsData, addressData) {
       batch.set(newItemRef, item);
     });
 
-    const addressRef = firestore.collection(`orders/${newOrderRef.id}/address`);
+    const addressRef = firestore.collection(`orders/${newOrderRef.id}/deliveryAddress`);
     const newAddressRef = addressRef.doc();
     batch.set(newAddressRef, addressData);
 
     await batch.commit();
-    console.log('Items and address saved successfully for order:', newOrderRef.id);
+    console.log('Items and deliveryAddress saved successfully for order:', newOrderRef.id);
 
     return newOrderRef.id;
   } catch (error) {
-    console.error('Error saving order, items, or address:', error);
+    console.error('Error saving order, items, or deliveryAddress:', error);
     return null;
   }
 }
@@ -40,20 +40,19 @@ async function fetchOrdersByUserId(userId) {
       const itemsSnapshot = await firestore.collection(`orders/${doc.id}/items`).get();
       const items = itemsSnapshot.docs.map(itemDoc => itemDoc.data());
 
-      const addressSnapshot = await firestore.collection(`orders/${doc.id}/address`).get();
+      const addressSnapshot = await firestore.collection(`orders/${doc.id}/deliveryAddress`).get();
       const address = addressSnapshot.docs.map(addressDoc => addressDoc.data());
 
       orders.push({
         id: doc.id,
         ...orderData,
         items,
-        address: address[0] // Assuming there's only one address per order
+        deliveryAddress: address[0]
       });
     }
 
-    console.log('fetchOrdersByUserId Orders fetched successfully:', JSON.stringify(orders, null, 2))
+    // console.log('Orders fetched successfully:', JSON.stringify(orders, null, 2))
 
-    console.log('Orders fetched successfully:', orders);
     return orders;
   } catch (error) {
     console.error('Error fetching orders by userId:', error);
@@ -72,18 +71,18 @@ async function fetchOrdersByRestaurantId(restaurantId) {
       const itemsSnapshot = await firestore.collection(`orders/${doc.id}/items`).get();
       const items = itemsSnapshot.docs.map(itemDoc => itemDoc.data());
 
-      const addressSnapshot = await firestore.collection(`orders/${doc.id}/address`).get();
-      const address = addressSnapshot.docs.map(addressDoc => addressDoc.data());
+      const addressSnapshot = await firestore.collection(`orders/${doc.id}/deliveryAddress`).get();
+      const deliveryAddress = addressSnapshot.docs.map(addressDoc => addressDoc.data());
 
       orders.push({
         id: doc.id,
         ...orderData,
         items,
-        address: address[0] // Assuming there's only one address per order
+        deliveryAddress: deliveryAddress[0] // Assuming there's only one deliveryAddress per order
       });
     }
 
-    console.log('fetchOrdersByRestaurantId Orders fetched successfully:', JSON.stringify(orders, null, 2))
+    // console.log('fetchOrdersByRestaurantId Orders fetched successfully:', JSON.stringify(orders, null, 2))
 
     return orders;
   } catch (error) {

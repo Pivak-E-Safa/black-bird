@@ -40,8 +40,8 @@ const TrackingRider = ({ id }) => {
   return (
     <Marker
       coordinate={{
-        latitude: parseFloat(data.rider.location.coordinates[1]),
-        longitude: parseFloat(data.rider.location.coordinates[0])
+        latitude: parseFloat(data.rider.location.latitude),
+        longitude: parseFloat(data.rider.location.longitude)
       }}>
       <RiderMarker />
     </Marker>

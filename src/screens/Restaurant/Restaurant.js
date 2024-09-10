@@ -627,7 +627,7 @@ function Restaurant(props) {
                           style={styles().priceText}
                           small>
                           {configuration.currencySymbol}{' '}
-                          {parseFloat(item.variations[0].price).toFixed(2)}
+                          {parseFloat(item.variations[0].price)}
                         </TextDefault>
                         {item.variations[0].discounted > 0 && (
                           <TextDefault
@@ -640,7 +640,7 @@ function Restaurant(props) {
                             {(
                               item.variations[0].price +
                               item.variations[0].discounted
-                            ).toFixed(2)}
+                            )}
                           </TextDefault>
                         )}
                       </View>

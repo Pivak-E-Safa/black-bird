@@ -96,7 +96,7 @@ export default function Detail({
             title={`${item.title} ${item.variation.title}`}
             currency={currencySymbol}
             price={item.variation.price}
-            options={item.addons.map(addon =>
+            options={item?.addons?.map(addon =>
               addon.options.map(({ title }) => title)
             )}
           />
@@ -106,32 +106,32 @@ export default function Detail({
             theme={theme}
             title={'Subtotal'}
             currency={currencySymbol}
-            price={subTotal.toFixed(2)}
+            price={subTotal}
           />
           <PriceRow
             theme={theme}
             title={'Tip'}
             currency={currencySymbol}
-            price={tip.toFixed(2)}
+            price={tip}
           />
           <PriceRow
             theme={theme}
             title={'Tax charges'}
             currency={currencySymbol}
-            price={tax.toFixed(2)}
+            price={tax}
           />
           <PriceRow
             theme={theme}
             title={'Delivery charges'}
             currency={currencySymbol}
-            price={deliveryCharges.toFixed(2)}
+            price={deliveryCharges}
           />
           <View style={{ marginVertical: 20 }} />
           <PriceRow
             theme={theme}
             title={'Total'}
             currency={currencySymbol}
-            price={total.toFixed(2)}
+            price={total}
           />
         </View>
       </View>

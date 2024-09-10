@@ -81,7 +81,7 @@ export default function Status({
               theme={theme}
               isEta={false}
               number={1}
-              status={'Order palced'}
+              status={'Order placed'}
               time={formatTime(createdAt)}
               showLine={true}
             />

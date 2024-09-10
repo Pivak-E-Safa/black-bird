@@ -274,8 +274,8 @@ function Main(props) {
     setLocation({
       id: address.id,
       label: address.label,
-      latitude: Number(address.location.coordinates[1]),
-      longitude: Number(address.location.coordinates[0]),
+      latitude: Number(address.location.latitude),
+      longitude: Number(address.location.longitude),
       deliveryAddress: address.deliveryAddress,
       details: address.details
     })
@@ -724,8 +724,8 @@ export default Main
 //     setLocation({
 //       id: address.id,
 //       label: address.label,
-//       latitude: Number(address.location.coordinates[1]),
-//       longitude: Number(address.location.coordinates[0]),
+//       latitude: Number(address.location[1]),
+//       longitude: Number(address.location[0]),
 //       deliveryAddress: address.deliveryAddress,
 //       details: address.details
 //     })
