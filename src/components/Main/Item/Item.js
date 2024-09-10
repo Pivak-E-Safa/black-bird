@@ -126,7 +126,14 @@ function Item(props) {
             </View>
           </View>
           <View style={styles().descriptionContainer}>
-            <View style={styles().aboutRestaurant}>
+            <TextDefault
+              style={{ width: '77%' }}
+              numberOfLines={1}
+              textColor={currentTheme.fontMainColor}
+              bolder>
+              {item.name}
+            </TextDefault>
+            {/* <View style={styles().aboutRestaurant}>
               <TextDefault
                 style={{ width: '77%' }}
                 numberOfLines={1}
@@ -134,7 +141,7 @@ function Item(props) {
                 bolder>
                 {item.name}
               </TextDefault>
-              {/* <View style={[styles().aboutRestaurant, { width: '23%' }]}>
+              <View style={[styles().aboutRestaurant, { width: '23%' }]}>
                 <Ionicons name="md-star" size={scale(11)} color="#4165b9" />
                 <TextDefault
                   textColor={currentTheme.fontMainColor}
@@ -150,7 +157,7 @@ function Item(props) {
                   smaller>
                   ({item.reviewData.reviews.length})
                 </TextDefault>
-              </View> */}
+              </View>
             </View>
             <TextDefault
               style={styles().offerCategoty}
@@ -158,7 +165,7 @@ function Item(props) {
               numberOfLines={1}
               small>
               {category.toString()}
-            </TextDefault>
+            </TextDefault> */}
             <View style={styles().priceRestaurant}>
               <TextDefault
                 style={styles().offerCategoty}

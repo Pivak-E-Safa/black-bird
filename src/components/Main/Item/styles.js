@@ -27,7 +27,7 @@ const styles = (props = null) =>
     imageContainer: {
       position: 'relative',
       alignItems: 'center',
-      height: '70%'
+      height: '80%'
     },
     img: {
       width: '100%',

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Dimensions } from 'react-native'
+import { Image, View, Dimensions } from 'react-native'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
 import { scale, verticalScale } from '../../../utils/scaling'
 import styles from './styles'
@@ -29,6 +29,17 @@ function ImageTextCenterHeader(props, ref) {
   const navigation = useNavigation()
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
+  const CATEGORY_IMAGES = {
+    Pizzas: require('../../../assets/icons/pizza.png'),
+    Burgers: require('../../../assets/icons/burger.png'),
+    Pastas: require('../../../assets/icons/pasta.png'),
+    Fries: require('../../../assets/icons/fries.png'),
+    Extras: require('../../../assets/icons/extras.png'),
+    Platters: require('../../../assets/icons/platter.png'),
+    Sandwiches: require('../../../assets/icons/sandwich.png'),
+    Appetizers: require('../../../assets/icons/appetizers.png'),
+    Wraps: require('../../../assets/icons/wrap.png'),
+  }
   const aboutObject = {
     latitude: props.restaurant ? props.restaurant.location.latitude : '',
     longitude: props.restaurant ? props.restaurant.location.longitude : '',
@@ -228,23 +239,16 @@ function ImageTextCenterHeader(props, ref) {
                 rippleColor={currentTheme.rippleColor}
                 onPress={() => props.changeIndex(index)}
                 style={styles(currentTheme).headerContainer}>
-                <View style={styles().navbarTextContainer}>
-                  <TextDefault
-                    style={
-                      props.selectedLabel === index
-                        ? textStyles.Bolder
-                        : textStyles.Small
-                    }
-                    textColor={
-                      props.selectedLabel === index
-                        ? currentTheme.tagColor
-                        : currentTheme.fontMainColor
-                    }
-                    center
-                    uppercase
-                    small>
-                    {item.title}
-                  </TextDefault>
+                <View style={styles().navbarImageContainer}>
+                <Image
+                  source={CATEGORY_IMAGES[item.title]}
+                  style={
+                    props.selectedLabel === index
+                      ? styles(currentTheme).activeImage
+                      : styles(currentTheme).inactiveImage
+                  }
+                  resizeMode="contain"
+                />
                 </View>
               </RectButton>
             </View>

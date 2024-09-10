@@ -105,6 +105,26 @@ const styles = (props = null) =>
       ...alignment.PLsmall,
       ...alignment.PRsmall
     },
+    navbarImageContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: '50%',
+      overflow: 'hidden',
+      width: 40,
+      height: 40,
+    },
+    activeImage: {
+      width: '100%',
+      height: '100%',
+      borderWidth: 2,
+      borderColor: props != null ? props.tagColor : 'black',
+    },
+    inactiveImage: {
+      width: '100%',
+      height: '100%',
+      borderWidth: 1,
+      borderColor: props != null ? props.tagColor : 'black',
+    },
     activeHeader: {
       borderBottomWidth: scale(2),
       borderColor: props != null ? props.tagColor : 'red',
