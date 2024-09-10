@@ -17,7 +17,7 @@ export const de = {
     'Das Alter mindert nicht die extreme Enttäuschung darüber, dass eine Kugel Eis vom Kegel fällt',
   getStarted: 'Loslegen!',
   welcome:
-    'Willkommen bei Enatega, manchmal brauchen Sie nur Liebe. Aber ein bisschen Essen tut ab und zu nicht weh.',
+    'Willkommen bei Love Bites, manchmal brauchen Sie nur Liebe. Aber ein bisschen Essen tut ab und zu nicht weh.',
   loginBtn: 'Anmeldung',
   registerBtn: 'Registrieren',
   name: 'Name',

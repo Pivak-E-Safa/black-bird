@@ -167,7 +167,7 @@ function Settings(props) {
   }
 
   async function selectLanguage() {
-    const lang = await AsyncStorage.getItem('enatega-language')
+    const lang = await AsyncStorage.getItem('lovebites-language')
     if (lang) {
       const defLang = languageTypes.findIndex(el => el.code === lang)
       const langName = languageTypes[defLang].value
@@ -182,7 +182,7 @@ function Settings(props) {
       const localization = await Localization.getLocalizationAsync()
       localization.locale = languageTypes[languageInd].code
       await AsyncStorage.setItem(
-        'enatega-language',
+        'lovebites-language',
         languageTypes[languageInd].code
       )
       Updates.reloadAsync()

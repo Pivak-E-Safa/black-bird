@@ -24,7 +24,7 @@ const styles = (props = null) =>
       margin: scale(10),
       paddingHorizontal: scale(50),
       paddingVertical: scale(15),
-      backgroundColor: props !== null ? props.buttonBackgroundPink : '#6FCF97',
+      backgroundColor: props !== null ? props.buttonBackgroundPink : '#C26E29',
       justifyContent: 'center',
       alignItems: 'center'
     },

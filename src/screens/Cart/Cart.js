@@ -748,7 +748,7 @@ function Cart(props) {
                       alignItems: 'center'
                     }}>
                     <TouchableOpacity onPress={onOpen}>
-                      <TextDefault textColor={'#6FCF97'}>Change</TextDefault>
+                      <TextDefault textColor={'#C26E29'}>Change</TextDefault>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -2088,7 +2088,7 @@ export default Cart
 //                       alignItems: 'center'
 //                     }}>
 //                     <TouchableOpacity onPress={onOpen}>
-//                       <TextDefault textColor={'#6FCF97'}>Change</TextDefault>
+//                       <TextDefault textColor={'#C26E29'}>Change</TextDefault>
 //                     </TouchableOpacity>
 //                   </View>
 //                 </View>

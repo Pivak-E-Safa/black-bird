@@ -59,7 +59,7 @@ async function fetchOrdersByUserId(userId) {
       });
     }
 
-     console.log('Orders fetched successfully:', JSON.stringify(orders, null, 2))
+    //  console.log('Orders fetched successfully:', JSON.stringify(orders, null, 2))
 
 
     return orders;

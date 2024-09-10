@@ -34,10 +34,10 @@ function Chat() {
     <WebView
       startInLoadingState={true}
       source={{
-        uri: 'https://sharangoharkhan.github.io/multivendor-chat/'
+        uri: 'https://sharangoharkhan.github.io/chat/'
       }}
       onNavigationStateChange={data => {
-        if (data.url.indexOf('enatega') > 0) {
+        if (data.url.indexOf('lovebites') > 0) {
           navigation.navigate({
             name: 'Main',
             merge: true

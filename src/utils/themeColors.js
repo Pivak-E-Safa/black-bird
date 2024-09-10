@@ -1,42 +1,42 @@
 export const theme = {
   Pink: {
-    black: '#000',
-    white: '#FFF',
+    black: '#000000',
+    white: '#FFFFFF',
     themeBackground: '#FAFAFA',
-    menuBar: '#FFF',
+    menuBar: '#FFFFFF',
     iconColor: '#333333',
-    iconColorPink: '#6FCF97',
-    itemCardColor: '#FFF',
-    tagColor: '#6FCF97',
-    radioColor: '#6FCF97',
+    iconColorPink: '#C26E29', // Changed to new branding color
+    itemCardColor: '#FFFFFF',
+    tagColor: '#C26E29', // Changed to new branding color
+    radioColor: '#C26E29', // Changed to new branding color
     radioOuterColor: '#949393',
-    startColor: '#6FCF97',
-    startOutlineColor: '#6FCF97',
-    spinnerColor: '#6FCF97',
+    startColor: '#C26E29', // Changed to new branding color
+    startOutlineColor: '#C26E29', // Changed to new branding color
+    spinnerColor: '#C26E29', // Changed to new branding color
     orderComplete: '#1DB20D',
     orderUncomplete: '#fe0000',
     horizontalLine: '#949393',
     lightHorizontalLine: '#f0f0f0',
-    buttonBackground: '#6FCF97',
-    buttonText: '#FFF',
-    buttonBackgroundPink: '#6FCF97',
-    buttonTextPink: '#FFF',
-    fontWhite: '#FFF',
+    buttonBackground: '#C26E29', // Changed to new branding color
+    buttonText: '#FFFFFF',
+    buttonBackgroundPink: '#C26E29', // Changed to new branding color
+    buttonTextPink: '#FFFFFF',
+    fontWhite: '#FFFFFF',
     shadowColor: '#2a2a2a',
-    cartContainer: '#FFF',
+    cartContainer: '#FFFFFF',
     textErrorColor: '#FA7751',
-    headerBackground: '#6FCF97',
+    headerBackground: '#C26E29', // Changed to new branding color
     headerMenuBackground: '#FAFAFA',
-    headerText: '#FFF',
-    fontMainColor: '#212121',
+    headerText: '#FFFFFF',
+    fontMainColor: '#3A2003', // Changed to new branding color
     fontSecondColor: '#949393',
     titleComponentBackground: 'rgba(39,111,191,0.1)',
     titleComponentText: 'rgba(39,111,191,0.8)',
-    titleTextError: '#FFF',
+    titleTextError: '#FFFFFF',
     statusSecondColor: '#5A5858',
-    rippleColor: '#6FCF97',
-    backIcon: '#fff',
-    backIconBackground: '#000',
+    rippleColor: '#C26E29', // Changed to new branding color
+    backIcon: '#FFFFFF',
+    backIconBackground: '#000000', // Changed to new branding color
     secondaryText: '#A3A0A0',
     main: '#90EA93',
     secondaryBackground: '#ECECEC',
@@ -45,44 +45,44 @@ export const theme = {
     errorInputBorder: '#DB4A39'
   },
   Dark: {
-    black: '#000',
-    white: '#FFF',
-    themeBackground: '#000',
-    menuBar: '#000',
-    iconColor: '#FCFCFC',
-    itemCardColor: '#000',
-    tagColor: '#6FCF97',
-    iconColorPink: '#6FCF97',
-    radioColor: '#6FCF97',
+    black: '#000000', // Changed to new branding color
+    white: '#FFFFFF',
+    themeBackground: '#000000', // Changed to new branding color
+    menuBar: '#000000', // Changed to new branding color
+    iconColor: '#FF8C00', // Changed to new branding color
+    iconColorPink: '#FF8C00', // Changed to new branding color
+    itemCardColor: '#000000', // Changed to new branding color
+    tagColor: '#FF8C00', // Changed to new branding color
+    radioColor: '#FF8C00', // Changed to new branding color
     radioOuterColor: '#898989',
-    startColor: '#6FCF97',
-    startOutlineColor: '#6FCF97',
-    spinnerColor: '#6FCF97',
+    startColor: '#FF8C00', // Changed to new branding color
+    startOutlineColor: '#FF8C00', // Changed to new branding color
+    spinnerColor: '#FF8C00', // Changed to new branding color
     orderComplete: '#1DB20D',
     orderUncomplete: '#fe0000',
     horizontalLine: '#DFDCDC',
     lightHorizontalLine: '#2D2929',
     shadowColor: '#898989',
     cartContainer: '#383737',
-    textErrorColor: '#FA7751',
+    textErrorColor: '#FF8C00', // Changed to new branding color
     buttonBackground: '#E8E8E8',
-    buttonText: '#000',
-    buttonBackgroundPink: '#6FCF97',
-    buttonTextPink: '#FFF',
-    fontWhite: '#FFF',
+    buttonText: '#000000', // Changed to new branding color
+    buttonBackgroundPink: '#FF8C00', // Changed to new branding color
+    buttonTextPink: '#FFFFFF',
+    fontWhite: '#FFFFFF',
     fontMainColor: '#F9F9F9',
     fontSecondColor: '#7F7F7F',
-    headerBackground: '#000',
-    headerMenuBackground: '#000',
-    headerText: '#FFF',
+    headerBackground: '#000000', // Changed to new branding color
+    headerMenuBackground: '#000000', // Changed to new branding color
+    headerText: '#FFFFFF',
     colorPrimary300: '#333333',
     titleComponentBackground: 'rgba(39,111,191,0.1)',
     titleComponentText: 'rgba(39,111,191,0.8)',
-    titleTextError: '#FFF',
+    titleTextError: '#FFFFFF',
     statusSecondColor: '#949393',
-    rippleColor: '#6FCF97',
-    backIcon: '#fff',
-    backIconBackground: '#000',
+    rippleColor: '#FF8C00', // Changed to new branding color
+    backIcon: '#FFFFFF',
+    backIconBackground: '#000000', // Changed to new branding color
     secondaryText: '#A3A0A0',
     main: '#90EA93',
     secondaryBackground: '#ECECEC',

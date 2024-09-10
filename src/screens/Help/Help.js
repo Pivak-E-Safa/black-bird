@@ -10,16 +10,16 @@ const links = [
   {
     title: 'Product Page',
     url:
-      'https://market.nativebase.io/view/enatega-multivendor-food-backend-app'
+      'https://market.nativebase.io/view/lovebites-food-backend-app'
   },
   {
     title: 'Docs',
-    url: 'https://enatega-multi.gitbook.io/enatega-multivendor/'
+    url: 'https://lovebites-multi.gitbook.io/lovebites/'
   },
   {
     title: 'Blog',
     url:
-      'https://blog.geekyants.com/enatega-multivendor-foodpanda-clone-v1-0-0-e4b4f21ba1c1'
+      'https://blog.geekyants.com/lovebites-foodpanda-clone-v1-0-0-e4b4f21ba1c1'
   },
   { title: 'About Us', url: 'https://ninjascode.com/pages/ourteam.html' }
 ]

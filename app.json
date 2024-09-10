@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Enatega Multivendor",
-    "scheme": "enategamultivendor",
+    "name": "Love Bites",
+    "scheme": "lovebites",
     "version": "1.0.21",
-    "description": "Enatega is a starter kit food ordering app built in React Native using Expo for IOS and Android. It's made keeping good aesthetics in mind as well keeping the best coding practices in mind. Its fully customisable to easily help you in your next food delivery project. https://market.nativebase.io/view/react-native-food-delivery-backend-app",
-    "slug": "enategamultivendor",
+    "description": "Love Bites is a starter kit food ordering app built in React Native using Expo for IOS and Android. It's made keeping good aesthetics in mind as well keeping the best coding practices in mind. Its fully customisable to easily help you in your next food delivery project. https://market.nativebase.io/view/react-native-food-delivery-backend-app",
+    "slug": "lovebites",
     "privacy": "public",
     "androidStatusBar": {
       "backgroundColor": "#000"
@@ -18,14 +18,14 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#6FCF97"
+      "backgroundColor": "#00000"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.enatega.multivendor",
+      "bundleIdentifier": "com.lovebites",
       "config": {
         "googleMapsApiKey": "AIzaSyCzNP5qQql2a5y8lOoO-1yj1lj_tzjVImA"
       },
@@ -40,14 +40,14 @@
     },
     "notification": {
       "iosDisplayInForeground": true,
-      "color": "#6FCF97",
+      "color": "#C26E29",
       "icon": "./assets/not-icon.png",
       "androidMode": "default",
-      "androidCollapsedTitle": "Enatega Multivendor"
+      "androidCollapsedTitle": "Love Bites"
     },
     "android": {
       "versionCode": 23,
-      "package": "com.enatega.multivendor",
+      "package": "com.lovebites",
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
@@ -69,7 +69,7 @@
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": "ninjas-code",
-            "project": "enatega-multivendor-app",
+            "project": "lovebites-app",
             "authToken": "744ed798e04a40a896b0269c25f945de0e166db8362e41969b64d5e07ca80e65"
           }
         }
@@ -91,7 +91,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow $Enatega Multivendor to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow $Love Bites to use your location."
         }
       ],
       "sentry-expo"
