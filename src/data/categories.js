@@ -1,6 +1,6 @@
 const categories = [
   {
-    title: 'Appetizers',
+    title: 'APPETIZERS',
     foods: [
       {
         id: '5',
@@ -25,7 +25,7 @@ const categories = [
     ]
   },
   {
-    title: 'Fries',
+    title: 'FRIES',
     foods: [
       {
         id: '5',
@@ -38,7 +38,7 @@ const categories = [
     ]
   },
   {
-    title: 'Burgers',
+    title: 'BURGERS',
     foods: [
       {
         id: '3',
@@ -50,7 +50,7 @@ const categories = [
     ]
   },
   {
-    title: 'Pastas',
+    title: 'PASTAS',
     foods: [
       {
         id: '5',
@@ -62,7 +62,7 @@ const categories = [
     ]
   },
   {
-    title: 'Sandwiches',
+    title: 'SANDWICHES',
     foods: [
       {
         id: '5',
@@ -74,7 +74,7 @@ const categories = [
     ]
   },
   {
-    title: 'Wraps',
+    title: 'WRAPS',
     foods: [
       {
         id: '5',
@@ -86,12 +86,12 @@ const categories = [
     ]
   },
   {
-    title: 'Platters',
+    title: 'PLATTERS',
     foods: [
       {
         id: '5',
-        title: 'Maxican Wrap',
-        description: 'Yummy Maxican Wrap',
+        title: 'Maxican Platter',
+        description: 'Yummy Maxican Platter',
         variations: [{ id: '5', price: 800, discounted: 0, title: '' }],
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7Ob7qC2AWEGsoJHm04nYlM8jT-946MH_bGY-7fpaxf_yB_XRFhweqfno&s=10'
       }
@@ -99,7 +99,7 @@ const categories = [
   },
 
   {
-    title: 'Pizzas',
+    title: 'PIZZAS',
     foods: [
       {
         id: '1',
@@ -125,7 +125,7 @@ const categories = [
     ]
   },
   {
-    title: 'Extras',
+    title: 'EXTRAS',
     foods: [
       {
         id: '5',

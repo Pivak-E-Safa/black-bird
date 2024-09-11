@@ -63,7 +63,7 @@ export const theme = {
     horizontalLine: '#DFDCDC',
     lightHorizontalLine: '#2D2929',
     shadowColor: '#898989',
-    cartContainer: '#383737',
+    cartContainer: '#141318',
     textErrorColor: '#FF8C00', // Changed to new branding color
     buttonBackground: '#E8E8E8',
     buttonText: '#000000', // Changed to new branding color

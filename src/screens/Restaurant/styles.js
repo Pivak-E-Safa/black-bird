@@ -6,7 +6,8 @@ import { textStyles } from '../../utils/textStyles'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      backgroundColor: props != null ? props.buttonBackground : 'black'
     },
     navbarContainer: {
       paddingBottom: 0,
@@ -22,23 +23,22 @@ const styles = (props = null) =>
       zIndex: 1
     },
     sectionHeaderText: {
-      textTransform: 'capitalize',
-      backgroundColor: props != null ? props.cartContainer : 'white',
       ...alignment.PLlarge,
-      ...alignment.PTlarge,
+      ...alignment.PTsmall,
       ...alignment.PBsmall
     },
     deal: {
       width: '100%',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      ...alignment.PTsmall,
-      ...alignment.PBsmall,
+      ...alignment.PTlarge,
+      ...alignment.PBlarge,
     },
     rowContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       backgroundColor: props != null ? props.cartContainer : 'white',
+      borderRadius: 10,
       ...alignment.PRsmall,
       ...alignment.PLsmall,
     },

@@ -30,15 +30,15 @@ function ImageTextCenterHeader(props, ref) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const CATEGORY_IMAGES = {
-    Pizzas: require('../../../assets/icons/pizza.png'),
-    Burgers: require('../../../assets/icons/burger.png'),
-    Pastas: require('../../../assets/icons/pasta.png'),
-    Fries: require('../../../assets/icons/fries.png'),
-    Extras: require('../../../assets/icons/extras.png'),
-    Platters: require('../../../assets/icons/platter.png'),
-    Sandwiches: require('../../../assets/icons/sandwich.png'),
-    Appetizers: require('../../../assets/icons/appetizers.png'),
-    Wraps: require('../../../assets/icons/wrap.png'),
+    PIZZAS: require('../../../assets/icons/pizza.png'),
+    BURGERS: require('../../../assets/icons/burger.png'),
+    PASTAS: require('../../../assets/icons/pasta.png'),
+    FRIES: require('../../../assets/icons/fries.png'),
+    EXTRAS: require('../../../assets/icons/extras.png'),
+    PLATTERS: require('../../../assets/icons/platter.png'),
+    SANDWICHES: require('../../../assets/icons/sandwich.png'),
+    APPETIZERS: require('../../../assets/icons/appetizers.png'),
+    WRAPS: require('../../../assets/icons/wrap.png'),
   }
   const aboutObject = {
     latitude: props.restaurant ? props.restaurant.location.latitude : '',
@@ -103,7 +103,7 @@ function ImageTextCenterHeader(props, ref) {
         <Animated.Image
           resizeMode="cover"
           source={{ uri: aboutObject.restaurantImage }}
-          style={[styles().flex, { opacity: props.opacity }]}
+          style={[styles().flex, { opacity: props.opacity, borderRadius: 10 }]}
         />
         <Animated.View style={styles().overlayContainer}>
           <View style={styles().fixedViewNavigation}>

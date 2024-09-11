@@ -386,7 +386,7 @@ function Restaurant(props) {
   //   1
   // )
 
-  const iconBackColor = currentTheme.white
+  const iconBackColor = currentTheme.themeBackground
   // const iconBackColor = color(
   //   255,
   //   255,
@@ -605,11 +605,11 @@ function Restaurant(props) {
                       <View style={styles().deal}>
                         {item.image && (
                           <Image
-                            style={{ width: '100%', aspectRatio: 1 }}
+                            style={{ width: '100%', aspectRatio: 1, borderRadius: 10 }}
                             source={{ uri: item.image }}
                           />
                         )}
-                        <View style={styles().flex}>
+                        <View>
                           <TextDefault
                             textColor={currentTheme.fontMainColor}
                             style={{ ...alignment.MBxSmall, paddingTop: 10 }}
@@ -652,11 +652,11 @@ function Restaurant(props) {
                         <View style={styles().deal}>
                           {nextItem.image && (
                             <Image
-                              style={{ width: '100%', aspectRatio: 1 }}
+                              style={{ width: '100%', aspectRatio: 1, borderRadius: 10 }}
                               source={{ uri: nextItem.image }}
                             />
                           )}
-                          <View style={styles().flex}>
+                          <View>
                             <TextDefault
                               textColor={currentTheme.fontMainColor}
                               style={{ ...alignment.MBxSmall, paddingTop: 10 }}
