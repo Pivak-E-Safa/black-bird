@@ -15,7 +15,8 @@ const styles = (props = null) =>
     },
     subContainer: {
       width: '90%',
-      alignSelf: 'center'
+      alignSelf: 'center',
+      ...alignment.PTsmall,
     },
     line: {
       width: '100%',

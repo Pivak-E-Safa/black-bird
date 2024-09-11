@@ -25,21 +25,33 @@ const styles = (props = null) =>
       textTransform: 'capitalize',
       backgroundColor: props != null ? props.cartContainer : 'white',
       ...alignment.PLlarge,
-      ...alignment.PTsmall,
+      ...alignment.PTlarge,
       ...alignment.PBsmall
     },
     deal: {
       width: '100%',
-      flexDirection: 'row',
+      flexDirection: 'column',
       justifyContent: 'space-between',
       ...alignment.PTsmall,
-      ...alignment.PBsmall
+      ...alignment.PBsmall,
+    },
+    rowContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: props != null ? props.cartContainer : 'white',
+      ...alignment.PRsmall,
+      ...alignment.PLsmall,
+    },
+    column: {
+      width: '50%',
     },
     dealSection: {
       position: 'relative',
+      display: 'flex',
+      flexDirection: 'row',
       backgroundColor: props != null ? props.cartContainer : 'white',
-      ...alignment.PLlarge,
-      ...alignment.PRxSmall
+      ...alignment.PLsmall,
+      ...alignment.PRsmall,
     },
     dealDescription: {
       flex: 1,

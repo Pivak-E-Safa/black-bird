@@ -6,13 +6,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   titleContainer: {
-    width: '70%',
+    width: '75%',
     ...alignment.PRxSmall,
     ...alignment.MTsmall,
     ...alignment.MBsmall
   },
   priceContainer: {
-    width: '30%',
+    width: '25%',
     justifyContent: 'center',
     ...alignment.MTsmall,
     ...alignment.MBsmall

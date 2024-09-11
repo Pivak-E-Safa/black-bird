@@ -154,7 +154,7 @@ function Restaurant(props) {
         { cancelable: false }
       )
     }
-  }, [data])
+  }, []) // TODO: Should we pass data here? It was causing an infite loop I guess
 
   const isOpen = () => {
     if (data.restaurant.openingTimes.length < 1) return false
@@ -591,71 +591,111 @@ function Restaurant(props) {
                 </TextDefault>
               )
             }}
-            renderItem={({ section: { addons }, item, index }) => (
-              <TouchableOpacity
-                style={styles(currentTheme).dealSection}
-                activeOpacity={0.7}
-                // Link here screen iwth itemDetail screen by passing food as parameter.
-                onPress={() =>
-                  onPressItem({
-                    ...item,
-                    restaurant: restaurant.id,
-                    restaurantName: restaurant.name,
-                    addons: addons,
-                  })
-                }>
-                <View style={styles().deal}>
-                  <View style={styles().flex}>
-                    <TextDefault
-                      textColor={currentTheme.fontMainColor}
-                      style={{ ...alignment.MBxSmall }}
-                      numberOfLines={1}
-                      bolder>
-                      {item.title}
-                    </TextDefault>
-                    <View style={styles().dealDescription}>
-                      <TextDefault
-                        style={{ width: '100%' }}
-                        textColor={currentTheme.fontSecondColor}
-                        small>
-                        {item.description}
-                      </TextDefault>
-                      <View style={styles().dealPrice}>
-                        <TextDefault
-                          numberOfLines={1}
-                          textColor={currentTheme.fontMainColor}
-                          style={styles().priceText}
-                          small>
-                          {configuration.currencySymbol}{' '}
-                          {parseFloat(item.variations[0].price)}
-                        </TextDefault>
-                        {item.variations[0].discounted > 0 && (
-                          <TextDefault
-                            numberOfLines={1}
-                            textColor={currentTheme.fontSecondColor}
-                            style={styles().priceText}
-                            small
-                            lineOver>
-                            {configuration.currencySymbol}{' '}
-                            {(
-                              item.variations[0].price +
-                              item.variations[0].discounted
-                            )}
-                          </TextDefault>
+            renderItem={({ item, index, section }) => {
+              if (index % 2 === 0) {
+                const nextItem = section.data[index + 1];
+            
+                return (
+                  <View style={styles(currentTheme).rowContainer}>
+                    <TouchableOpacity
+                      style={[styles(currentTheme).dealSection, styles(currentTheme).column]}
+                      activeOpacity={0.7}
+                      onPress={() => onPressItem({ ...item, addons: section.addons })}
+                    >
+                      <View style={styles().deal}>
+                        {item.image && (
+                          <Image
+                            style={{ width: '100%', aspectRatio: 1 }}
+                            source={{ uri: item.image }}
+                          />
                         )}
+                        <View style={styles().flex}>
+                          <TextDefault
+                            textColor={currentTheme.fontMainColor}
+                            style={{ ...alignment.MBxSmall, paddingTop: 10 }}
+                            numberOfLines={1}
+                            bolder
+                          >
+                            {item.title}
+                          </TextDefault>
+                          <View style={styles().dealPrice}>
+                            <TextDefault
+                              numberOfLines={1}
+                              textColor={currentTheme.fontMainColor}
+                              style={styles().priceText}
+                              small
+                            >
+                              {configuration.currencySymbol} {parseFloat(item.variations[0].price)}
+                            </TextDefault>
+                            {item.variations[0].discounted > 0 && (
+                              <TextDefault
+                                numberOfLines={1}
+                                textColor={currentTheme.fontSecondColor}
+                                style={styles().priceText}
+                                small
+                                lineOver
+                              >
+                                {configuration.currencySymbol}{' '}
+                                {item.variations[0].price + item.variations[0].discounted}
+                              </TextDefault>
+                            )}
+                          </View>
+                        </View>
                       </View>
-                    </View>
+                    </TouchableOpacity>
+                    {nextItem && (
+                      <TouchableOpacity
+                        style={[styles(currentTheme).dealSection, styles(currentTheme).column]}
+                        activeOpacity={0.7}
+                        onPress={() => onPressItem({ ...nextItem, addons: section.addons })}
+                      >
+                        <View style={styles().deal}>
+                          {nextItem.image && (
+                            <Image
+                              style={{ width: '100%', aspectRatio: 1 }}
+                              source={{ uri: nextItem.image }}
+                            />
+                          )}
+                          <View style={styles().flex}>
+                            <TextDefault
+                              textColor={currentTheme.fontMainColor}
+                              style={{ ...alignment.MBxSmall, paddingTop: 10 }}
+                              numberOfLines={1}
+                              bolder
+                            >
+                              {nextItem.title}
+                            </TextDefault>
+                            <View style={styles().dealPrice}>
+                              <TextDefault
+                                numberOfLines={1}
+                                textColor={currentTheme.fontMainColor}
+                                style={styles().priceText}
+                                small
+                              >
+                                {configuration.currencySymbol} {parseFloat(nextItem.variations[0].price)}
+                              </TextDefault>
+                              {nextItem.variations[0].discounted > 0 && (
+                                <TextDefault
+                                  numberOfLines={1}
+                                  textColor={currentTheme.fontSecondColor}
+                                  style={styles().priceText}
+                                  small
+                                  lineOver
+                                >
+                                  {configuration.currencySymbol}{' '}
+                                  {nextItem.variations[0].price + nextItem.variations[0].discounted}
+                                </TextDefault>
+                              )}
+                            </View>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    )}
                   </View>
-                  {item.image ? (
-                    <Image
-                      style={{ height: scale(70), width: scale(70) }}
-                      source={{ uri: item.image }}
-                    />
-                  ) : null}
-                </View>
-                {tagCart(item.id)}
-              </TouchableOpacity>
-            )}
+                );
+              }
+              return null;
+            }}
           />
           {cartCount > 0 && (
             <View style={styles(currentTheme).buttonContainer}>

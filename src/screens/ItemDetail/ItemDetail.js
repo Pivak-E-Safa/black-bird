@@ -297,35 +297,37 @@ function ItemDetail(props) {
                 price={calculatePrice()}
                 desc={food.description}
               />
-              <View style={styles(currentTheme).line}></View>
               {food.variations.length > 1 && (
-                <View>
-                  <TitleComponent
-                    title="Select Variation"
-                    subTitle="Select one"
-                    status="Required"
-                  />
-                  <RadioComponent
-                    options={food.variations}
-                    selected={selectedVariation}
-                    onPress={onSelectVariation}
-                  />
-                </View>
+                <>
+                  <View style={styles(currentTheme).line}></View>
+                  <View>
+                    <TitleComponent
+                      title="Select Variation"
+                      subTitle="Select one"
+                      status="Required"
+                    />
+                    <RadioComponent
+                      options={food.variations}
+                      selected={selectedVariation}
+                      onPress={onSelectVariation}
+                    />
+                  </View>
+                </>
               )}
 
-              {selectedVariation.addons?.length > 1 && (
+              {/* {selectedVariation.addons?.length > 1 && (
                     <View>
                     <TitleComponent
                       title="Select Addons"
                       subTitle="Select multiple"
                       status="Optional"
                     />
-                    {/* <CheckComponent
+                    <CheckComponent
                       options={selectedVariation.addons}
                       onPress={onSelectOption.bind(this, selectedVariation.addons)}
-                    /> */}
+                    />
                   </View>
-              )}
+              )} */}
 
               {/* {selectedVariation?.addons?.map(addon => (
                 <View key={addon.id}>
@@ -344,7 +346,7 @@ function ItemDetail(props) {
                 </View>
               ))} */}
             </View>
-            <View style={styles(currentTheme).line}></View>
+            {/* <View style={styles(currentTheme).line}></View>
             <View style={{ width: '90%', alignSelf: 'center' }}>
               <TitleComponent
                 title="Special instructions"
@@ -365,7 +367,7 @@ function ItemDetail(props) {
                 errorColor={currentTheme.textErrorColor}
                 tintColor={currentTheme.iconColorPink}
               />
-            </View>
+            </View> */}
           </ScrollView>
         </KeyboardAvoidingView>
         <CartComponent onPress={onPressAddToCart} disabled={validateButton()} />

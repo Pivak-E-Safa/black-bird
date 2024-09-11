@@ -420,6 +420,7 @@ function Cart(props) {
     return cartData.map(food => {
       return {
         quantity: food.quantity,
+        title: food.title,
         variation: food.variation.title,
         price: food.variation.price,
         // addons: food.addons // TODO: handle add ons
