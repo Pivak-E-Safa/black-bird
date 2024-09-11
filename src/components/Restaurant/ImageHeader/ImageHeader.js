@@ -20,7 +20,7 @@ import TextError from '../../Text/TextError/TextError'
 import { textStyles } from '../../../utils/textStyles'
 
 const { height } = Dimensions.get('screen')
-const TOP_BAR_HEIGHT = height * 0.05
+const TOP_BAR_HEIGHT = height * 0.08
 const AnimatedIon = Animated.createAnimatedComponent(Ionicons)
 const AnimatedBorderless = Animated.createAnimatedComponent(BorderlessButton)
 
@@ -229,11 +229,10 @@ function ImageTextCenterHeader(props, ref) {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View
-              style={
-                props.selectedLabel === index
-                  ? styles(currentTheme).activeHeader
-                  : null
-              }>
+              style={[props.selectedLabel === index
+                ? styles(currentTheme).activeHeader
+                : null, { padding: scale(5) }]}
+              >
               <RectButton
                 activeOpacity={0.05}
                 rippleColor={currentTheme.rippleColor}
