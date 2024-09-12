@@ -10,12 +10,12 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import styles from './styles'
 import Analytics from '../../utils/analytics'
 const datas = [
-  {
-    title: 'titleFavourite',
-    icon: 'heart',
-    navigateTo: 'Favourite',
-    isAuth: true
-  },
+  // {
+  //   title: 'titleFavourite',
+  //   icon: 'heart',
+  //   navigateTo: 'Favourite',
+  //   isAuth: true
+  // },
   {
     title: 'titleOrders',
     icon: 'layers',
@@ -79,11 +79,11 @@ function SidebBar(props) {
             <View key={ind} style={styles().item}>
               <SideDrawerItems
                 onPress={async() => {
-                  // if (dataItem.isAuth && !isLoggedIn) {
-                  //   props.navigation.navigate('CreateAccount')
-                  // } else {
+                  if (dataItem.isAuth && !isLoggedIn) {
+                    props.navigation.navigate('CreateAccount')
+                  } else {
                     props.navigation.navigate(dataItem.navigateTo)
-                  // }
+                  }
                 }}
                 icon={dataItem.icon}
                 title={i18n.t(dataItem.title)}

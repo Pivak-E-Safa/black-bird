@@ -5,7 +5,8 @@ import { alignment } from '../../utils/alignment'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      backgroundColor: 'black'
     },
     screenBackground: {
       backgroundColor: props != null ? props.themeBackground : '#FFF'

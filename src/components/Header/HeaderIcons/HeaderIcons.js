@@ -158,9 +158,7 @@ function RightButton(props) {
         <View
           style={
             styles(
-              route.name === 'Main'
-                ? currentTheme.iconColorPink
-                : currentTheme.white
+              currentTheme.iconColorPink
             ).absoluteContainer
           }>
           <TextDefault

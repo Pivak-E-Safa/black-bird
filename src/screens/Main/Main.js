@@ -14,7 +14,8 @@ import {
   Animated,
   StatusBar,
   Platform,
-  RefreshControl
+  RefreshControl,
+  Image
 } from 'react-native'
 import { Modalize } from 'react-native-modalize'
 import {
@@ -68,6 +69,7 @@ function Main(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const { getCurrentLocation } = useLocation()
+  const gif = require('../../assets/GIF/home.gif');
 
   // Dummy data to replace backend connections
   // const dummyData = {
@@ -148,10 +150,11 @@ function Main(props) {
   const loading = false;
   const error = null;
   const mutationLoading = false;
+  const containerPaddingTop = 0; // TODO: See if this is making any issues
 
   const {
     onScroll /* Event handler */,
-    containerPaddingTop /* number */,
+    // containerPaddingTop /* number */,
     scrollIndicatorInsetTop /* number */,
     translateY
   } = useCollapsibleSubHeader()
@@ -381,7 +384,7 @@ function Main(props) {
   function loadingScreen() {
     return (
       <View style={styles(currentTheme).screenBackground}>
-        <Search search={''} setSearch={() => {}} />
+        {/* <Search search={''} setSearch={() => {}} /> */}
         <Placeholder
           Animation={props => (
             <Fade
@@ -475,10 +478,14 @@ function Main(props) {
     <>
       <SafeAreaView edges={['bottom', 'left', 'right']} style={styles().flex}>
         <View style={[styles().flex, styles(currentTheme).screenBackground]}>
-          <View style={styles().flex}>
-            <View style={styles().mainContentContainer}>
-              <View style={styles().flex}>
-                <Animated.FlatList
+          {/* <View style={styles().flex}> */}
+            {/* <View style={styles().mainContentContainer}> */}
+              {/* <View style={styles().flex}> */}
+              <Image
+                  source={gif}
+                  style={{width: '100%', height: '100%'}}
+                />
+                {/* <Animated.FlatList
                   contentInset={{ top: containerPaddingTop }}
                   contentContainerStyle={{
                     paddingTop: Platform.OS === 'ios' ? 0 : containerPaddingTop
@@ -508,13 +515,13 @@ function Main(props) {
                   }
                   data={search ? searchRestaurants(search) : restaurants}
                   renderItem={({ item }) => <Item item={item} />}
-                />
-                <CollapsibleSubHeaderAnimator translateY={translateY}>
+                /> */}
+                {/* <CollapsibleSubHeaderAnimator translateY={translateY}>
                   <Search setSearch={setSearch} search={search} />
-                </CollapsibleSubHeaderAnimator>
-              </View>
-            </View>
-          </View>
+                </CollapsibleSubHeaderAnimator> */}
+              {/* </View> */}
+            {/* </View> */}
+          {/* </View> */}
 
           <Modalize
             ref={modalRef}

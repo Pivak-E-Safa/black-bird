@@ -19,19 +19,20 @@ const styles = (props = null) =>
       },
       shadowOpacity: 0.3,
       shadowRadius: verticalScale(3),
-      height: scale(220),
-      width: '99%',
+      height: scale(320),
+      width: '100%',
       ...alignment.Psmall,
       ...alignment.MBsmall
     },
     imageContainer: {
       position: 'relative',
       alignItems: 'center',
-      height: '80%'
+      height: '100%',
     },
     img: {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      borderRadius: 10
     },
     overlayRestaurantContainer: {
       position: 'absolute',

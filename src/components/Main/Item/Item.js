@@ -70,10 +70,10 @@ function Item(props) {
             <Image
               resizeMode="cover"
               source={{ uri: item.image }}
-              style={styles().img}
+              style={[styles().img]}
             />
             <View style={styles().overlayRestaurantContainer}>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 activeOpacity={0}
                 disabled={loadingMutation}
                 style={styles(currentTheme).favOverlay}
@@ -89,7 +89,7 @@ function Item(props) {
                     color="black"
                   />
                 )}
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               {(!isAvailable || !isOpen()) && (
                 <View style={{ ...styles().featureOverlay, top: 40 }}>
                   <TextDefault
