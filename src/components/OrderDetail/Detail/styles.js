@@ -22,7 +22,7 @@ export default StyleSheet.create({
   }),
   chatButtonText: theme => ({
     color: theme.white,
-    fontFamily: fontStyles.MuseoSans500
+    fontFamily: fontStyles.FredokaLight
   }),
   shadowBox: theme => ({
     elevation: 1,

@@ -94,9 +94,9 @@ export default function App() {
   async function loadAppData() {
     await i18n.initAsync()
     await Font.loadAsync({
-      MuseoSans300: require('./src/assets/font/MuseoSans/MuseoSans300.ttf'),
-      MuseoSans500: require('./src/assets/font/MuseoSans/MuseoSans500.ttf'),
-      MuseoSans700: require('./src/assets/font/MuseoSans/MuseoSans700.ttf')
+      FredokaLight: require('./src/assets/font/Fredoka/Fredoka-Light.ttf'),
+      FredokaRegular: require('./src/assets/font/Fredoka/Fredoka-Regular.ttf'),
+      FredokaBold: require('./src/assets/font/Fredoka/Fredoka-Bold.ttf')
     })
     await permissionForPushNotificationsAsync()
     await getActiveLocation()

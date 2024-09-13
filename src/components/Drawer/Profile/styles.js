@@ -6,7 +6,7 @@ const styles = (props = null) =>
   StyleSheet.create({
     mainContainer: {
       flex: 1,
-      backgroundColor: props !== null ? props.headerBackground : 'transparent'
+      backgroundColor: props !== null ? 'props.headerBackground' : 'transparent'
     },
     logInContainer: {
       width: '100%',

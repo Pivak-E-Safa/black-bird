@@ -27,13 +27,13 @@ export const textStyles = {
     fontSize: scale(8)
   },
   Regular: {
-    fontFamily: fontStyles.MuseoSans300
+    fontFamily: fontStyles.FredokaLight
   },
   Bold: {
-    fontFamily: fontStyles.MuseoSans500
+    fontFamily: fontStyles.FredokaLight
   },
   Bolder: {
-    fontFamily: fontStyles.MuseoSans700
+    fontFamily: fontStyles.FredokaBold
   },
   Center: {
     textAlign: 'center'

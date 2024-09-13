@@ -75,24 +75,24 @@ const styles = (props = null) =>
     title: {
       color: props !== null ? props.statusSecondColor : 'grey',
       fontSize: verticalScale(16),
-      fontFamily: fontStyles.MuseoSans500
+      fontFamily: fontStyles.FredokaRegular
     },
     description: {
       color: props !== null ? props.fontMainColor : '#000',
       fontSize: verticalScale(18),
-      fontFamily: fontStyles.MuseoSans500,
+      fontFamily: fontStyles.FredokaRegular,
       marginTop: scale(2)
     },
     statusText: {
       color: props !== null ? props.statusSecondColor : 'grey',
       fontSize: verticalScale(13),
-      fontFamily: fontStyles.MuseoSans500,
+      fontFamily: fontStyles.FredokaRegular,
       marginBottom: scale(10)
     },
     timeText: {
       color: props !== null ? props.iconColorPink : 'red',
       fontSize: verticalScale(24),
-      fontFamily: fontStyles.MuseoSans300,
+      fontFamily: fontStyles.FredokaLight,
       marginLeft: -10
     },
     statusCircle: {

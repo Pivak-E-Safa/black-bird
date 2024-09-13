@@ -6,7 +6,7 @@ import { alignment } from '../../../utils/alignment'
 const styles = (props = null) =>
   StyleSheet.create({
     bodyStyleOne: {
-      fontFamily: fontStyles.MuseoSans500,
+      fontFamily: fontStyles.FredokaRegular,
       fontSize: scale(14),
       color: props != null ? props.fontMainColor : 'black'
     },

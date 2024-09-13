@@ -498,6 +498,7 @@ function Main(props) {
               selectedTextStyle={styles().text}
               activeColor={'rgba(0, 0, 0, 0.2)'}
               iconColor={'transparent'}
+              iconStyle={{width: 0}}
               dropdownStyle={styles.dropdownContent}
               maxHeight={150}
               value={selectedValue}

@@ -1,5 +1,5 @@
 export const fontStyles = {
-  MuseoSans300: 'MuseoSans300',
-  MuseoSans500: 'MuseoSans500',
-  MuseoSans700: 'MuseoSans700'
+  FredokaLight: 'FredokaLight',
+  FredokaRegular: 'FredokaRegular',
+  FredokaBold: 'FredokaBold',
 }

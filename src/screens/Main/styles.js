@@ -1,12 +1,13 @@
 import { scale } from '../../utils/scaling'
 import { StyleSheet } from 'react-native'
 import { alignment } from '../../utils/alignment'
+import { fontStyles } from '../../utils/fontStyles'
 
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
       flex: 1,
-      backgroundColor: 'black'
+      backgroundColor: props != null ? props.iconColorPink : 'black',
     },
     screenBackground: {
       backgroundColor: props != null ? props.themeBackground : '#FFF'
@@ -92,7 +93,7 @@ const styles = (props = null) =>
       top: 0,
       left: 0,
       right: 0,
-      bottom: '80%',
+      bottom: '85%',
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'transparent',
@@ -119,6 +120,8 @@ const styles = (props = null) =>
       fontSize: 18,
       alignItems: 'center', 
       textAlign: 'center',
+      width: '100%',
+      fontFamily: fontStyles.FredokaBold
     },
     placeholder: {
       color: 'rgba(255, 255, 255)', 
