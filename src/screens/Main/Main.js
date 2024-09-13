@@ -42,7 +42,6 @@ import TextError from '../../components/Text/TextError/TextError'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
-import navigationOptions from './navigationOptions'
 import TextDefault from '../../components/Text/TextDefault/TextDefault'
 import { LocationContext } from '../../context/Location'
 // import { ActiveOrdersAndSections } from '../../components/Main/ActiveOrdersAndSections'
@@ -75,80 +74,6 @@ function Main(props) {
   const [ restaurantsData, setRestaurantsData ] = useState([])
   const gif = require('../../assets/GIF/home.gif')
 
-  // Dummy data to replace backend connections
-  // const dummyData = {
-  //   nearByRestaurants: {
-  //     restaurants: [
-  //       {
-  //         id: '1',
-  //         name: 'Restaurant 1',
-  //         image: 'https://via.placeholder.com/150',
-  //         categories: [
-  //           { title: 'Category 1', foods: [{ title: 'Food 1' }] }
-  //         ],
-  //         options: [{ title: 'Option 1' }],
-  //         addons: [{ title: 'Addon 1' }],
-  //         reviewData: {
-  //           ratings: 4.5,
-  //           reviews: [
-  //             { id: 1, text: 'Great place!', rating: 5 },
-  //             { id: 2, text: 'Not bad', rating: 3 }
-  //           ]
-  //         },
-  //         deliveryTime: 30,
-  //         minimumOrder: 10,
-  //         isAvailable: true,
-  //         openingTimes: [
-  //           { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-  //           { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
-  //         ],
-  //       },
-  //       {
-  //         id: '2',
-  //         name: 'Restaurant 2',
-  //         image: 'https://via.placeholder.com/150',
-  //         categories: [
-  //           { title: 'Category 2', foods: [{ title: 'Food 2' }] }
-  //         ],
-  //         options: [{ title: 'Option 2' }],
-  //         addons: [{ title: 'Addon 2' }],
-  //         reviewData: {
-  //           ratings: 4.0,
-  //           reviews: [
-  //             { id: 1, text: 'Good food!', rating: 4 },
-  //             { id: 2, text: 'Could be better', rating: 3 }
-  //           ]
-  //         },
-  //         deliveryTime: 40,
-  //         minimumOrder: 15,
-  //         isAvailable: true,
-  //         openingTimes: [
-  //           {
-  //             day: 'Tuesday',
-  //             times: [
-  //               { startTime: [8, 0], endTime: [22, 0] }
-  //             ]
-  //           }
-  //         ]
-  //       }
-  //     ],
-  //     sections: [
-  //       {
-  //         id: '1',
-  //         title: 'Section 1',
-  //         restaurants: ['1', '2']
-  //       }
-  //     ]
-  //   }
-  // };
-
-  // Replace GraphQL query with dummy data
-  // const data = [{nearByRestaurants: []}];
   const refetch = () => {};
   const networkStatus = 7;
   const loading = false;
@@ -188,75 +113,12 @@ function Main(props) {
     getRestaurants();
   }, []);
 
-
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const restaurantsCollection = await firestore.collection('restaurants').get();
-
-  //       const restaurantsList = restaurantsCollection.docs.map(doc => ({
-  //         id: doc.id,
-  //         ...doc.data(),
-  //       }));
-  //       for (let restaurantDoc of restaurantsList) {
-  //         const categoriesSnapshot = await firestore.collection('restaurants/' + restaurantDoc.id + "/categories").get();
-  //         const openingTimesSnapshot = await firestore.collection('restaurants/' + restaurantDoc.id + "/openingTimes").get();
-  //         const categoriesList = categoriesSnapshot.docs.map(doc => ({
-  //           id: doc.id,
-  //           ...doc.data(),
-  //         }));
-  //         const openingTimesList = openingTimesSnapshot.docs.map(doc => ({
-  //           id: doc.id,
-  //           ...doc.data(),
-  //         }));
-
-  //         restaurantDoc.categories = categoriesList;
-  //         restaurantDoc.openingTimes = openingTimesList;
-
-  //       }
-
-  //       console.log('restaurantsList');
-  //       console.log('restaurantsList:', JSON.stringify(restaurantsList, null, 2));
-  //       // data.nearByRestaurants = {
-  //       //   restaurants: restaurantsList,
-  //       //   sections: [
-  //       //     {
-  //       //       id: '1',
-  //       //       title: 'Section 1',
-  //       //       restaurants: restaurantsList.map(restaurant => restaurant.id)
-  //       //     }
-  //       //   ]
-  //       // }
-
-  //       restaurants = restaurantsList;
-
-  //     } catch (error) {
-  //       console.error("Error fetching users: ", error);
-  //     } finally {
-  //       // setLoading(false);
-  //     }
-  //   };
-
-  //   fetchUsers();
-  // }, []);
-
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_MAIN)
     }
     Track()
   }, [])
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      navigationOptions({
-        horizontalLine: currentTheme.horizontalLine,
-        headerMenuBackground: currentTheme.iconColorPink,
-        fontMainColor: currentTheme.themeBackground,
-        iconColorPink: currentTheme.themeBackground,
-        open: onOpen
-      })
-    )
-  }, [navigation, currentTheme])
 
   const onOpen = () => {
     const modal = modalRef.current
@@ -266,7 +128,7 @@ function Main(props) {
   }
 
   function onEnter() {
-    navigation.navigate('Restaurant', { id: selectedValue });
+    navigation.navigate('RestaurantDetails', { id: selectedValue });
   }
 
   function onError(error) {

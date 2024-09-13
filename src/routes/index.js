@@ -32,6 +32,7 @@ import HelpBrowser from '../screens/HelpBrowser/HelpBrowser'
 import Coupon from '../screens/Coupon/Coupon'
 import Main from '../screens/Main/Main'
 import Restaurant from '../screens/Restaurant/Restaurant'
+import RestaurantDetails from '../screens/RestaurantDetails/RestaurantDetails'
 import About from '../screens/About'
 import SelectLocation from '../screens/SelectLocation'
 import CurrentLocation from '../screens/CurrentLocation'
@@ -81,10 +82,15 @@ function NoDrawer() {
         textColor: currentTheme.headerText,
         iconColor: currentTheme.iconColorPink
       })}>
-      <NavigationStack.Screen name="Main" component={Main} />
+      <NavigationStack.Screen name="Main" component={Main} options={{ header: () => null }}/>
       <NavigationStack.Screen
         name="Restaurant"
         component={Restaurant}
+        options={{ header: () => null }}
+      />
+      <NavigationStack.Screen
+        name="RestaurantDetails"
+        component={RestaurantDetails}
         options={{ header: () => null }}
       />
       {<NavigationStack.Screen name="ItemDetail" component={ItemDetail} />}
