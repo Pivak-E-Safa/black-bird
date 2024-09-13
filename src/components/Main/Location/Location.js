@@ -10,7 +10,7 @@ function Location(props) {
     <View style={styles.headerTitleContainer}>
       <View style={styles.headerContainer}>
         <TextDefault
-          textColor={props.style.color}
+          textColor={props.fontMainColor}
           style={{ minWidth: '25%' }}
           right>
           Deliver to:
