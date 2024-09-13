@@ -497,8 +497,8 @@ function Main(props) {
               placeholderStyle={styles().placeholder}
               selectedTextStyle={styles().text}
               activeColor={'rgba(0, 0, 0, 0.2)'}
-              iconColor={'transparent'}
-              iconStyle={{width: 0}}
+              iconColor={'rgba(255, 255, 255, 10)'}
+              iconStyle={{}}
               dropdownStyle={styles.dropdownContent}
               maxHeight={150}
               value={selectedValue}

@@ -7,7 +7,7 @@ const styles = (props = null) =>
   StyleSheet.create({
     flex: {
       flex: 1,
-      backgroundColor: props != null ? props.iconColorPink : 'black',
+      backgroundColor: props != null ? props.iconColorPink : '#FF8C00',
     },
     screenBackground: {
       backgroundColor: props != null ? props.themeBackground : '#FFF'
@@ -99,18 +99,18 @@ const styles = (props = null) =>
       backgroundColor: 'transparent',
     },
     dropdown: {
-      width: 200,
+      width: 160,
       height: 40,
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
-      borderColor: 'rgba(0, 0, 0, 0.2)', 
-      borderWidth: 0.5,
-      borderRadius: 8,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
       shadowRadius: 4,
       elevation: 5,
       paddingHorizontal: 10,
+      backgroundColor: 'transparent', // Transparent background
+      borderColor: '#FFA500', // Orange border color
+      borderWidth: 1, // Slightly thicker border for better visibility
+      borderRadius: 8,
+      shadowColor: '#000', // Orange shadow color
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.7, // Adjust shadow opacity for better 3D effect
     },
     dropdownContent: {
       backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -128,7 +128,7 @@ const styles = (props = null) =>
     },
     fingerPrintButton: {
       position: 'absolute', 
-      top: '65%', 
+      top: '70%', 
       left: 0,
       right: 0,
       bottom: 0,
