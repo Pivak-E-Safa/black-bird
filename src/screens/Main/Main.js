@@ -52,6 +52,7 @@ import Analytics from '../../utils/analytics'
 import { fetchRestaurantList } from '../../firebase/restaurants'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Dropdown } from 'react-native-element-dropdown'
+import { fontStyles } from '../../utils/fontStyles'
 
 // const RESTAURANTS = gql`
 //   ${restaurantList}
@@ -496,16 +497,16 @@ function Main(props) {
               placeholder="Select City"
               placeholderStyle={styles().placeholder}
               selectedTextStyle={styles().text}
-              activeColor={'rgba(0, 0, 0, 0.2)'}
+              activeColor={'rgb(255, 140, 0, 0.9)'}
               iconColor={'rgba(255, 255, 255, 10)'}
               iconStyle={{}}
               dropdownStyle={styles.dropdownContent}
               maxHeight={150}
               value={selectedValue}
               itemContainerStyle={{height: 50, justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}
-              itemTextStyle={{color: 'white', fontSize: 14, alignItems: 'center', textAlign: 'center'}}
+              itemTextStyle={{color: 'white', fontSize: 14, alignItems: 'center', textAlign: 'center', fontFamily: fontStyles.FredokaBold}}
               containerStyle={{
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                backgroundColor: 'rgba(255, 140, 0, 0.9)',
                 borderWidth: 0,
                 borderRadius: 8,
               }}

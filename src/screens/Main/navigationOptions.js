@@ -1,5 +1,8 @@
 /* eslint-disable react/display-name */
 import React from 'react'
+import {
+  View
+} from 'react-native'
 import { LeftButton } from '../../components/Header/HeaderIcons/HeaderIcons'
 import SelectedLocation from '../../components/Main/Location/Location'
 import { alignment } from '../../utils/alignment'
@@ -8,17 +11,12 @@ const navigationOptions = props => ({
   headerStyle: {
     backgroundColor: props.headerMenuBackground,
     borderBottomColor: props.headerMenuBackground,
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
+    width: 0,
+    height: 0
   },
-  headerTitleStyle: {
-    color: props.fontMainColor
-  },
-  headerTitleContainerStyle: {
-    alignItems: 'flex-start',
-    ...alignment.MLxSmall
-  },
-  headerTitleAlign: 'left',
-  headerLeft: () => <LeftButton iconColor={'rgba(0, 0, 0, 0.5)'} />,
-  headerTitle: headerProp => (<></>)
+  headerLeft: () => <View/>,
+  headerTitle: headerProp => (<></>
+)
 })
 export default navigationOptions

@@ -93,7 +93,7 @@ const styles = (props = null) =>
       top: 0,
       left: 0,
       right: 0,
-      bottom: '85%',
+      bottom: '75%',
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'transparent',
@@ -104,13 +104,13 @@ const styles = (props = null) =>
       shadowRadius: 4,
       elevation: 5,
       paddingHorizontal: 10,
-      backgroundColor: 'transparent', // Transparent background
+      backgroundColor: '#FF8C00', // Transparent background
       borderColor: '#FFA500', // Orange border color
       borderWidth: 1, // Slightly thicker border for better visibility
       borderRadius: 8,
       shadowColor: '#000', // Orange shadow color
       shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.7, // Adjust shadow opacity for better 3D effect
+      shadowOpacity: 0.3, // Adjust shadow opacity for better 3D effect
     },
     dropdownContent: {
       backgroundColor: 'rgba(255, 255, 255, 0.2)',
