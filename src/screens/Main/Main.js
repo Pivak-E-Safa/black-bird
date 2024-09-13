@@ -49,8 +49,9 @@ import { LocationContext } from '../../context/Location'
 import { alignment } from '../../utils/alignment'
 import Spinner from '../../components/Spinner/Spinner'
 import Analytics from '../../utils/analytics'
-import { fetchRestaurantList } from '../../firebase/restaurants';
-
+import { fetchRestaurantList } from '../../firebase/restaurants'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { Dropdown } from 'react-native-element-dropdown'
 
 // const RESTAURANTS = gql`
 //   ${restaurantList}
@@ -69,7 +70,9 @@ function Main(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const { getCurrentLocation } = useLocation()
-  const gif = require('../../assets/GIF/home.gif');
+  const [selectedValue, setSelectedValue] = useState()
+  const [ restaurantsData, setRestaurantsData ] = useState([])
+  const gif = require('../../assets/GIF/home.gif')
 
   // Dummy data to replace backend connections
   // const dummyData = {
@@ -174,6 +177,8 @@ function Main(props) {
       try {
         const restaurantsList = await fetchRestaurantList();
         setRestaurants(restaurantsList);
+        setRestaurantsData(restaurantsList.map(restaurant => ({ id: restaurant.id, area: restaurant.area })));
+        setSelectedValue(restaurantsList[0].id);
       } catch (error) {
         console.error('Error fetching restaurants:', error);
       }
@@ -224,7 +229,6 @@ function Main(props) {
 
   //       restaurants = restaurantsList;
 
-
   //     } catch (error) {
   //       console.error("Error fetching users: ", error);
   //     } finally {
@@ -235,9 +239,6 @@ function Main(props) {
   //   fetchUsers();
   // }, []);
 
-
-
-
   useEffect(() => {
     async function Track() {
       await Analytics.track(Analytics.events.NAVIGATE_TO_MAIN)
@@ -247,10 +248,10 @@ function Main(props) {
   useLayoutEffect(() => {
     navigation.setOptions(
       navigationOptions({
-        headerMenuBackground: currentTheme.headerMenuBackground,
         horizontalLine: currentTheme.horizontalLine,
-        fontMainColor: currentTheme.fontMainColor,
-        iconColorPink: currentTheme.iconColorPink,
+        headerMenuBackground: currentTheme.iconColorPink,
+        fontMainColor: currentTheme.themeBackground,
+        iconColorPink: currentTheme.themeBackground,
         open: onOpen
       })
     )
@@ -261,6 +262,10 @@ function Main(props) {
     if (modal) {
       modal.open()
     }
+  }
+
+  function onEnter() {
+    navigation.navigate('Restaurant', { id: selectedValue });
   }
 
   function onError(error) {
@@ -479,13 +484,44 @@ function Main(props) {
       <SafeAreaView edges={['bottom', 'left', 'right']} style={styles().flex}>
         <View style={[styles().flex, styles(currentTheme).screenBackground]}>
           {/* <View style={styles().flex}> */}
-            {/* <View style={styles().mainContentContainer}> */}
-              {/* <View style={styles().flex}> */}
-              <Image
-                  source={gif}
-                  style={{width: '100%', height: '100%'}}
-                />
-                {/* <Animated.FlatList
+          {/* <View style={styles().mainContentContainer}> */}
+          {/* <View style={styles().flex}> */}
+          <Image source={gif} style={{ width: '100%', height: '100%' }} />
+          <View style={styles().dropdownContainer}>
+            <Dropdown
+              style={styles().dropdown}
+              data={restaurantsData}
+              labelField="area"
+              valueField="id"
+              placeholder="Select City"
+              placeholderStyle={styles().placeholder}
+              selectedTextStyle={styles().text}
+              activeColor={'rgba(0, 0, 0, 0.2)'}
+              iconColor={'transparent'}
+              dropdownStyle={styles.dropdownContent}
+              maxHeight={150}
+              value={selectedValue}
+              itemContainerStyle={{height: 50, justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}
+              itemTextStyle={{color: 'white', fontSize: 14, alignItems: 'center', textAlign: 'center'}}
+              containerStyle={{
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                borderWidth: 0,
+                borderRadius: 8,
+              }}
+              onChange={item => setSelectedValue(item.id)}
+              showArrow={false}
+            />
+          </View>
+          <TouchableOpacity style={styles().fingerPrintButton} onPress={onEnter}>
+            <Ionicons
+              name="finger-print"
+              size={70}
+              color="#000"
+              style={styles().fingerPrint}
+              // style={{ position: 'absolute', top: -120, left: '43%' }}
+            />
+          </TouchableOpacity>
+          {/* <Animated.FlatList
                   contentInset={{ top: containerPaddingTop }}
                   contentContainerStyle={{
                     paddingTop: Platform.OS === 'ios' ? 0 : containerPaddingTop
@@ -516,11 +552,11 @@ function Main(props) {
                   data={search ? searchRestaurants(search) : restaurants}
                   renderItem={({ item }) => <Item item={item} />}
                 /> */}
-                {/* <CollapsibleSubHeaderAnimator translateY={translateY}>
+          {/* <CollapsibleSubHeaderAnimator translateY={translateY}>
                   <Search setSearch={setSearch} search={search} />
                 </CollapsibleSubHeaderAnimator> */}
-              {/* </View> */}
-            {/* </View> */}
+          {/* </View> */}
+          {/* </View> */}
           {/* </View> */}
 
           <Modalize
@@ -573,12 +609,12 @@ function Main(props) {
                       !['Current Location', 'Selected Location'].includes(
                         location.label
                       ) && (
-                      <MaterialIcons
-                        name="check"
-                        size={scale(15)}
-                        color={currentTheme.iconColorPink}
-                      />
-                    )}
+                        <MaterialIcons
+                          name="check"
+                          size={scale(15)}
+                          color={currentTheme.iconColorPink}
+                        />
+                      )}
                   </View>
                 </View>
               )
@@ -590,8 +626,6 @@ function Main(props) {
 }
 
 export default Main
-
-
 
 // /* eslint-disable react/display-name */
 // import React, {

@@ -220,7 +220,7 @@ function RightButton(props) {
     return (
       <View
         style={[cartCount < 1 && alignment.PRxSmall, { flexDirection: 'row' }]}>
-        <HeaderBackButton
+        {/* <HeaderBackButton
           pressColorAndroid={route.name === 'Main' && rippleColor}
           labelVisible={false}
           backImage={() => (
@@ -234,7 +234,7 @@ function RightButton(props) {
             //   : navigation.navigate('CreateAccount')
             navigation.navigate('Favourite')
           }
-        />
+        /> */}
         {cartCount > 0 && (
           <HeaderBackButton
             pressColorAndroid={route.name === 'Main' && rippleColor}

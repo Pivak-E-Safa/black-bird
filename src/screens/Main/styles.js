@@ -34,8 +34,8 @@ const styles = (props = null) =>
     },
     addressContainer: {
       width: '100%',
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: props != null ? props.horizontalLine : 'grey',
+      borderBottomWidth: 0,
+      borderBottomColor: props != null ? props.iconColorPink : 'transparent',
       ...alignment.PTmedium,
       ...alignment.PBmedium
     },
@@ -86,6 +86,51 @@ const styles = (props = null) =>
     },
     placeHolderFadeColor: {
       backgroundColor: props != null ? props.fontSecondColor : '#B8B8B8'
+    },
+    dropdownContainer: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: '80%',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'transparent',
+    },
+    dropdown: {
+      width: 200,
+      height: 40,
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+      borderColor: 'rgba(0, 0, 0, 0.2)', 
+      borderWidth: 0.5,
+      borderRadius: 8,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      elevation: 5,
+      paddingHorizontal: 10,
+    },
+    dropdownContent: {
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    },
+    text: {
+      color: 'rgba(255, 255, 255, 10)',
+      fontSize: 18,
+      alignItems: 'center', 
+      textAlign: 'center',
+    },
+    placeholder: {
+      color: 'rgba(255, 255, 255)', 
+    },
+    fingerPrintButton: {
+      position: 'absolute', 
+      top: '65%', 
+      left: 0,
+      right: 0,
+      bottom: 0,
+      justifyContent: 'center',
+      alignItems: 'center', 
     }
   })
 export default styles

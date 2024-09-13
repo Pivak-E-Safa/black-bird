@@ -88,7 +88,10 @@ function Restaurant(props) {
   // const { data, refetch, networkStatus, loading, error } = useRestaurant(
   //   propsData.id
   // )
-  const restaurantId = props.route.params.item.id;
+  const restaurantId = props.route.params.id;
+  console.log('restaurantId');
+  console.log(props.route.params);
+  console.log(restaurantId);
 
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
