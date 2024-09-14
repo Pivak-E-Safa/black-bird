@@ -16,6 +16,7 @@ function TextDefault(props) {
   if (props.bolder) customStyles.push(textStyles.Bolder)
   if (props.center) customStyles.push(textStyles.Center)
   if (props.right) customStyles.push(textStyles.Right)
+  if (props.left) customStyles.push(textStyles.Left)
   if (props.small) customStyles.push(textStyles.Small)
   if (props.smaller) customStyles.push(textStyles.Smaller)
   if (props.H5) customStyles.push(textStyles.H5)

@@ -31,6 +31,7 @@ import {
 } from 'rn-placeholder'
 import { fetchRestaurantDetails } from '../../firebase/restaurants';
 import ImageHeader from '../../components/RestaurantDetails/ImageHeader'
+import ImageSlider from '../../components/RestaurantDetails/ImageSlider'
 import TextDefault from '../../components/Text/TextDefault/TextDefault'
 import ConfigurationContext from '../../context/Configuration'
 import UserContext from '../../context/User'
@@ -47,7 +48,7 @@ import Analytics from '../../utils/analytics'
 const { height } = Dimensions.get('screen')
 // Animated Section List component
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
-const HEADER_MAX_HEIGHT = height * 0.25
+const HEADER_MAX_HEIGHT = height * 0.3
 const HEADER_MIN_HEIGHT = height * 0.07
 const SCROLL_RANGE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT
 const HALF_HEADER_SCROLL = HEADER_MAX_HEIGHT
@@ -69,6 +70,13 @@ function RestaurantDetails(props) {
   const circle = useValue(0)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
+  const menuImage = require('../../assets/JPG/menu.jpg')
+  const restaurantImages = [
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkRWxZPsEMaQe5OY7M0arhmU2suQIyTPLRPFFpHFk28UIhfq7hH8MFFd0C&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqZsmpI5Q_mq9x5t-ClmAVZH3AnnheX8V7dr9au1I-7UQ8P6s4Zz50eBlp&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_avQMDXWUSzpclsR4rPOjzdloERb7OMhmkrvAKQCU28Mds5dFglCEJQA&s=10',
+  ];
+
 
   const configuration = useContext(ConfigurationContext)
   const [selectedLabel, selectedLabelSetter] = useState(0);
@@ -291,39 +299,6 @@ function RestaurantDetails(props) {
       scrollToNavbar(viewableItems[0].section.index)
     }
   }
-  const onScrollEndSnapToEdge = event => {
-    const y = event.nativeEvent.contentOffset.y
-    if (y > 0 && y < HALF_HEADER_SCROLL / 2) {
-      if (scrollRef.current) {
-        timing(animation, config(0)).start(({ finished }) => {
-          if (finished) {
-            scrollRef.current.scrollToLocation({
-              animated: false,
-              sectionIndex: 0,
-              itemIndex: 0,
-              viewOffset: HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
-              viewPosition: 0
-            })
-          }
-        })
-      }
-    } else if (HALF_HEADER_SCROLL / 2 <= y && y < HALF_HEADER_SCROLL) {
-      if (scrollRef.current) {
-        timing(animation, config(SCROLL_RANGE)).start(({ finished }) => {
-          if (finished) {
-            scrollRef.current.scrollToLocation({
-              animated: false,
-              sectionIndex: 0,
-              itemIndex: 0,
-              viewOffset: -(HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT),
-              viewPosition: 0
-            })
-          }
-        })
-      }
-    }
-    buttonClickedSetter(false)
-  }
 
   // Important
   const headerHeight = interpolateNode(animation, {
@@ -403,6 +378,8 @@ function RestaurantDetails(props) {
           loading={loading}
         />
 
+        {/* <ImageSlider           
+          images={restaurantImages} />  */}
         <View
           style={[
             styles().navbarContainer,
@@ -463,14 +440,40 @@ function RestaurantDetails(props) {
             changeIndex={changeIndex}
             selectedLabel={selectedLabel}
           />
+          <ImageSlider  
+            marginTop={HEADER_MAX_HEIGHT}
+            images={restaurantImages} 
+          /> 
 
 
+          <View style={styles().bottomContainerParent}>
+            <View style={[ styles().card, styles().menu]}>
+            <Animated.Image
+              resizeMode="cover"
+              source={menuImage}
+              style={[
+                styles().flex,
+                {
+                  opacity: props.opacity,
+                  borderRadius: 10,
+                  width: '100%',
+                  height: 'auto'
+                }
+              ]}
+            />
+
+            </View>
+            <View style={styles().bottomContainerChild}>
+              <View style={[ styles().card, styles().categories]}>
+
+              </View>
+              <View style={[ styles().card, styles().about]}>
+
+              </View>
+            </View>
+          </View>
 
 
-
-
-          
-          
           {cartCount > 0 && (
             <View style={styles(currentTheme).buttonContainer}>
               <TouchableOpacity

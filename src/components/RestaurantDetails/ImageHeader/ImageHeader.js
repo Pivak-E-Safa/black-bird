@@ -1,24 +1,18 @@
 import React, { useContext } from 'react'
-import { Image, View, Dimensions } from 'react-native'
-import { MaterialIcons, Ionicons } from '@expo/vector-icons'
-import { scale, verticalScale } from '../../../utils/scaling'
+import { View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import styles from './styles'
-import TextDefault from '../../Text/TextDefault/TextDefault'
 import ThemeContext from '../../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../../utils/themeColors'
 import { useNavigation } from '@react-navigation/native'
 import { DAYS } from '../../../utils/enums'
 import Animated from 'react-native-reanimated'
-import { HeaderBackButton } from '@react-navigation/elements'
+import TextDefault from '../../Text/TextDefault/TextDefault'
+import { alignment } from '../../../utils/alignment'
 import {
   BorderlessButton,
-  FlatList,
-  RectButton,
   TouchableOpacity
 } from 'react-native-gesture-handler'
-import { alignment } from '../../../utils/alignment'
-import TextError from '../../Text/TextError/TextError'
-import { textStyles } from '../../../utils/textStyles'
 
 const AnimatedIon = Animated.createAnimatedComponent(Ionicons)
 const AnimatedBorderless = Animated.createAnimatedComponent(BorderlessButton)
@@ -27,6 +21,8 @@ function ImageTextCenterHeader(props, ref) {
   const navigation = useNavigation()
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
+  const detailsImage = require('../../../assets/JPG/restaurant-detail.jpg')
+  const customerName = 'Ghazwa';
 
   const aboutObject = {
     latitude: props.restaurant ? props.restaurant.location.latitude : '',
@@ -69,12 +65,19 @@ function ImageTextCenterHeader(props, ref) {
             : currentTheme.headerBackground
         }
       ]}>
-      <Animated.View
-        style={{ height: props.height }}>
+      <Animated.View style={{ height: props.height }}>
         <Animated.Image
           resizeMode="cover"
-          source={{ uri: aboutObject.restaurantImage }}
-          style={[styles().flex, { opacity: props.opacity, borderRadius: 10 }]}
+          source={detailsImage}
+          style={[
+            styles().flex,
+            {
+              opacity: props.opacity,
+              borderRadius: 10,
+              width: '100%',
+              height: 'auto'
+            }
+          ]}
         />
         <Animated.View style={styles().overlayContainer}>
           <View style={styles().fixedViewNavigation}>
@@ -97,68 +100,34 @@ function ImageTextCenterHeader(props, ref) {
                   size={16}
                   style={styles().leftIconPadding}
                   color={props.iconColor}
-              />   
+                />
               </AnimatedBorderless>
-              {/* <Animated.Text
-                numberOfLines={1}
-                style={[
-                  styles(currentTheme).headerTitle,
-                  {
-                    opacity: Animated.sub(1, props.opacity),
-                    marginBottom: props.headerTextFlex
-                  }
-                ]}>
-                Delivery {aboutObject.deliveryTime} Minute{' '}
-              </Animated.Text> */}
-              {!props.loading && (
-                <AnimatedBorderless
-                  activeOpacity={0.7}
-                  rippleColor={currentTheme.rippleColor}
-                  style={[
-                    styles().touchArea,
-                    {
-                      backgroundColor: props.iconBackColor,
-                      borderRadius: props.iconRadius,
-                      height: props.iconTouchHeight,
-                      width: props.iconTouchWidth
-                    }
-                  ]}
-                  onPress={() => {
-                    navigation.navigate('About', {
-                      restaurantObject: {
-                        ...aboutObject,
-                        isOpen: null
-                      },
-                      tab: true
-                    })
-                  }}>
-                  <AnimatedIon
-                    name="ios-information-circle-outline"
-                    style={{
-                      color: props.iconColor,
-                      fontSize: props.iconSize
-                    }}
-                  />
-                </AnimatedBorderless>
-              )}
+              <Animated.View
+                style={[styles().fixedView, { opacity: props.opacity }]}>
+                <View style={[styles().fixedText, styles().message]}>
+                  <TextDefault
+                    bolder
+                    H4
+                    textColor={currentTheme.fontWhite}>
+                    {`Welcome ${customerName},`}
+                  </TextDefault>
+                  <TextDefault
+                    H5
+                    textColor={currentTheme.fontWhite}>
+                    {"Got an Umbrella?"}
+                  </TextDefault>
+                  <TextDefault
+                    H5
+                    textColor={currentTheme.fontWhite}>
+                    {"'cause it's about to rain cheese!"}
+                  </TextDefault>
+                </View>
+              </Animated.View>
             </View>
           </View>
           <Animated.View
             style={[styles().fixedView, { opacity: props.opacity }]}>
             <View style={styles().fixedText}>
-              {/* <TextDefault H4 bolder Center textColor={currentTheme.fontWhite}>
-                {aboutObject.restaurantName}
-              </TextDefault> */}
-              {/* {!props.loading && (
-                <View style={styles(currentTheme).deliveryBox}>
-                  <TextDefault
-                    style={[alignment.PRxSmall, alignment.PLxSmall]}
-                    textColor="white"
-                    bold>
-                    Delivery {aboutObject.deliveryTime} Minute
-                  </TextDefault>
-                </View>
-              )} */}
               {!props.loading && (
                 <TouchableOpacity
                   activeOpacity={0.7}
@@ -168,8 +137,7 @@ function ImageTextCenterHeader(props, ref) {
                       restaurantObject: { ...aboutObject, isOpen: null },
                       tab: false
                     })
-                  }}>
-                </TouchableOpacity>
+                  }}></TouchableOpacity>
               )}
             </View>
           </Animated.View>

@@ -52,7 +52,19 @@ const styles = (props = null) =>
     },
     fixedText: {
       width: '100%',
-      alignItems: 'center'
+      alignItems: 'left',
+      top: "90%",
+      // justifyContent: 'bottom',
+      // flex: 1, // Ensures the container takes up the full space
+      justifyContent: 'flex-end', // Aligns content at the bottom
+      // alignItems: 'flex-start', // Aligns content to the left
+      padding: 10 // Optional, adds padding if needed
+
+    },
+    message: {
+      textAlign: 'left',
+      top: 170,
+      left: -40
     },
     deliveryBox: {
       color: props != null ? props.fontWhite : 'white',

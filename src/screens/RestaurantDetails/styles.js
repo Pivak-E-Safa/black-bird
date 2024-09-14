@@ -77,6 +77,11 @@ const styles = (props = null) =>
       height: scale(15),
       backgroundColor: props != null ? props.themeBackground : 'white'
     },
+    sliderContainer: {
+      position: 'relative',
+      display: 'block',
+      width: '100%',
+    },
     buttonContainer: {
       position: 'absolute',
       bottom: 0,
@@ -139,6 +144,43 @@ const styles = (props = null) =>
       top: 1,
       right: 0,
       textAlign: 'center'
-    }
+    },
+    bottomContainerParent: {
+      display: 'flex',
+      flexDirection: 'row',
+      height: '40%',
+      ...alignment.PLsmall,
+      ...alignment.PRsmall,
+    },
+    menu: {
+      width: '50%',
+      paddingRight: 5
+    },
+
+    categories: {
+      height: '60%',
+      backgroundColor: 'green',
+      paddingBottom: 5
+    },
+    about: {
+      height: '40%',
+      backgroundColor: 'gray',
+      paddingTop: 5
+    },
+    bottomContainerChild: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '50%',
+      height: '100%',
+      paddingLeft: 5
+
+    },
+    card: {
+      width: '100%',
+      height: '100%',
+      borderColor: 'black',
+      borderWidth: 2,
+      borderRadius: 10
+    },
   })
 export default styles
