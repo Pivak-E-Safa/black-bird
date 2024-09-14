@@ -2,6 +2,7 @@ import { scale, verticalScale } from '../../utils/scaling'
 import { StyleSheet } from 'react-native'
 import { alignment } from '../../utils/alignment'
 import { textStyles } from '../../utils/textStyles'
+import { fontStyles } from '../../utils/fontStyles'
 
 const styles = (props = null) =>
   StyleSheet.create({
@@ -156,16 +157,35 @@ const styles = (props = null) =>
       width: '50%',
       paddingRight: 5
     },
-
-    categories: {
-      height: '60%',
-      backgroundColor: 'green',
-      paddingBottom: 5
+    video: {
+      backgroundColor: '#EC1E24',
+      marginBottom: 5,
+      flex: 1,
+    },
+    videoText: {
+      color: 'white',
+      fontSize: 22,
+      fontFamily: fontStyles.FredokaBold,
+      textAlign: 'center',
+      marginTop: 15
+    },
+    menuText: {
+      position: 'absolute',
+      color: 'white',
+      fontSize: 25,
+      fontFamily: fontStyles.FredokaBold,
+      textAlign: 'center',
+      marginTop: 60,
+      marginLeft: '27%'
+    },
+    videoIcon: {
+      textAlign: 'center',
+      paddingTop: 10
     },
     about: {
-      height: '40%',
-      backgroundColor: 'gray',
-      paddingTop: 5
+      backgroundColor: '#4BB653',
+      marginTop: 5,
+      flex: 1,
     },
     bottomContainerChild: {
       display: 'flex',
@@ -173,12 +193,28 @@ const styles = (props = null) =>
       width: '50%',
       height: '100%',
       paddingLeft: 5
-
+    },
+    socialContainer: {
+      flexDirection: 'column',  // Stack rows vertically
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 7,
+    },
+    row: {
+      flexDirection: 'row',    // Display items in a row
+      justifyContent: 'space-around',  // Space between icons
+      alignItems: 'center',
+      marginBottom: 15,         // Add margin between rows
+    },
+    iconWrapper: {
+      marginHorizontal: 10,     // Add some horizontal space between icons
+    },
+    socialIcon: {
+      height: 30
     },
     card: {
       width: '100%',
       height: '100%',
-      borderColor: 'black',
       borderWidth: 2,
       borderRadius: 10
     },

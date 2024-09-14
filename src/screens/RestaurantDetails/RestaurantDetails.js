@@ -3,6 +3,7 @@ import {
   useNavigation,
   useRoute
 } from '@react-navigation/native'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
   View,
@@ -12,7 +13,8 @@ import {
   Platform,
   Image,
   Dimensions,
-  SectionList
+  SectionList,
+  Linking
 } from 'react-native'
 import Animated, {
   Extrapolate,
@@ -29,7 +31,7 @@ import {
   PlaceholderLine,
   Fade
 } from 'rn-placeholder'
-import { fetchRestaurantDetails } from '../../firebase/restaurants';
+import { fetchRestaurantDetails } from '../../firebase/restaurants'
 import ImageHeader from '../../components/RestaurantDetails/ImageHeader'
 import ImageSlider from '../../components/RestaurantDetails/ImageSlider'
 import TextDefault from '../../components/Text/TextDefault/TextDefault'
@@ -74,14 +76,13 @@ function RestaurantDetails(props) {
   const restaurantImages = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkRWxZPsEMaQe5OY7M0arhmU2suQIyTPLRPFFpHFk28UIhfq7hH8MFFd0C&s=10',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqZsmpI5Q_mq9x5t-ClmAVZH3AnnheX8V7dr9au1I-7UQ8P6s4Zz50eBlp&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_avQMDXWUSzpclsR4rPOjzdloERb7OMhmkrvAKQCU28Mds5dFglCEJQA&s=10',
-  ];
-
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_avQMDXWUSzpclsR4rPOjzdloERb7OMhmkrvAKQCU28Mds5dFglCEJQA&s=10'
+  ]
 
   const configuration = useContext(ConfigurationContext)
-  const [selectedLabel, selectedLabelSetter] = useState(0);
-  const [data, setData] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [selectedLabel, selectedLabelSetter] = useState(0)
+  const [data, setData] = useState(0)
+  const [loading, setLoading] = useState(false)
   const [buttonClicked, buttonClickedSetter] = useState(false)
   const {
     restaurant: restaurantCart,
@@ -95,7 +96,7 @@ function RestaurantDetails(props) {
   // const { data, refetch, networkStatus, loading, error } = useRestaurant(
   //   propsData.id
   // )
-  const restaurantId = props.route.params.id;
+  const restaurantId = props.route.params.id
 
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
@@ -115,14 +116,14 @@ function RestaurantDetails(props) {
   useEffect(() => {
     const getRestaurantDetails = async () => {
       try {
-        const restaurantsList = await fetchRestaurantDetails(restaurantId);
-        setData( { restaurant: restaurantsList } );
+        const restaurantsList = await fetchRestaurantDetails(restaurantId)
+        setData({ restaurant: restaurantsList })
       } catch (error) {
-        console.error('Error fetching restaurants:', error);
+        console.error('Error fetching restaurants:', error)
       }
-    };
+    }
 
-    getRestaurantDetails();
+    getRestaurantDetails()
 
     if (
       data &&
@@ -317,13 +318,13 @@ function RestaurantDetails(props) {
   const iconBackColor = currentTheme.themeBackground
 
   const iconRadius = scale(15)
- 
+
   const iconSize = scale(20)
 
   const iconTouchHeight = scale(30)
 
   const iconTouchWidth = scale(30)
- 
+
   const headerTextFlex = concat(
     interpolateNode(animation, {
       inputRange: [0, 80, SCROLL_RANGE],
@@ -440,39 +441,129 @@ function RestaurantDetails(props) {
             changeIndex={changeIndex}
             selectedLabel={selectedLabel}
           />
-          <ImageSlider  
+          <ImageSlider
             marginTop={HEADER_MAX_HEIGHT}
-            images={restaurantImages} 
-          /> 
-
+            images={restaurantImages}
+          />
 
           <View style={styles().bottomContainerParent}>
-            <View style={[ styles().card, styles().menu]}>
-            <Animated.Image
-              resizeMode="cover"
-              source={menuImage}
-              style={[
-                styles().flex,
-                {
-                  opacity: props.opacity,
-                  borderRadius: 10,
-                  width: '100%',
-                  height: 'auto'
-                }
-              ]}
-            />
+            <TouchableOpacity
+              style={[styles().card, styles().menu]}
+              onPress={() =>
+                navigation.navigate('Restaurant', { id: restaurantId })
+              }>
+              <Animated.Image
+                resizeMode="cover"
+                source={menuImage}
+                style={[
+                  styles().flex,
+                  {
+                    opacity: props.opacity,
+                    borderRadius: 10,
+                    width: '100%',
+                    height: 'auto',
+                    borderWidth: 3, // Border width for the 3D effect
+                    borderColor: '#FFB300', // A slightly darker yellow or orange for the border
+                    borderRadius: 10, // Rounded corners
+                    shadowColor: '#000', // Shadow color
+                    shadowOffset: { width: 0, height: 4 }, // Shadow offset
+                    shadowOpacity: 0.6, // Shadow opacity
+                    shadowRadius: 9, // Shadow blur radius
+                    elevation: 6, // Elevation for Android shadow
+                  }
+                ]}
+              />
+               <Animated.Text style={[styles(currentTheme).menuText]}>
+                  {'MENU'}
+              </Animated.Text>
+            </TouchableOpacity>
 
-            </View>
             <View style={styles().bottomContainerChild}>
-              <View style={[ styles().card, styles().categories]}>
+              <TouchableOpacity
+                style={[styles().card, styles().video]}
+                onPress={() => Linking.openURL(restaurant.videoLink)}>
+                <Animated.Text style={[styles(currentTheme).videoText]}>
+                  {'SNEAK PEAK'}
+                </Animated.Text>
+                <Ionicons
+                  name="logo-youtube"
+                  size={70}
+                  color="white"
+                  style={[styles(currentTheme).videoIcon]}
+                />
+              </TouchableOpacity>
 
-              </View>
-              <View style={[ styles().card, styles().about]}>
+              <View style={[styles().card, styles().about]}>
+                <Animated.Text style={[styles(currentTheme).videoText]}>
+                  {'SOCIALS'}
+                </Animated.Text>
 
+                <View style={styles().socialContainer}>
+                  {/* First row */}
+                  <View style={styles().row}>
+                    {/* Instagram */}
+                    <TouchableOpacity
+                      style={styles().iconWrapper}
+                      onPress={() =>
+                        Linking.openURL(restaurant.instagram)
+                      }>
+                      <Ionicons
+                        name="logo-instagram"
+                        size={30}
+                        color="white"
+                        style={styles().socialIcon}
+                      />
+                    </TouchableOpacity>
+
+                    {/* Facebook */}
+                    <TouchableOpacity
+                      style={styles().iconWrapper}
+                      onPress={() =>
+                        Linking.openURL(restaurant.facebook)
+                      }>
+                      <Ionicons
+                        name="logo-facebook"
+                        size={30}
+                        color="white"
+                        style={styles().socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* Second row */}
+                  <View style={styles().row}>
+                    {/* Google Maps */}
+                    <TouchableOpacity
+                      style={styles().iconWrapper}
+                      onPress={() =>
+                        Linking.openURL(restaurant.googleMaps)
+                      }>
+                      <Ionicons
+                        name="location-outline"
+                        size={30}
+                        color="white"
+                        style={styles().socialIcon}
+                      />
+                    </TouchableOpacity>
+
+                    {/* WhatsApp */}
+                    <TouchableOpacity
+                      style={styles().iconWrapper}
+                      onPress={() =>
+                        Linking.openURL(restaurant.whatsapp)
+                      }>
+                      <Ionicons
+                        name="logo-whatsapp"
+                        size={30}
+                        color="white"
+                        style={styles().socialIcon}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
-
 
           {cartCount > 0 && (
             <View style={styles(currentTheme).buttonContainer}>
