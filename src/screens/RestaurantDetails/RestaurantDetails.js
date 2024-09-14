@@ -50,7 +50,7 @@ import Analytics from '../../utils/analytics'
 const { height } = Dimensions.get('screen')
 // Animated Section List component
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
-const HEADER_MAX_HEIGHT = height * 0.3
+const HEADER_MAX_HEIGHT = height * 0.28
 const HEADER_MIN_HEIGHT = height * 0.07
 const SCROLL_RANGE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT
 const HALF_HEADER_SCROLL = HEADER_MAX_HEIGHT
@@ -74,9 +74,10 @@ function RestaurantDetails(props) {
   const currentTheme = theme[themeContext.ThemeValue]
   const menuImage = require('../../assets/JPG/menu.jpg')
   const restaurantImages = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkRWxZPsEMaQe5OY7M0arhmU2suQIyTPLRPFFpHFk28UIhfq7hH8MFFd0C&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqZsmpI5Q_mq9x5t-ClmAVZH3AnnheX8V7dr9au1I-7UQ8P6s4Zz50eBlp&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_avQMDXWUSzpclsR4rPOjzdloERb7OMhmkrvAKQCU28Mds5dFglCEJQA&s=10'
+    require('../../assets/deals/deal1.jpg'),
+    require('../../assets/deals/deal2.jpg'),
+    require('../../assets/deals/deal3.jpg'),
+    require('../../assets/deals/deal4.jpg'),
   ]
 
   const configuration = useContext(ConfigurationContext)

@@ -149,7 +149,7 @@ const styles = (props = null) =>
     bottomContainerParent: {
       display: 'flex',
       flexDirection: 'row',
-      height: '40%',
+      height: '44%', // TODO: make this dynamic
       ...alignment.PLsmall,
       ...alignment.PRsmall,
     },
