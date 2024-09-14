@@ -33,7 +33,7 @@ LogBox.ignoreLogs([
 LogBox.ignoreAllLogs() // Ignore all log notifications
 
 // Default Theme
-const themeValue = 'Pink'
+const themeValue = 'Dark'
 const { SENTRY_DSN } = getEnvVars()
 const client = setupApolloClient()
 // Sentry.init({

@@ -52,7 +52,6 @@ const styles = (props = null) =>
     },
     fixedText: {
       width: '100%',
-      alignItems: 'left',
       top: "90%",
       // justifyContent: 'bottom',
       // flex: 1, // Ensures the container takes up the full space
