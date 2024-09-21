@@ -19,7 +19,6 @@ const ImageSlider = ({ images }) => {
           style={{
             width: width,
             height: 180,
-            right: 10,
             borderRadius: 10,
             flexGrow: 1,
             zIndex: -1,

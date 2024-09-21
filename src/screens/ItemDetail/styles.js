@@ -4,7 +4,8 @@ import { alignment } from '../../utils/alignment'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      backgroundColor: props != null ? props.buttonBackground : 'black'
     },
     mainContainer: {
       backgroundColor: props !== null ? props.themeBackground : '#fefefe'
@@ -14,7 +15,7 @@ const styles = (props = null) =>
       height: '100%'
     },
     subContainer: {
-      width: '90%',
+      width: '95%',
       alignSelf: 'center',
       ...alignment.PTsmall,
     },

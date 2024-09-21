@@ -37,7 +37,7 @@ const styles = (props = null) =>
     },
     btnContainer: {
       width: '60%',
-      height: '80%',
+      height: '85%',
       backgroundColor: props !== null ? props.horizontalLine : 'black',
       justifyContent: 'center',
       alignItems: 'center'

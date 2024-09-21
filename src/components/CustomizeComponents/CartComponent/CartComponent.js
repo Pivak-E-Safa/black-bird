@@ -53,13 +53,14 @@ function CartComponent(props) {
               ? styles(currentTheme).btnContainer
               : {
                 ...styles().btnContainer,
-                backgroundColor: currentTheme.buttonBackground
+                backgroundColor: currentTheme.iconColorPink,
+                borderRadius: 5
               }
           }>
           <TextDefault
-            textColor={currentTheme.buttonText}
+            textColor={currentTheme.buttonTextPink}
             H5
-            bold
+            bolder
             center
             uppercase>
             ADD TO CART

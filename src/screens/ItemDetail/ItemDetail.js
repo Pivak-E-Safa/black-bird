@@ -5,16 +5,16 @@ import {
   Alert,
   StatusBar,
   Platform,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Dimensions
 } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import styles from './styles'
 import RadioComponent from '../../components/CustomizeComponents/RadioComponent/RadioComponent'
 import CheckComponent from '../../components/CustomizeComponents/CheckComponent/CheckComponent'
-import TitleComponent from '../../components/CustomizeComponents/TitleComponent/TitleComponent'
 import CartComponent from '../../components/CustomizeComponents/CartComponent/CartComponent'
 import HeadingComponent from '../../components/CustomizeComponents/HeadingComponent/HeadingComponent'
-import ImageHeader from '../../components/CustomizeComponents/ImageHeader/ImageHeader'
+import ImageHeader from '../../components/ItemDetails/ImageHeader'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import UserContext from '../../context/User'
@@ -22,26 +22,17 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import Analytics from '../../utils/analytics'
+const { height } = Dimensions.get('screen')
+const HEADER_MAX_HEIGHT = height * 0.55
+const HEADER_MIN_HEIGHT = height * 0.07
 
 function ItemDetail(props) {
-  // const { food, addons, restaurant } = props.route.params
   const { food, restaurant } = props.route.params
-  // const { food, addons, options, restaurant } = props.route.params
   const navigation = useNavigation()
 
   const [selectedVariation, setSelectedVariation] = useState({
     ...food.variations[0],
     addons: food.addons
-      // addons: food.variations[0].addons.map(fa => {
-      // const addon = addons.find(a => a.id === fa)
-      // const addonOptions = addon.options.map(ao => {
-      //   return options.find(o => o.id === ao)
-      // })
-      // return {
-      //   ...addon,
-      //   // options: addonOptions
-      // }
-    // })
   })
 
   const [selectedAddons, setSelectedAddons] = useState([])
@@ -56,6 +47,17 @@ function ItemDetail(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const inset = useSafeAreaInsets()
+
+  const iconColor = currentTheme.iconColorPink
+  const iconBackColor = currentTheme.themeBackground
+
+  const iconRadius = scale(15)
+
+  const iconSize = scale(20)
+
+  const iconTouchHeight = scale(30)
+
+  const iconTouchWidth = scale(30)
 
   useFocusEffect(() => {
     if (Platform.OS === 'android') {
@@ -89,11 +91,11 @@ function ItemDetail(props) {
       // if (!selected && addon.quantityMinimum === 0) {
       if (!selected) {
         validatedAddons.push(false)
-      // } else if (
-      //   selected &&
-      //   selected.options.length >= addon.quantityMinimum &&
-      //   selected.options.length <= addon.quantityMaximum
-      // ) {
+        // } else if (
+        //   selected &&
+        //   selected.options.length >= addon.quantityMinimum &&
+        //   selected.options.length <= addon.quantityMaximum
+        // ) {
         // validatedAddons.push(false)
       } else validatedAddons.push(true)
     })
@@ -102,7 +104,8 @@ function ItemDetail(props) {
 
   async function onPressAddToCart(quantity) {
     // if (validateOrderItem()) { // TODO: Needed?
-    if (true) { // TODO: Revisit this
+    if (true) {
+      // TODO: Revisit this
       // Analytics.track(Analytics.events.ADD_TO_CART, {
       //   title: food.title,
       //   restaurantName: food.restaurantName,
@@ -122,7 +125,7 @@ function ItemDetail(props) {
             },
             {
               text: 'OK',
-              onPress: async() => {
+              onPress: async () => {
                 await addToCart(quantity, true)
               }
             }
@@ -133,7 +136,7 @@ function ItemDetail(props) {
     }
   }
 
-  const addToCart = async(quantity, clearFlag) => {
+  const addToCart = async (quantity, clearFlag) => {
     const addons = selectedAddons.map(addon => ({
       ...addon,
       options: addon.options.map(({ id }) => ({
@@ -143,35 +146,35 @@ function ItemDetail(props) {
     const cartItem = clearFlag
       ? null
       : cart.find(cartItem => {
-        if (
-          cartItem.id === food.id &&
+          if (
+            cartItem.id === food.id &&
             cartItem.variation.id === selectedVariation.id
-        ) {
-          if (cartItem.addons.length === addons.length) {
-            if (addons.length === 0) return true
-            const addonsResult = addons.every(newAddon => {
-              const cartAddon = cartItem.addons.find(
-                ad => ad.id === newAddon.id
-              )
-
-              if (!cartAddon) return false
-              const optionsResult = newAddon.options.every(newOption => {
-                const cartOption = cartAddon.options.find(
-                  op => op.id === newOption.id
+          ) {
+            if (cartItem.addons.length === addons.length) {
+              if (addons.length === 0) return true
+              const addonsResult = addons.every(newAddon => {
+                const cartAddon = cartItem.addons.find(
+                  ad => ad.id === newAddon.id
                 )
 
-                if (!cartOption) return false
-                return true
+                if (!cartAddon) return false
+                const optionsResult = newAddon.options.every(newOption => {
+                  const cartOption = cartAddon.options.find(
+                    op => op.id === newOption.id
+                  )
+
+                  if (!cartOption) return false
+                  return true
+                })
+
+                return optionsResult
               })
 
-              return optionsResult
-            })
-
-            return addonsResult
+              return addonsResult
+            }
           }
-        }
-        return false
-      })
+          return false
+        })
     if (!cartItem) {
       await setCartRestaurant(restaurant)
       await addCartItem(
@@ -246,7 +249,8 @@ function ItemDetail(props) {
     const validatedAddons = selectedVariation?.addons?.map(addon => {
       const selected = selectedAddons.find(ad => ad.id === addon.id)
 
-      if (!selected && addon.quantityMinimum === 0 || true) { // TODO: Revisit this logic, I donn't think we need this since we don't have max or min quantities for addons
+      if ((!selected && addon.quantityMinimum === 0) || true) {
+        // TODO: Revisit this logic, I donn't think we need this since we don't have max or min quantities for addons
         addon.error = false
       } else if (
         selected &&
@@ -270,114 +274,79 @@ function ItemDetail(props) {
     //     />
     //   )
     // } else {
-      return (
-        <CheckComponent
-          options={[addon]}
-          // options={addon.options}
-          onPress={onSelectOption.bind(this, addon)}
-        />
-      )
+    return (
+      <CheckComponent
+        options={[addon]}
+        // options={addon.options}
+        onPress={onSelectOption.bind(this, addon)}
+      />
+    )
     // }
   }
 
   return (
     <>
-      <View style={[styles().flex, styles(currentTheme).mainContainer]}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={100}
-          style={styles().flex}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={styles().scrollViewContainer}>
-            {!!food.image && <ImageHeader image={food.image} />}
-            <View style={styles().subContainer}>
-              <HeadingComponent
-                title={food.title}
-                price={calculatePrice()}
-                desc={food.description}
-              />
-              {food.variations.length > 1 && (
-                <>
-                  <View style={styles(currentTheme).line}></View>
-                  <View>
-                    <TitleComponent
-                      title="Select Variation"
-                      subTitle="Select one"
-                      status="Required"
-                    />
-                    <RadioComponent
-                      options={food.variations}
-                      selected={selectedVariation}
-                      onPress={onSelectVariation}
-                    />
-                  </View>
-                </>
+      <SafeAreaView style={styles().flex}>
+        <View style={[styles().flex, styles(currentTheme).mainContainer]}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={100}
+            style={styles().flex}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={styles().scrollViewContainer}>
+              {!!food.image && (
+                <ImageHeader
+                  iconColor={iconColor}
+                  iconSize={iconSize}
+                  height={HEADER_MAX_HEIGHT}
+                  iconBackColor={iconBackColor}
+                  iconRadius={iconRadius}
+                  iconTouchWidth={iconTouchWidth}
+                  iconTouchHeight={iconTouchHeight}
+                  image={food.image}
+                />
               )}
-
-              {/* {selectedVariation.addons?.length > 1 && (
+              <View
+                style={[
+                  styles(currentTheme).subContainer,
+                  {
+                    flexGrow: 1,
+                    zIndex: -1,
+                    paddingTop: HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
+                    marginTop: HEADER_MIN_HEIGHT
+                  }
+                ]}>
+                <HeadingComponent
+                  title={food.title}
+                  price={calculatePrice()}
+                  desc={food.description}
+                />
+                {food.variations.length > 1 && (
+                  <>
                     <View>
-                    <TitleComponent
-                      title="Select Addons"
-                      subTitle="Select multiple"
-                      status="Optional"
-                    />
-                    <CheckComponent
-                      options={selectedVariation.addons}
-                      onPress={onSelectOption.bind(this, selectedVariation.addons)}
-                    />
-                  </View>
-              )} */}
-
-              {/* {selectedVariation?.addons?.map(addon => (
-                <View key={addon.id}>
-                  <TitleComponent
-                    title={addon.title}
-                    subTitle={addon.description}
-                    error={addon.error}
-                    status={'OPTIONAL'}
-                    // status={
-                    //   addon.quantityMinimum === 0
-                    //     ? 'OPTIONAL'
-                    //     : `${addon.quantityMinimum} REQUIRED`
-                    // }
-                  />
-                  {renderOption(addon)}
-                </View>
-              ))} */}
-            </View>
-            {/* <View style={styles(currentTheme).line}></View>
-            <View style={{ width: '90%', alignSelf: 'center' }}>
-              <TitleComponent
-                title="Special instructions"
-                subTitle="Any specific preferences?"
-                status="Optional"
-              />
-              <TextField
-                placeholder={'E.g No mayo'}
-                value={specialInstructions}
-                onChangeText={setSpecialInstructions}
-                labelFontSize={scale(12)}
-                fontSize={scale(12)}
-                labelHeight={10}
-                maxLength={144}
-                multiline
-                textColor={currentTheme.fontMainColor}
-                baseColor={currentTheme.fontSecondColor}
-                errorColor={currentTheme.textErrorColor}
-                tintColor={currentTheme.iconColorPink}
-              />
-            </View> */}
-          </ScrollView>
-        </KeyboardAvoidingView>
-        <CartComponent onPress={onPressAddToCart} disabled={validateButton()} />
-      </View>
-      <View
-        style={{
-          paddingBottom: inset.bottom,
-          backgroundColor: currentTheme.themeBackground
-        }}
-      />
+                      <RadioComponent
+                        options={food.variations}
+                        selected={selectedVariation}
+                        onPress={onSelectVariation}
+                      />
+                    </View>
+                  </>
+                )}
+              </View>
+            </ScrollView>
+          </KeyboardAvoidingView>
+          <CartComponent
+            onPress={onPressAddToCart}
+            disabled={validateButton()}
+          />
+        </View>
+        <View
+          style={{
+            backgroundColor: currentTheme.themeBackground
+          }}
+        />
+      </SafeAreaView>
     </>
   )
 }

@@ -65,16 +65,8 @@ function ImageTextCenterHeader(props, ref) {
       <Animated.View style={{ height: props.height }}>
         <Animated.Image
           resizeMode="cover"
-          source={detailsImage}
-          style={[
-            styles().flex,
-            {
-              opacity: props.opacity,
-              borderRadius: 10,
-              width: '100%',
-              height: 'auto'
-            }
-          ]}
+          source={{ uri: props.image }}
+          style={[styles().flex, { opacity: props.opacity, borderRadius: 10 }]}
         />
         <Animated.View style={styles().overlayContainer}>
           <View style={styles().fixedViewNavigation}>
@@ -88,34 +80,18 @@ function ImageTextCenterHeader(props, ref) {
                     backgroundColor: props.iconBackColor,
                     borderRadius: props.iconRadius,
                     height: props.iconTouchHeight,
-                    width: props.iconTouchWidth,
+                    width: props.iconTouchWidth
                   }
                 ]}
-                onPress={() => {
-                  navigation.toggleDrawer()
-                }}>
+                onPress={() => navigation.goBack()}>
                 <AnimatedIon
-                  name="ios-menu"
+                  name="ios-arrow-back"
                   style={{
                     color: props.iconColor,
                     fontSize: props.iconSize
                   }}
                 />
               </AnimatedBorderless>
-              <Animated.View
-                style={[styles().fixedView, { opacity: props.opacity }]}>
-                <View style={[styles().fixedText, styles().message]}>
-                  <TextDefault bolder H4 textColor={currentTheme.fontWhite}>
-                    {`Welcome ${customerName},`}
-                  </TextDefault>
-                  <TextDefault H5 textColor={currentTheme.fontWhite}>
-                    {'Got an Umbrella?'}
-                  </TextDefault>
-                  <TextDefault H5 textColor={currentTheme.fontWhite}>
-                    {"'cause it's about to rain cheese!"}
-                  </TextDefault>
-                </View>
-              </Animated.View>
             </View>
           </View>
         </Animated.View>

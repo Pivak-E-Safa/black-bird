@@ -7,7 +7,6 @@ import TextDefault from '../../Text/TextDefault/TextDefault'
 import ThemeContext from '../../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../../utils/themeColors'
 import { useNavigation } from '@react-navigation/native'
-import { DAYS } from '../../../utils/enums'
 import Animated from 'react-native-reanimated'
 import {
   BorderlessButton,
@@ -17,7 +16,6 @@ import {
 } from 'react-native-gesture-handler'
 import { alignment } from '../../../utils/alignment'
 import TextError from '../../Text/TextError/TextError'
-import { textStyles } from '../../../utils/textStyles'
 
 const { height } = Dimensions.get('screen')
 const TOP_BAR_HEIGHT = height * 0.08

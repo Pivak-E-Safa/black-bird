@@ -48,18 +48,14 @@ import TextError from '../../components/Text/TextError/TextError'
 import i18n from '../../../i18n'
 import Analytics from '../../utils/analytics'
 const { height } = Dimensions.get('screen')
-// Animated Section List component
-const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
-const HEADER_MAX_HEIGHT = height * 0.28
-const HEADER_MIN_HEIGHT = height * 0.07
-const SCROLL_RANGE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT
-const HALF_HEADER_SCROLL = HEADER_MAX_HEIGHT
+const HEADER_MAX_HEIGHT = height * 0.30
+// const SCROLL_RANGE = HEADER_MAX_HEIGHT
 
-const config = to => ({
-  duration: 250,
-  toValue: to,
-  easing: EasingNode.inOut(EasingNode.ease)
-})
+// const config = to => ({
+//   duration: 250,
+//   toValue: to,
+//   easing: EasingNode.inOut(EasingNode.ease)
+// })
 
 function RestaurantDetails(props) {
   const scrollRef = useRef(null)
@@ -258,7 +254,7 @@ function RestaurantDetails(props) {
         animated: true,
         sectionIndex: index,
         itemIndex: 0,
-        viewOffset: -(HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT),
+        viewOffset: -(HEADER_MAX_HEIGHT),
         viewPosition: 0
       })
     }
@@ -293,18 +289,11 @@ function RestaurantDetails(props) {
     }
   }
 
-  // Important
-  const headerHeight = interpolateNode(animation, {
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-    extrapolate: Extrapolate.CLAMP
-  })
-
-  const opacity = interpolateNode(animation, {
-    inputRange: [0, height * 0.05, SCROLL_RANGE / 2],
-    outputRange: [1, 0.8, 0],
-    extrapolate: Extrapolate.CLAMP
-  })
+  // const opacity = interpolateNode(animation, {
+  //   inputRange: [0, height * 0.05, SCROLL_RANGE / 2],
+  //   outputRange: [1, 0.8, 0],
+  //   extrapolate: Extrapolate.CLAMP
+  // })
 
   const iconColor = currentTheme.iconColorPink
   const iconBackColor = currentTheme.themeBackground
@@ -317,14 +306,14 @@ function RestaurantDetails(props) {
 
   const iconTouchWidth = scale(30)
 
-  const headerTextFlex = concat(
-    interpolateNode(animation, {
-      inputRange: [0, 80, SCROLL_RANGE],
-      outputRange: [-10, -10, 0],
-      extrapolate: Extrapolate.CLAMP
-    }),
-    '%'
-  )
+  // const headerTextFlex = concat(
+  //   interpolateNode(animation, {
+  //     inputRange: [0, 80, SCROLL_RANGE],
+  //     outputRange: [-10, -10, 0],
+  //     extrapolate: Extrapolate.CLAMP
+  //   }),
+  //   '%'
+  // )
 
   const circleSize = interpolateNode(circle, {
     inputRange: [0, 0.5, 1],
@@ -350,20 +339,20 @@ function RestaurantDetails(props) {
           {
             marginTop: inset.top,
             paddingBottom: inset.bottom,
-            paddingTop: HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT,
+            paddingTop: HEADER_MAX_HEIGHT,
             backgroundColor: currentTheme.headerMenuBackground
           }
         ]}>
         <ImageHeader
           iconColor={iconColor}
           iconSize={iconSize}
-          height={headerHeight}
-          opacity={opacity}
+          height={HEADER_MAX_HEIGHT}
+          // opacity={opacity}
           iconBackColor={iconBackColor}
           iconRadius={iconRadius}
           iconTouchWidth={iconTouchWidth}
           iconTouchHeight={iconTouchHeight}
-          headerTextFlex={headerTextFlex}
+          // headerTextFlex={headerTextFlex}
           restaurantName={propsData.name}
           restaurantImage={propsData.image}
           restaurant={null}
@@ -378,7 +367,7 @@ function RestaurantDetails(props) {
             styles().navbarContainer,
             styles().flex,
             {
-              paddingTop: HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT
+              paddingTop: HEADER_MAX_HEIGHT
             }
           ]}>
           {Array.from(Array(10), (_, i) => (
@@ -415,17 +404,17 @@ function RestaurantDetails(props) {
   return (
     <SafeAreaView style={styles().flex}>
       {data.restaurant && (
-        <Animated.View style={styles().flex}>
+        <Animated.View style={[styles().flex, { height: '100%' }]}>
           <ImageHeader
             iconColor={iconColor}
             iconSize={iconSize}
-            height={headerHeight}
-            opacity={opacity}
+            height={HEADER_MAX_HEIGHT}
+            // opacity={opacity}
             iconBackColor={iconBackColor}
             iconRadius={iconRadius}
             iconTouchWidth={iconTouchWidth}
             iconTouchHeight={iconTouchHeight}
-            headerTextFlex={headerTextFlex}
+            // headerTextFlex={headerTextFlex}
             restaurantName={propsData.name}
             restaurantImage={propsData.image}
             restaurant={data.restaurant}
@@ -433,117 +422,122 @@ function RestaurantDetails(props) {
             changeIndex={changeIndex}
             selectedLabel={selectedLabel}
           />
-          <ImageSlider
-            paddingTop={HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT}
-            marginTop={HEADER_MAX_HEIGHT}
-            images={restaurantImages}
-          />
+          <View style={{
+              flexGrow: 1,
+              zIndex: -1,
+              paddingTop: '40%',
+              marginTop: '30%'
+            }}>
+            <ImageSlider
+              images={restaurantImages}
+            />
 
-          <View style={styles().bottomContainerParent}>
-            <TouchableOpacity
-              style={[styles().card, styles().menu]}
-              onPress={() =>
-                navigation.navigate('Restaurant', { id: restaurantId })
-              }>
-              <Animated.Image
-                resizeMode="cover"
-                source={menuImage}
-                style={[
-                  styles().flex,
-                  {
-                    opacity: props.opacity,
-                    borderRadius: 10,
-                    width: '100%',
-                    height: 'auto',
-                    borderWidth: 3, // Border width for the 3D effect
-                    borderColor: '#FFB300', // A slightly darker yellow or orange for the border
-                    borderRadius: 10, // Rounded corners
-                    shadowColor: '#000', // Shadow color
-                    shadowOffset: { width: 0, height: 4 }, // Shadow offset
-                    shadowOpacity: 0.6, // Shadow opacity
-                    shadowRadius: 9, // Shadow blur radius
-                    elevation: 6 // Elevation for Android shadow
-                  }
-                ]}
-              />
-              <Animated.Text style={[styles(currentTheme).menuText]}>
-                {'MENU'}
-              </Animated.Text>
-            </TouchableOpacity>
-
-            <View style={styles().bottomContainerChild}>
+            <View style={styles().bottomContainerParent}>
               <TouchableOpacity
-                style={[styles().card, styles().video]}
-                onPress={() => Linking.openURL(restaurant.videoLink)}>
-                <Animated.Text style={[styles(currentTheme).videoText]}>
-                  {'SNEAK PEAK'}
-                </Animated.Text>
-                <Ionicons
-                  name="logo-youtube"
-                  size={70}
-                  color="white"
-                  style={[styles(currentTheme).videoIcon]}
+                style={[styles().card, styles().menu]}
+                onPress={() =>
+                  navigation.navigate('Restaurant', { id: restaurantId })
+                }>
+                <Animated.Image
+                  resizeMode="cover"
+                  source={menuImage}
+                  style={[
+                    styles().flex,
+                    {
+                      // opacity: props.opacity,
+                      borderRadius: 10,
+                      width: '100%',
+                      height: 'auto',
+                      borderWidth: 3, // Border width for the 3D effect
+                      borderColor: '#FFB300', // A slightly darker yellow or orange for the border
+                      borderRadius: 10, // Rounded corners
+                      shadowColor: '#000', // Shadow color
+                      shadowOffset: { width: 0, height: 4 }, // Shadow offset
+                      shadowOpacity: 0.6, // Shadow opacity
+                      shadowRadius: 9, // Shadow blur radius
+                      elevation: 6 // Elevation for Android shadow
+                    }
+                  ]}
                 />
+                <Animated.Text style={[styles(currentTheme).menuText]}>
+                  {'MENU'}
+                </Animated.Text>
               </TouchableOpacity>
 
-              <View style={[styles().card, styles().about]}>
-                <Animated.Text style={[styles(currentTheme).videoText]}>
-                  {'SOCIALS'}
-                </Animated.Text>
+              <View style={styles().bottomContainerChild}>
+                <TouchableOpacity
+                  style={[styles().card, styles().video]}
+                  onPress={() => Linking.openURL(restaurant.videoLink)}>
+                  <Animated.Text style={[styles(currentTheme).videoText]}>
+                    {'SNEAK PEAK'}
+                  </Animated.Text>
+                  <Ionicons
+                    name="logo-youtube"
+                    size={70}
+                    color="white"
+                    style={[styles(currentTheme).videoIcon]}
+                  />
+                </TouchableOpacity>
 
-                <View style={styles().socialContainer}>
-                  {/* First row */}
-                  <View style={styles().row}>
-                    {/* Instagram */}
-                    <TouchableOpacity
-                      style={styles().iconWrapper}
-                      onPress={() => Linking.openURL(restaurant.instagram)}>
-                      <Ionicons
-                        name="logo-instagram"
-                        size={30}
-                        color="white"
-                        style={styles().socialIcon}
-                      />
-                    </TouchableOpacity>
+                <View style={[styles().card, styles().about]}>
+                  <Animated.Text style={[styles(currentTheme).videoText]}>
+                    {'SOCIALS'}
+                  </Animated.Text>
 
-                    {/* Facebook */}
-                    <TouchableOpacity
-                      style={styles().iconWrapper}
-                      onPress={() => Linking.openURL(restaurant.facebook)}>
-                      <Ionicons
-                        name="logo-facebook"
-                        size={30}
-                        color="white"
-                        style={styles().socialIcon}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <View style={styles().socialContainer}>
+                    {/* First row */}
+                    <View style={styles().row}>
+                      {/* Instagram */}
+                      <TouchableOpacity
+                        style={styles().iconWrapper}
+                        onPress={() => Linking.openURL(restaurant.instagram)}>
+                        <Ionicons
+                          name="logo-instagram"
+                          size={30}
+                          color="white"
+                          style={styles().socialIcon}
+                        />
+                      </TouchableOpacity>
 
-                  {/* Second row */}
-                  <View style={styles().row}>
-                    {/* Google Maps */}
-                    <TouchableOpacity
-                      style={styles().iconWrapper}
-                      onPress={() => Linking.openURL(restaurant.googleMaps)}>
-                      <Ionicons
-                        name="location-outline"
-                        size={30}
-                        color="white"
-                        style={styles().socialIcon}
-                      />
-                    </TouchableOpacity>
+                      {/* Facebook */}
+                      <TouchableOpacity
+                        style={styles().iconWrapper}
+                        onPress={() => Linking.openURL(restaurant.facebook)}>
+                        <Ionicons
+                          name="logo-facebook"
+                          size={30}
+                          color="white"
+                          style={styles().socialIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
 
-                    {/* WhatsApp */}
-                    <TouchableOpacity
-                      style={styles().iconWrapper}
-                      onPress={() => Linking.openURL(restaurant.whatsapp)}>
-                      <Ionicons
-                        name="logo-whatsapp"
-                        size={30}
-                        color="white"
-                        style={styles().socialIcon}
-                      />
-                    </TouchableOpacity>
+                    {/* Second row */}
+                    <View style={styles().row}>
+                      {/* Google Maps */}
+                      <TouchableOpacity
+                        style={styles().iconWrapper}
+                        onPress={() => Linking.openURL(restaurant.googleMaps)}>
+                        <Ionicons
+                          name="location-outline"
+                          size={30}
+                          color="white"
+                          style={styles().socialIcon}
+                        />
+                      </TouchableOpacity>
+
+                      {/* WhatsApp */}
+                      <TouchableOpacity
+                        style={styles().iconWrapper}
+                        onPress={() => Linking.openURL(restaurant.whatsapp)}>
+                        <Ionicons
+                          name="logo-whatsapp"
+                          size={30}
+                          color="white"
+                          style={styles().socialIcon}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>

@@ -449,7 +449,7 @@ function Restaurant(props) {
             backgroundColor: currentTheme.headerMenuBackground
           }
         ]}>
-        {/* <ImageHeader
+        <ImageHeader
           iconColor={iconColor}
           iconSize={iconSize}
           height={headerHeight}
@@ -464,7 +464,7 @@ function Restaurant(props) {
           restaurant={null}
           topaBarData={[]}
           loading={loading}
-        /> */}
+        />
 
         <View
           style={[

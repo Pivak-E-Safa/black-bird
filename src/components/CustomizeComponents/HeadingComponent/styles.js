@@ -1,9 +1,11 @@
 import { StyleSheet } from 'react-native'
 import { alignment } from '../../../utils/alignment'
+import { fontStyles } from '../../../utils/fontStyles'
+
 const styles = StyleSheet.create({
   topContainer: {
     width: '100%',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   titleContainer: {
     width: '75%',
@@ -15,7 +17,7 @@ const styles = StyleSheet.create({
     width: '25%',
     justifyContent: 'center',
     ...alignment.MTsmall,
-    ...alignment.MBsmall
+    ...alignment.MBsmall,
   },
   descContainer: {
     width: '100%',

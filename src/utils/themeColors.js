@@ -47,7 +47,7 @@ export const theme = {
   Dark: {
     black: '#000000', // Changed to new branding color
     white: '#FFFFFF',
-    themeBackground: '#000000', // Changed to new branding color
+    themeBackground: 'rgba(0, 0, 0, 0.6)', // Changed to new branding color
     menuBar: '#000000', // Changed to new branding color
     iconColor: '#FF8C00', // Changed to new branding color
     iconColorPink: '#FF8C00', // Changed to new branding color
