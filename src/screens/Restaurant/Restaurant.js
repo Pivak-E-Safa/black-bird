@@ -157,24 +157,15 @@ function Restaurant(props) {
   }, []) // TODO: Should we pass data here? It was causing an infite loop I guess
 
   const isOpen = () => {
-    if (data.restaurant.openingTimes.length < 1) return false
     const date = new Date()
-    const day = date.getDay()
     const hours = date.getHours()
     const minutes = date.getMinutes()
-    const todaysTimings = data.restaurant.openingTimes.find(
-      o => o.day === DAYS[day]
+    return (
+      hours >= Number(data.restaurant.openingTimes.startTime[0]) &&
+      minutes >= Number(data.restaurant.openingTimes.startTime[1]) &&
+      hours <= Number(data.restaurant.openingTimes.endTime[0]) &&
+      minutes <= Number(data.restaurant.openingTimes.endTime[1])
     )
-    if (todaysTimings === undefined) return false
-    const times = todaysTimings.times.filter(
-      t =>
-        hours >= Number(t.startTime[0]) &&
-        minutes >= Number(t.startTime[1]) &&
-        hours <= Number(t.endTime[0]) &&
-        minutes <= Number(t.endTime[1])
-    )
-
-    return times.length > 0
   }
   const onPressItem = async food => {
     if (!data.restaurant.isAvailable || !isOpen()) {
@@ -458,7 +449,7 @@ function Restaurant(props) {
             backgroundColor: currentTheme.headerMenuBackground
           }
         ]}>
-        <ImageHeader
+        {/* <ImageHeader
           iconColor={iconColor}
           iconSize={iconSize}
           height={headerHeight}
@@ -473,7 +464,7 @@ function Restaurant(props) {
           restaurant={null}
           topaBarData={[]}
           loading={loading}
-        />
+        /> */}
 
         <View
           style={[

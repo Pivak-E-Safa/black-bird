@@ -20,7 +20,10 @@ const ImageSlider = ({ images, marginTop, paddingTop }) => {
             marginTop: marginTop,
             width: width,
             height: 180,
-            borderRadius: 10
+            borderRadius: 10,
+            flexGrow: 1,
+            zIndex: -1,
+            paddingTop: paddingTop,
           }}
         />
       </View>

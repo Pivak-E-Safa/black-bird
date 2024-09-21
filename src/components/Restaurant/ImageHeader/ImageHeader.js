@@ -38,7 +38,7 @@ function ImageTextCenterHeader(props, ref) {
     PLATTERS: require('../../../assets/icons/platter.png'),
     SANDWICHES: require('../../../assets/icons/sandwich.png'),
     APPETIZERS: require('../../../assets/icons/appetizers.png'),
-    WRAPS: require('../../../assets/icons/wrap.png'),
+    WRAPS: require('../../../assets/icons/wrap.png')
   }
   const aboutObject = {
     latitude: props.restaurant ? props.restaurant.location.latitude : '',
@@ -47,29 +47,23 @@ function ImageTextCenterHeader(props, ref) {
     restaurantName: props.restaurant ? props.restaurant.name : '...',
     restaurantImage: props.restaurant ? props.restaurant.image : '...',
     deliveryTime: props.restaurant ? props.restaurant.deliveryTime : '...',
-    // average: props.restaurant ? props.restaurant.reviewData.ratings : '...',
-    // total: props.restaurant ? props.restaurant.reviewData.total : '...',
-    // reviews: props.restaurant ? props.restaurant.reviewData.reviews : '...',
+    contactNumber: props.restaurant ? props.restaurant.contactNumber : '...',
+    whatsappNumber: props.restaurant ? props.restaurant.whatsappNumber : '...',
     isAvailable: props.restaurant ? props.restaurant.isAvailable : true,
-    openingTimes: props.restaurant ? props.restaurant.openingTimes : [],
+    openingTimes: props.restaurant
+      ? props.restaurant.openingTimes
+      : { startTime: [0, 0], endTime: [0, 0], title: 'CLOSED' },
     isOpen: () => {
       if (!props.restaurant) return true
       const date = new Date()
-      const day = date.getDay()
       const hours = date.getHours()
       const minutes = date.getMinutes()
-      const todaysTimings = props.restaurant.openingTimes.find(
-        o => o.day === DAYS[day]
+      return (
+        hours >= Number(props.restaurant.openingTimes.startTime[0]) &&
+        minutes >= Number(props.restaurant.openingTimes.startTime[1]) &&
+        hours <= Number(props.restaurant.openingTimes.endTime[0]) &&
+        minutes <= Number(props.restaurant.openingTimes.endTime[1])
       )
-      const times = todaysTimings.times.filter(
-        t =>
-          hours >= Number(t.startTime[0]) &&
-          minutes >= Number(t.startTime[1]) &&
-          hours <= Number(t.endTime[0]) &&
-          minutes <= Number(t.endTime[1])
-      )
-
-      return times.length > 0
     }
   }
 
@@ -199,17 +193,6 @@ function ImageTextCenterHeader(props, ref) {
                       tab: false
                     })
                   }}>
-                  {/* <MaterialIcons
-                    name="star"
-                    size={scale(15)}
-                    color={currentTheme.white}
-                  />
-                  <TextDefault
-                    style={[alignment.PRxSmall, alignment.PLxSmall]}
-                    textColor="white"
-                    bold>
-                    {aboutObject.average} ({aboutObject.total})
-                  </TextDefault> */}
                 </TouchableOpacity>
               )}
             </View>
@@ -229,25 +212,27 @@ function ImageTextCenterHeader(props, ref) {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <View
-              style={[props.selectedLabel === index
-                ? styles(currentTheme).activeHeader
-                : null, { padding: scale(5) }]}
-              >
+              style={[
+                props.selectedLabel === index
+                  ? styles(currentTheme).activeHeader
+                  : null,
+                { padding: scale(5) }
+              ]}>
               <RectButton
                 activeOpacity={0.05}
                 rippleColor={currentTheme.rippleColor}
                 onPress={() => props.changeIndex(index)}
                 style={styles(currentTheme).headerContainer}>
                 <View style={styles().navbarImageContainer}>
-                <Image
-                  source={CATEGORY_IMAGES[item.title]}
-                  style={
-                    props.selectedLabel === index
-                      ? styles(currentTheme).activeImage
-                      : styles(currentTheme).inactiveImage
-                  }
-                  resizeMode="contain"
-                />
+                  <Image
+                    source={CATEGORY_IMAGES[item.title]}
+                    style={
+                      props.selectedLabel === index
+                        ? styles(currentTheme).activeImage
+                        : styles(currentTheme).inactiveImage
+                    }
+                    resizeMode="contain"
+                  />
                 </View>
               </RectButton>
             </View>

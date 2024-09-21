@@ -77,7 +77,7 @@ function RestaurantDetails(props) {
     require('../../assets/deals/deal1.jpg'),
     require('../../assets/deals/deal2.jpg'),
     require('../../assets/deals/deal3.jpg'),
-    require('../../assets/deals/deal4.jpg'),
+    require('../../assets/deals/deal4.jpg')
   ]
 
   const configuration = useContext(ConfigurationContext)
@@ -153,24 +153,15 @@ function RestaurantDetails(props) {
   }, []) // TODO: Should we pass data here? It was causing an infite loop I guess
 
   const isOpen = () => {
-    if (data.restaurant.openingTimes.length < 1) return false
     const date = new Date()
-    const day = date.getDay()
     const hours = date.getHours()
     const minutes = date.getMinutes()
-    const todaysTimings = data.restaurant.openingTimes.find(
-      o => o.day === DAYS[day]
+    return (
+      hours >= Number(data.restaurant.openingTimes.startTime[0]) &&
+      minutes >= Number(data.restaurant.openingTimes.startTime[1]) &&
+      hours <= Number(data.restaurant.openingTimes.endTime[0]) &&
+      minutes <= Number(data.restaurant.openingTimes.endTime[1])
     )
-    if (todaysTimings === undefined) return false
-    const times = todaysTimings.times.filter(
-      t =>
-        hours >= Number(t.startTime[0]) &&
-        minutes >= Number(t.startTime[1]) &&
-        hours <= Number(t.endTime[0]) &&
-        minutes <= Number(t.endTime[1])
-    )
-
-    return times.length > 0
   }
   const onPressItem = async food => {
     if (!data.restaurant.isAvailable || !isOpen()) {
@@ -443,6 +434,7 @@ function RestaurantDetails(props) {
             selectedLabel={selectedLabel}
           />
           <ImageSlider
+            paddingTop={HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT}
             marginTop={HEADER_MAX_HEIGHT}
             images={restaurantImages}
           />
@@ -470,12 +462,12 @@ function RestaurantDetails(props) {
                     shadowOffset: { width: 0, height: 4 }, // Shadow offset
                     shadowOpacity: 0.6, // Shadow opacity
                     shadowRadius: 9, // Shadow blur radius
-                    elevation: 6, // Elevation for Android shadow
+                    elevation: 6 // Elevation for Android shadow
                   }
                 ]}
               />
-               <Animated.Text style={[styles(currentTheme).menuText]}>
-                  {'MENU'}
+              <Animated.Text style={[styles(currentTheme).menuText]}>
+                {'MENU'}
               </Animated.Text>
             </TouchableOpacity>
 
@@ -505,9 +497,7 @@ function RestaurantDetails(props) {
                     {/* Instagram */}
                     <TouchableOpacity
                       style={styles().iconWrapper}
-                      onPress={() =>
-                        Linking.openURL(restaurant.instagram)
-                      }>
+                      onPress={() => Linking.openURL(restaurant.instagram)}>
                       <Ionicons
                         name="logo-instagram"
                         size={30}
@@ -519,9 +509,7 @@ function RestaurantDetails(props) {
                     {/* Facebook */}
                     <TouchableOpacity
                       style={styles().iconWrapper}
-                      onPress={() =>
-                        Linking.openURL(restaurant.facebook)
-                      }>
+                      onPress={() => Linking.openURL(restaurant.facebook)}>
                       <Ionicons
                         name="logo-facebook"
                         size={30}
@@ -536,9 +524,7 @@ function RestaurantDetails(props) {
                     {/* Google Maps */}
                     <TouchableOpacity
                       style={styles().iconWrapper}
-                      onPress={() =>
-                        Linking.openURL(restaurant.googleMaps)
-                      }>
+                      onPress={() => Linking.openURL(restaurant.googleMaps)}>
                       <Ionicons
                         name="location-outline"
                         size={30}
@@ -550,9 +536,7 @@ function RestaurantDetails(props) {
                     {/* WhatsApp */}
                     <TouchableOpacity
                       style={styles().iconWrapper}
-                      onPress={() =>
-                        Linking.openURL(restaurant.whatsapp)
-                      }>
+                      onPress={() => Linking.openURL(restaurant.whatsapp)}>
                       <Ionicons
                         name="logo-whatsapp"
                         size={30}

@@ -493,21 +493,14 @@ function Cart(props) {
 
   const isOpen = () => {
     const date = new Date()
-    const day = date.getDay()
     const hours = date.getHours()
     const minutes = date.getMinutes()
-    const todaysTimings = data.restaurant.openingTimes.find(
-      o => o.day === DAYS[day]
+    return (
+      hours >= Number(data.restaurant.openingTimes.startTime[0]) &&
+      minutes >= Number(data.restaurant.openingTimes.startTime[1]) &&
+      hours <= Number(data.restaurant.openingTimes.endTime[0]) &&
+      minutes <= Number(data.restaurant.openingTimes.endTime[1])
     )
-    const times = todaysTimings.times.filter(
-      t =>
-        hours >= Number(t.startTime[0]) &&
-        minutes >= Number(t.startTime[1]) &&
-        hours <= Number(t.endTime[0]) &&
-        minutes <= Number(t.endTime[1])
-    )
-
-    return times.length > 0
   }
 
   async function didFocus() {
@@ -1836,7 +1829,7 @@ export default Cart
 //     const day = date.getDay()
 //     const hours = date.getHours()
 //     const minutes = date.getMinutes()
-//     const todaysTimings = data.restaurant.openingTimes.find(
+//     const todaysTimings = data.restaurant.opening Times.find(
 //       o => o.day === DAYS[day]
 //     )
 //     const times = todaysTimings.times.filter(

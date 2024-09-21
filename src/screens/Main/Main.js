@@ -31,7 +31,6 @@ import {
 import { Placeholder, PlaceholderLine, Fade } from 'rn-placeholder'
 // import gql from 'graphql-tag'
 import { useLocation } from '../../ui/hooks'
-import Search from '../../components/Main/Search/Search'
 import Item from '../../components/Main/Item/Item'
 import UserContext from '../../context/User'
 // import { restaurantList } from '../../apollo/queries'
@@ -252,7 +251,6 @@ function Main(props) {
   function loadingScreen() {
     return (
       <View style={styles(currentTheme).screenBackground}>
-        {/* <Search search={''} setSearch={() => {}} /> */}
         <Placeholder
           Animation={props => (
             <Fade
@@ -417,7 +415,6 @@ function Main(props) {
                   renderItem={({ item }) => <Item item={item} />}
                 /> */}
           {/* <CollapsibleSubHeaderAnimator translateY={translateY}>
-                  <Search setSearch={setSearch} search={search} />
                 </CollapsibleSubHeaderAnimator> */}
           {/* </View> */}
           {/* </View> */}
@@ -523,7 +520,6 @@ export default Main
 // import { Placeholder, PlaceholderLine, Fade } from 'rn-placeholder'
 // import gql from 'graphql-tag'
 // import { useLocation } from '../../ui/hooks'
-// import Search from '../../components/Main/Search/Search'
 // import Item from '../../components/Main/Item/Item'
 // import UserContext from '../../context/User'
 // import { restaurantList } from '../../apollo/queries'
@@ -736,7 +732,6 @@ export default Main
 //   function loadingScreen() {
 //     return (
 //       <View style={styles(currentTheme).screenBackground}>
-//         <Search search={''} setSearch={() => {}} />
 //         <Placeholder
 //           Animation={props => (
 //             <Fade
@@ -864,9 +859,6 @@ export default Main
 //                   data={search ? searchRestaurants(search) : restaurants}
 //                   renderItem={({ item }) => <Item item={item} />}
 //                 />
-//                 <CollapsibleSubHeaderAnimator translateY={translateY}>
-//                   <Search setSearch={setSearch} search={search} />
-//                 </CollapsibleSubHeaderAnimator>
 //               </View>
 //             </View>
 //           </View>

@@ -4,7 +4,7 @@ const { height } = Dimensions.get('window')
 const styles = (props = null) =>
   StyleSheet.create({
     mainContainer: {
-      height: height * 0.25,
+      height: height * 0.35,
       width: '100%'
     },
     headerImage: {

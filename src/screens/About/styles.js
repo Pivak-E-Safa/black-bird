@@ -28,8 +28,9 @@ const styles = (props = null) =>
       width: '100%'
     },
     mapContainer: {
-      height: '40%',
-      backgroundColor: 'transparent'
+      height: '55%',
+      backgroundColor: 'transparent',
+      ...alignment.PTlarge,
     },
     mainContainer: {
       backgroundColor: props != null ? props.cartContainer : 'white'
@@ -50,43 +51,9 @@ const styles = (props = null) =>
       borderBottomColor: props != null ? props.horizontalLine : 'lightgrey',
       borderBottomWidth: StyleSheet.hairlineWidth
     },
-    reviewerContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%'
-    },
-    ratingContainer: {
-      flexDirection: 'row',
-      width: '25%',
-      justifyContent: 'flex-end',
-      alignItems: 'center'
-    },
     timingContainer: {
       marginLeft: scale(30),
       marginBottom: scale(20)
-    },
-    dateReview: {
-      width: '100%',
-      textAlign: 'left',
-      ...alignment.PTsmall,
-      ...alignment.PBxSmall
-    },
-    navigationContainer: {
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      width: '100%',
-      ...alignment.MTlarge
-    },
-    tab: {
-      width: scale(60),
-      height: verticalScale(35),
-      justifyContent: 'center',
-      alignItems: 'center',
-      ...alignment.MRsmall
-    },
-    selectedTab: {
-      borderBottomColor: props != null ? props.tagColor : 'red',
-      borderBottomWidth: StyleSheet.hairlineWidth * 4
     },
     timingRow: {
       flexDirection: 'row',

@@ -15,15 +15,9 @@ const restaurants = [
     deliveryTime: 50,
     minimumOrder: 500,
     isAvailable: true,
-    openingTimes: [
-      { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
-    ],
+    contactNumber: '047 6331462',
+    whatsappNumber: '0315 0331462',
+    openingTimes: { startTime: [0, 0], endTime: [23, 59], title: '1:00PM - 1:00AM' },
     location: { latitude: 31.730152279082226, longitude: 72.9811285828689 },
     address: 'Sargodha Road, Chiniot'
   },
@@ -42,15 +36,10 @@ const restaurants = [
     deliveryTime: 50,
     minimumOrder: 500,
     isAvailable: true,
-    openingTimes: [
-      { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
-    ],
+    contactNumber: '048 3768182',
+    whatsappNumber: '0326 0768182',
+    openingTimes: { startTime: [0, 0], endTime: [23, 59], title: '12:00PM - 12:00AM' },
+
     location: { latitude: 31.730152279082226, longitude: 72.9811285828689 },
     address: 'Sargodha Road, Chiniot'
   },
@@ -69,15 +58,9 @@ const restaurants = [
     deliveryTime: 50,
     minimumOrder: 500,
     isAvailable: true,
-    openingTimes: [
-      { day: 'SUN', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'MON', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'TUE', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'WED', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'THU', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'FRI', times: [{ startTime: [0, 0], endTime: [23, 59] }] },
-      { day: 'SAT', times: [{ startTime: [0, 0], endTime: [23, 59] }] }
-    ],
+    contactNumber: '048 3768182',
+    whatsappNumber: '0326 0768182',
+    openingTimes: { startTime: [0, 0], endTime: [23, 59], title: '1:00PM - 1:00AM' },
     location: { latitude: 31.730152279082226, longitude: 72.9811285828689 },
     address: 'Sargodha Road, Chiniot'
   }

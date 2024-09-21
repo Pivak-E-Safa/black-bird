@@ -220,21 +220,6 @@ function RightButton(props) {
     return (
       <View
         style={[cartCount < 1 && alignment.PRxSmall, { flexDirection: 'row' }]}>
-        {/* <HeaderBackButton
-          pressColorAndroid={route.name === 'Main' && rippleColor}
-          labelVisible={false}
-          backImage={() => (
-            <View style={styles().favContainer}>
-              {BackButton({ iconColor: props.iconColor, icon: 'fav' })}
-            </View>
-          )}
-          onPress={() =>
-            // isLoggedIn && profile
-            //   ? navigation.navigate('Favourite')
-            //   : navigation.navigate('CreateAccount')
-            navigation.navigate('Favourite')
-          }
-        /> */}
         {cartCount > 0 && (
           <HeaderBackButton
             pressColorAndroid={route.name === 'Main' && rippleColor}

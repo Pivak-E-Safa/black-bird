@@ -22,7 +22,7 @@ function ImageTextCenterHeader(props, ref) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const detailsImage = require('../../../assets/JPG/restaurant-detail.jpg')
-  const customerName = 'Ghazwa';
+  const customerName = 'Ghazwa'
 
   const aboutObject = {
     latitude: props.restaurant ? props.restaurant.location.latitude : '',
@@ -30,27 +30,24 @@ function ImageTextCenterHeader(props, ref) {
     address: props.restaurant ? props.restaurant.address : '',
     restaurantName: props.restaurant ? props.restaurant.name : '...',
     restaurantImage: props.restaurant ? props.restaurant.image : '...',
+    contactNumber: props.restaurant ? props.restaurant.contactNumber : '...',
+    whatsappNumber: props.restaurant ? props.restaurant.whatsappNumber : '...',
     deliveryTime: props.restaurant ? props.restaurant.deliveryTime : '...',
     isAvailable: props.restaurant ? props.restaurant.isAvailable : true,
-    openingTimes: props.restaurant ? props.restaurant.openingTimes : [],
+    openingTimes: props.restaurant
+      ? props.restaurant.openingTimes
+      : { startTime: [0, 0], endTime: [0, 0], title: 'CLOSED' },
     isOpen: () => {
       if (!props.restaurant) return true
       const date = new Date()
-      const day = date.getDay()
       const hours = date.getHours()
       const minutes = date.getMinutes()
-      const todaysTimings = props.restaurant.openingTimes.find(
-        o => o.day === DAYS[day]
+      return (
+        hours >= Number(props.restaurant.openingTimes.startTime[0]) &&
+        minutes >= Number(props.restaurant.openingTimes.startTime[1]) &&
+        hours <= Number(props.restaurant.openingTimes.endTime[0]) &&
+        minutes <= Number(props.restaurant.openingTimes.endTime[1])
       )
-      const times = todaysTimings.times.filter(
-        t =>
-          hours >= Number(t.startTime[0]) &&
-          minutes >= Number(t.startTime[1]) &&
-          hours <= Number(t.endTime[0]) &&
-          minutes <= Number(t.endTime[1])
-      )
-
-      return times.length > 0
     }
   }
 
@@ -91,10 +88,12 @@ function ImageTextCenterHeader(props, ref) {
                     backgroundColor: props.iconBackColor,
                     borderRadius: props.iconRadius,
                     height: props.iconTouchHeight,
-                    width: props.iconTouchWidth
+                    width: props.iconTouchWidth,
                   }
                 ]}
-                onPress={() => navigation.toggleDrawer()}>
+                onPress={() => {
+                  navigation.toggleDrawer()
+                }}>
                 <AnimatedIon
                   name="ios-menu"
                   size={16}
@@ -105,42 +104,19 @@ function ImageTextCenterHeader(props, ref) {
               <Animated.View
                 style={[styles().fixedView, { opacity: props.opacity }]}>
                 <View style={[styles().fixedText, styles().message]}>
-                  <TextDefault
-                    bolder
-                    H4
-                    textColor={currentTheme.fontWhite}>
+                  <TextDefault bolder H4 textColor={currentTheme.fontWhite}>
                     {`Welcome ${customerName},`}
                   </TextDefault>
-                  <TextDefault
-                    H5
-                    textColor={currentTheme.fontWhite}>
-                    {"Got an Umbrella?"}
+                  <TextDefault H5 textColor={currentTheme.fontWhite}>
+                    {'Got an Umbrella?'}
                   </TextDefault>
-                  <TextDefault
-                    H5
-                    textColor={currentTheme.fontWhite}>
+                  <TextDefault H5 textColor={currentTheme.fontWhite}>
                     {"'cause it's about to rain cheese!"}
                   </TextDefault>
                 </View>
               </Animated.View>
             </View>
           </View>
-          <Animated.View
-            style={[styles().fixedView, { opacity: props.opacity }]}>
-            <View style={styles().fixedText}>
-              {!props.loading && (
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  style={styles().ratingBox}
-                  onPress={() => {
-                    navigation.navigate('About', {
-                      restaurantObject: { ...aboutObject, isOpen: null },
-                      tab: false
-                    })
-                  }}></TouchableOpacity>
-              )}
-            </View>
-          </Animated.View>
         </Animated.View>
       </Animated.View>
     </Animated.View>
