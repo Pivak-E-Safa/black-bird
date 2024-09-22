@@ -26,7 +26,6 @@ import EditAddress from '../screens/EditAddress/EditAddress'
 import CartAddress from '../screens/CartAddress/CartAddress'
 import FullMap from '../screens/FullMap/FullMap'
 import OrderDetail from '../screens/OrderDetail/OrderDetail'
-import Settings from '../screens/Settings/Settings'
 import Coupon from '../screens/Coupon/Coupon'
 import Main from '../screens/Main/Main'
 import Restaurant from '../screens/Restaurant/Restaurant'
@@ -117,7 +116,6 @@ function NoDrawer() {
             })
         }}
       />
-      <NavigationStack.Screen name="Settings" component={Settings} />
       <NavigationStack.Screen name="MyOrders" component={MyOrders} />
       <NavigationStack.Screen name="Reorder" component={Reorder} />
       <NavigationStack.Screen name="Chat" component={Chat} />

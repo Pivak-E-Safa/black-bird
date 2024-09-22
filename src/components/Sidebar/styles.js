@@ -15,7 +15,7 @@ const styles = (props = null) => {
       ...alignment.MTsmall
     },
     item: {
-      height: '9.5%',
+      height: '12%',
       ...alignment.MBxsmall
     }
   })

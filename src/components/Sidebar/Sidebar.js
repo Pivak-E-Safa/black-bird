@@ -33,12 +33,6 @@ const datas = [
     icon: 'bubble',
     navigateTo: 'Chat',
     isAuth: false
-  },
-  {
-    title: 'titleSettings',
-    icon: 'settings',
-    navigateTo: 'Settings',
-    isAuth: true
   }
 ]
 
