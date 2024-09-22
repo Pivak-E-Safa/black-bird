@@ -10,12 +10,6 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import styles from './styles'
 import Analytics from '../../utils/analytics'
 const datas = [
-  // {
-  //   title: 'titleFavourite',
-  //   icon: 'heart',
-  //   navigateTo: 'Favourite',
-  //   isAuth: true
-  // },
   {
     title: 'titleOrders',
     icon: 'layers',
@@ -32,12 +26,6 @@ const datas = [
     title: 'myAddresses',
     icon: 'location-pin',
     navigateTo: 'Addresses',
-    isAuth: true
-  },
-  {
-    title: 'titleHelp',
-    icon: 'question',
-    navigateTo: 'Help',
     isAuth: true
   },
   {

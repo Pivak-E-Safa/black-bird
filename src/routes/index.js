@@ -17,7 +17,6 @@ import MyOrders from '../screens/MyOrders/MyOrders'
 import Cart from '../screens/Cart/Cart'
 import RateAndReview from '../screens/RateAndReview/RateAndReview'
 import Payment from '../screens/Payment/Payment'
-import Help from '../screens/Help/Help'
 import Paypal from '../screens/Paypal/Paypal'
 import StripeCheckout from '../screens/Stripe/StripeCheckout'
 import Profile from '../screens/Profile/Profile'
@@ -28,7 +27,6 @@ import CartAddress from '../screens/CartAddress/CartAddress'
 import FullMap from '../screens/FullMap/FullMap'
 import OrderDetail from '../screens/OrderDetail/OrderDetail'
 import Settings from '../screens/Settings/Settings'
-import HelpBrowser from '../screens/HelpBrowser/HelpBrowser'
 import Coupon from '../screens/Coupon/Coupon'
 import Main from '../screens/Main/Main'
 import Restaurant from '../screens/Restaurant/Restaurant'
@@ -42,7 +40,6 @@ import screenOptions from './screenOptions'
 import { LocationContext } from '../context/Location'
 import Reorder from '../screens/Reorder/Reorder'
 import Chat from '../screens/Chat/Chat'
-import Favourite from '../screens/Favourite/Favourite'
 import ChatScreen from '../screens/ChatWithRider/ChatScreen'
 import Tip from '../screens/Tip/Tip'
 import { DarkBackButton } from '../components/Header/HeaderIcons/HeaderIcons'
@@ -124,8 +121,6 @@ function NoDrawer() {
       <NavigationStack.Screen name="MyOrders" component={MyOrders} />
       <NavigationStack.Screen name="Reorder" component={Reorder} />
       <NavigationStack.Screen name="Chat" component={Chat} />
-      <NavigationStack.Screen name="Help" component={Help} />
-      <NavigationStack.Screen name="HelpBrowser" component={HelpBrowser} />
       <NavigationStack.Screen
         name="About"
         component={About}
@@ -164,7 +159,6 @@ function NoDrawer() {
         name="SelectLocation"
         component={SelectLocation}
       />
-      <NavigationStack.Screen name="Favourite" component={Favourite} />
       <NavigationStack.Screen name="ChatWithRider" component={ChatScreen} />
     </NavigationStack.Navigator>
   )
