@@ -8,22 +8,12 @@ import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
   View,
   TouchableOpacity,
-  Alert,
   StatusBar,
   Platform,
-  Image,
   Dimensions,
-  SectionList,
   Linking
 } from 'react-native'
-import Animated, {
-  Extrapolate,
-  interpolateNode,
-  concat,
-  useValue,
-  EasingNode,
-  timing
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import {
   Placeholder,
@@ -34,38 +24,19 @@ import {
 import { fetchRestaurantDetails } from '../../firebase/restaurants'
 import ImageHeader from '../../components/RestaurantDetails/ImageHeader'
 import ImageSlider from '../../components/RestaurantDetails/ImageSlider'
-import TextDefault from '../../components/Text/TextDefault/TextDefault'
-import ConfigurationContext from '../../context/Configuration'
-import UserContext from '../../context/User'
-import { useRestaurant } from '../../ui/hooks'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { scale } from '../../utils/scaling'
 import { theme } from '../../utils/themeColors'
 import styles from './styles'
-import { DAYS } from '../../utils/enums'
-import { alignment } from '../../utils/alignment'
-import TextError from '../../components/Text/TextError/TextError'
-import i18n from '../../../i18n'
 import Analytics from '../../utils/analytics'
 const { height } = Dimensions.get('screen')
 const HEADER_MAX_HEIGHT = height * 0.30
-// const SCROLL_RANGE = HEADER_MAX_HEIGHT
-
-// const config = to => ({
-//   duration: 250,
-//   toValue: to,
-//   easing: EasingNode.inOut(EasingNode.ease)
-// })
 
 function RestaurantDetails(props) {
-  const scrollRef = useRef(null)
-  const flatListRef = useRef(null)
   const navigation = useNavigation()
   const route = useRoute()
   const inset = useSafeAreaInsets()
   const propsData = route.params
-  const animation = useValue(0)
-  const circle = useValue(0)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
   const menuImage = require('../../assets/JPG/menu.jpg')
@@ -76,23 +47,9 @@ function RestaurantDetails(props) {
     require('../../assets/deals/deal4.jpg')
   ]
 
-  const configuration = useContext(ConfigurationContext)
   const [selectedLabel, selectedLabelSetter] = useState(0)
   const [data, setData] = useState(0)
   const [loading, setLoading] = useState(false)
-  const [buttonClicked, buttonClickedSetter] = useState(false)
-  const {
-    restaurant: restaurantCart,
-    setCartRestaurant,
-    cartCount,
-    addCartItem,
-    addQuantity,
-    clearCart,
-    checkItemCart
-  } = useContext(UserContext)
-  // const { data, refetch, networkStatus, loading, error } = useRestaurant(
-  //   propsData.id
-  // )
   const restaurantId = props.route.params.id
 
   useFocusEffect(() => {
@@ -121,215 +78,14 @@ function RestaurantDetails(props) {
     }
 
     getRestaurantDetails()
-
-    if (
-      data &&
-      data.restaurant &&
-      (!data.restaurant.isAvailable || !isOpen())
-    ) {
-      Alert.alert(
-        '',
-        'Restaurant Closed at the moment',
-        [
-          {
-            text: 'Go back to restaurants',
-            onPress: () => {
-              navigation.goBack()
-            },
-            style: 'cancel'
-          },
-          {
-            text: 'See Menu',
-            onPress: () => console.log('see menu')
-          }
-        ],
-        { cancelable: false }
-      )
-    }
-  }, []) // TODO: Should we pass data here? It was causing an infite loop I guess
-
-  const isOpen = () => {
-    const date = new Date()
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
-    return (
-      hours >= Number(data.restaurant.openingTimes.startTime[0]) &&
-      minutes >= Number(data.restaurant.openingTimes.startTime[1]) &&
-      hours <= Number(data.restaurant.openingTimes.endTime[0]) &&
-      minutes <= Number(data.restaurant.openingTimes.endTime[1])
-    )
-  }
-  const onPressItem = async food => {
-    if (!data.restaurant.isAvailable || !isOpen()) {
-      Alert.alert(
-        '',
-        'Restaurant Closed at the moment',
-        [
-          {
-            text: 'Go back to restaurants',
-            onPress: () => {
-              navigation.goBack()
-            },
-            style: 'cancel'
-          },
-          {
-            text: 'See Menu',
-            onPress: () => console.log('see menu')
-          }
-        ],
-        { cancelable: false }
-      )
-      return
-    }
-    if (!restaurantCart || restaurant.id === restaurantCart) {
-      await addToCart(food, restaurant.id !== restaurantCart)
-    } else if (restaurant.id !== restaurantCart) {
-      Alert.alert(
-        '',
-        'By leaving this restaurant page, the items you`ve added to cart will be cleared',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          },
-          {
-            text: 'OK',
-            onPress: async () => {
-              await addToCart(food, true)
-            }
-          }
-        ],
-        { cancelable: false }
-      )
-    }
-  }
-
-  const addToCart = async (food, clearFlag) => {
-    if (clearFlag) await clearCart()
-    navigation.navigate('ItemDetail', {
-      food,
-      restaurant: restaurantId
-    })
-  }
-
-  function tagCart(itemId) {
-    if (checkItemCart) {
-      const cartValue = checkItemCart(itemId)
-      if (cartValue.exist) {
-        return (
-          <>
-            <View style={styles(currentTheme).triangleCorner} />
-            <TextDefault
-              style={styles(currentTheme).tagText}
-              numberOfLines={1}
-              textColor={currentTheme.fontWhite}
-              bold
-              small
-              center>
-              {cartValue.quantity}
-            </TextDefault>
-          </>
-        )
-      }
-    }
-    return null
-  }
-
-  // button animation
-  function animate() {
-    timing(circle, {
-      toValue: 1,
-      duration: 500,
-      easing: EasingNode.inOut(EasingNode.ease)
-    }).start()
-    circle.setValue(0) // important for animation next time.
-  }
-
-  // Section and Flatlist fucntion  => related to topbar styling and scrolling
-
-  const scrollToSection = index => {
-    if (scrollRef.current != null) {
-      scrollRef.current.scrollToLocation({
-        animated: true,
-        sectionIndex: index,
-        itemIndex: 0,
-        viewOffset: -(HEADER_MAX_HEIGHT),
-        viewPosition: 0
-      })
-    }
-  }
-
-  function changeIndex(index) {
-    if (selectedLabel !== index) {
-      selectedLabelSetter(index)
-      buttonClickedSetter(true)
-      scrollToSection(index)
-      scrollToNavbar(index)
-    }
-  }
-  function scrollToNavbar(value) {
-    if (flatListRef.current != null) {
-      flatListRef.current.scrollToIndex({
-        animated: true,
-        index: value,
-        viewPosition: 0.5
-      })
-    }
-  }
-
-  function onViewableItemsChanged({ viewableItems }) {
-    if (viewableItems.length === 0) return
-    if (
-      selectedLabel !== viewableItems[0].section.index &&
-      buttonClicked === false
-    ) {
-      selectedLabelSetter(viewableItems[0].section.index)
-      scrollToNavbar(viewableItems[0].section.index)
-    }
-  }
-
-  // const opacity = interpolateNode(animation, {
-  //   inputRange: [0, height * 0.05, SCROLL_RANGE / 2],
-  //   outputRange: [1, 0.8, 0],
-  //   extrapolate: Extrapolate.CLAMP
-  // })
+  }, [])
 
   const iconColor = currentTheme.iconColorPink
   const iconBackColor = currentTheme.themeBackgroundIcons
-
   const iconRadius = scale(15)
-
   const iconSize = scale(20)
-
   const iconTouchHeight = scale(30)
-
   const iconTouchWidth = scale(30)
-
-  // const headerTextFlex = concat(
-  //   interpolateNode(animation, {
-  //     inputRange: [0, 80, SCROLL_RANGE],
-  //     outputRange: [-10, -10, 0],
-  //     extrapolate: Extrapolate.CLAMP
-  //   }),
-  //   '%'
-  // )
-
-  const circleSize = interpolateNode(circle, {
-    inputRange: [0, 0.5, 1],
-    outputRange: [scale(18), scale(24), scale(18)],
-    extrapolate: Extrapolate.CLAMP
-  })
-  const radiusSize = interpolateNode(circle, {
-    inputRange: [0, 0.5, 1],
-    outputRange: [scale(9), scale(12), scale(9)],
-    extrapolate: Extrapolate.CLAMP
-  })
-  const fontChange = interpolateNode(circle, {
-    inputRange: [0, 0.5, 1],
-    outputRange: [scale(8), scale(12), scale(8)],
-    extrapolate: Extrapolate.CLAMP
-  })
 
   if (loading) {
     return (
@@ -347,21 +103,18 @@ function RestaurantDetails(props) {
           iconColor={iconColor}
           iconSize={iconSize}
           height={HEADER_MAX_HEIGHT}
-          // opacity={opacity}
+          opacity={opacity}
           iconBackColor={iconBackColor}
           iconRadius={iconRadius}
           iconTouchWidth={iconTouchWidth}
           iconTouchHeight={iconTouchHeight}
-          // headerTextFlex={headerTextFlex}
-          restaurantName={propsData.name}
-          restaurantImage={propsData.image}
-          restaurant={null}
+          headerTextFlex={headerTextFlex}
           topaBarData={[]}
           loading={loading}
         />
 
-        {/* <ImageSlider           
-          images={restaurantImages} />  */}
+        <ImageSlider           
+          images={restaurantImages} /> 
         <View
           style={[
             styles().navbarContainer,
@@ -392,7 +145,6 @@ function RestaurantDetails(props) {
       </Animated.View>
     )
   }
-  // if (error) return <TextError text={JSON.stringify(error)} />
   const restaurant = data.restaurant
   const allDeals = restaurant?.categories?.filter(cat => cat.foods.length)
   const deals = allDeals?.map((c, index) => ({
@@ -409,17 +161,13 @@ function RestaurantDetails(props) {
             iconColor={iconColor}
             iconSize={iconSize}
             height={HEADER_MAX_HEIGHT}
-            // opacity={opacity}
             iconBackColor={iconBackColor}
             iconRadius={iconRadius}
             iconTouchWidth={iconTouchWidth}
             iconTouchHeight={iconTouchHeight}
-            // headerTextFlex={headerTextFlex}
             restaurantName={propsData.name}
             restaurantImage={propsData.image}
-            restaurant={data.restaurant}
             topaBarData={deals}
-            changeIndex={changeIndex}
             selectedLabel={selectedLabel}
           />
           <View style={{
@@ -436,7 +184,7 @@ function RestaurantDetails(props) {
               <TouchableOpacity
                 style={[styles().card, styles().menu]}
                 onPress={() =>
-                  navigation.navigate('Restaurant', { id: restaurantId })
+                  navigation.navigate('Restaurant', { id: restaurantId, data: data })
                 }>
                 <Animated.Image
                   resizeMode="cover"
@@ -444,18 +192,17 @@ function RestaurantDetails(props) {
                   style={[
                     styles().flex,
                     {
-                      // opacity: props.opacity,
                       borderRadius: 10,
                       width: '100%',
                       height: 'auto',
-                      borderWidth: 3, // Border width for the 3D effect
-                      borderColor: '#FFB300', // A slightly darker yellow or orange for the border
-                      borderRadius: 10, // Rounded corners
-                      shadowColor: '#000', // Shadow color
-                      shadowOffset: { width: 0, height: 4 }, // Shadow offset
-                      shadowOpacity: 0.6, // Shadow opacity
-                      shadowRadius: 9, // Shadow blur radius
-                      elevation: 6 // Elevation for Android shadow
+                      borderWidth: 3,
+                      borderColor: '#FFB300',
+                      borderRadius: 10,
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 4 },
+                      shadowOpacity: 0.6,
+                      shadowRadius: 9,
+                      elevation: 6
                     }
                   ]}
                 />
@@ -543,45 +290,6 @@ function RestaurantDetails(props) {
               </View>
             </View>
           </View>
-
-          {cartCount > 0 && (
-            <View style={styles(currentTheme).buttonContainer}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                style={styles(currentTheme).button}
-                onPress={() => navigation.navigate('Cart')}>
-                <View style={styles().buttontLeft}>
-                  <Animated.View
-                    style={[
-                      styles(currentTheme).buttonLeftCircle,
-                      {
-                        width: circleSize,
-                        height: circleSize,
-                        borderRadius: radiusSize
-                      }
-                    ]}>
-                    <Animated.Text
-                      style={[
-                        styles(currentTheme).buttonTextLeft,
-                        { fontSize: fontChange }
-                      ]}>
-                      {cartCount}
-                    </Animated.Text>
-                  </Animated.View>
-                </View>
-                <TextDefault
-                  style={styles().buttonText}
-                  textColor={currentTheme.buttonTextPink}
-                  uppercase
-                  center
-                  bolder
-                  small>
-                  {i18n.t('viewCart')}
-                </TextDefault>
-                <View style={styles().buttonTextRight} />
-              </TouchableOpacity>
-            </View>
-          )}
         </Animated.View>
       )}
     </SafeAreaView>

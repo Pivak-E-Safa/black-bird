@@ -24,7 +24,9 @@ function PickUp(props) {
               ? styles(currentTheme).activeLabel
               : styles(currentTheme).labelButton
           }>
-          <Text>PickUp</Text>
+          <Text style={{
+            color: currentTheme.fontMainColor,
+          }}>PickUp</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -35,7 +37,9 @@ function PickUp(props) {
               ? styles(currentTheme).activeLabel
               : styles(currentTheme).labelButton
           }>
-          <Text>Delivery</Text>
+          <Text style={{
+            color: currentTheme.fontMainColor,
+          }}>Delivery</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -51,10 +55,10 @@ function PickUp(props) {
             setShowPicker(true)
           }}>
           <Text
-            style={
+            style={[
               Platform.OS === 'android'
                 ? styles().androidDateFormat
-                : styles().iosDateFormat
+                : styles().iosDateFormat, {color: currentTheme.fontMainColor}]
             }>
             {props.orderDate.format('MM-D-YYYY, h:mm a')}{' '}
             {Platform.OS === 'android' && (

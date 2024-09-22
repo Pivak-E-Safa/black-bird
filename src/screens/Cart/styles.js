@@ -36,14 +36,14 @@ const styles = (props = null) =>
     dealContainer: {
       width: '100%',
       backgroundColor: props !== null ? props.cartContainer : 'transparent',
-      borderRadius: scale(5),
+      borderRadius: scale(10),
       ...alignment.PLsmall,
       ...alignment.PRsmall
     },
     termsContainer: {
       width: '100%',
       backgroundColor: 'transparent',
-      borderRadius: scale(5),
+      borderRadius: scale(10),
       ...alignment.PLsmall,
       ...alignment.PRsmall
     },
@@ -54,7 +54,7 @@ const styles = (props = null) =>
     priceContainer: {
       width: '100%',
       backgroundColor: props !== null ? props.cartContainer : 'transparent',
-      borderRadius: scale(5),
+      borderRadius: scale(10),
       borderBottomColor:
         props !== null ? props.lightHorizontalLine : 'transparent',
       ...alignment.PLsmall,
@@ -165,7 +165,7 @@ const styles = (props = null) =>
     },
     placeHolderContainer: {
       backgroundColor: props != null ? props.cartContainer : '#B8B8B8',
-      borderRadius: 3,
+      borderRadius: 10,
       elevation: 3,
       marginBottom: 12,
       padding: 12
