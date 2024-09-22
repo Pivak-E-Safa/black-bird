@@ -19,7 +19,6 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import UserContext from '../../context/User'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
-import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import Analytics from '../../utils/analytics'
 const { height } = Dimensions.get('screen')
@@ -49,7 +48,7 @@ function ItemDetail(props) {
   const inset = useSafeAreaInsets()
 
   const iconColor = currentTheme.iconColorPink
-  const iconBackColor = currentTheme.themeBackground
+  const iconBackColor = currentTheme.themeBackgroundIcons
 
   const iconRadius = scale(15)
 

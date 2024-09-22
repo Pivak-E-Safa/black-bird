@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react'
 import { View, TouchableOpacity, Keyboard } from 'react-native'
-import { TextField } from 'react-native-material-textfield'
+// import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
@@ -78,7 +78,7 @@ function Tip(props) {
           onPress={() => Keyboard.dismiss()}>
           <View style={styles().upperContainer}>
             <View style={{ width: '70%' }}>
-              <TextField
+              {/* <TextField // TODO: Replace with some other textfield library
                 ref={tipRef}
                 label="Enter tip amount"
                 keyboardType="numeric"
@@ -92,7 +92,7 @@ function Tip(props) {
                 tintColor={currentTheme.iconColorPink}
                 labelOffset={{ y1: -5 }}
                 labelTextStyle={{ fontSize: scale(12), paddingTop: scale(1) }}
-              />
+              /> */}
             </View>
             <TouchableOpacity
               onPress={onTipping}

@@ -296,7 +296,7 @@ function RestaurantDetails(props) {
   // })
 
   const iconColor = currentTheme.iconColorPink
-  const iconBackColor = currentTheme.themeBackground
+  const iconBackColor = currentTheme.themeBackgroundIcons
 
   const iconRadius = scale(15)
 

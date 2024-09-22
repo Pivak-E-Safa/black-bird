@@ -377,7 +377,7 @@ function Restaurant(props) {
   //   1
   // )
 
-  const iconBackColor = currentTheme.themeBackground
+  const iconBackColor = currentTheme.themeBackgroundIcons
   // const iconBackColor = color(
   //   255,
   //   255,

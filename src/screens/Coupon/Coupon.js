@@ -1,6 +1,6 @@
 import React, { useState, useContext, useLayoutEffect, useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { TextField } from 'react-native-material-textfield'
+// import { TextField } from 'react-native-material-textfield'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
@@ -104,7 +104,7 @@ function SelectVoucher(props) {
         />
         <View style={styles().upperContainer}>
           <View style={{ width: '70%' }}>
-            <TextField
+            {/* <TextField // TODO: Replace with some other textfield library
               label="Enter your voucher code"
               labelFontSize={scale(12)}
               fontSize={scale(12)}
@@ -119,7 +119,7 @@ function SelectVoucher(props) {
               onChangeText={text => {
                 voucherCodeSetter(text)
               }}
-            />
+            /> */}
           </View>
           <TouchableOpacity
             onPress={() => onSelectCoupon(voucherCode)}

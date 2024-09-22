@@ -15,7 +15,7 @@ import {
 } from 'react-native'
 // import { useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
-import { TextField } from 'react-native-material-textfield'
+// import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import { updateUser, login } from '../../apollo/mutations'
 import i18n from '../../../i18n'
@@ -222,7 +222,7 @@ function Profile(props) {
                 <View style={styles().containerInfo}>
                   <View>
                     <View style={{ margin: scale(0) }}></View>
-                    <TextField
+                    {/* <TextField
                       label={i18n.t('name')}
                       ref={refName}
                       defaultValue={profile.name}
@@ -240,7 +240,7 @@ function Profile(props) {
                         paddingTop: scale(1)
                       }}
                       error={nameError}
-                    />
+                    /> */}
 
                     <View style={{ ...alignment.MTlarge }}></View>
                     <View style={{ ...alignment.MTxSmall }}>

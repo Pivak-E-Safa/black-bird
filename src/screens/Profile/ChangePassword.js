@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { View, TouchableOpacity, Alert } from 'react-native'
 import styles from './styles'
 import Modal from 'react-native-modal'
-import { TextField } from 'react-native-material-textfield'
+// import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import i18n from '../../../i18n'
 import { changePassword } from '../../apollo/mutations'
@@ -75,7 +75,7 @@ function ChangePassword(props) {
           </View>
 
           <View style={{ ...alignment.MTsmall }}>
-            <TextField
+            {/* <TextField // TODO: Replace with some other textfield library
               secureTextEntry
               autoFocus={true}
               error={oldPasswordError}
@@ -97,10 +97,10 @@ function ChangePassword(props) {
               onBlur={() => {
                 setOldPasswordError(!oldPassword ? 'Password is required' : '')
               }}
-            />
+            /> */}
           </View>
           <View style={{ ...alignment.MTmedium }}>
-            <TextField
+            {/* <TextField // TODO: Replace with some other textfield library
               secureTextEntry
               error={newPasswordError}
               label="New Password"
@@ -121,7 +121,7 @@ function ChangePassword(props) {
               onBlur={() => {
                 setNewPasswordError(!newPassword ? 'Password is required' : '')
               }}
-            />
+            /> */}
           </View>
 
           <TouchableOpacity
