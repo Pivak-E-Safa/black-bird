@@ -300,11 +300,6 @@ function Restaurant(props) {
     outputRange: [scale(9), scale(12), scale(9)],
     extrapolate: Extrapolate.CLAMP
   })
-  const fontChange = interpolateNode(circle, {
-    inputRange: [0, 0.5, 1],
-    outputRange: [scale(10), scale(14), scale(10)],
-    extrapolate: Extrapolate.CLAMP
-  })
 
   if (loading) {
     return (
@@ -577,7 +572,7 @@ function Restaurant(props) {
                     <Animated.Text
                       style={[
                         styles(currentTheme).buttonTextLeft,
-                        { fontSize: fontChange }
+                        { fontSize: 12 }
                       ]}>
                       {cartCount}
                     </Animated.Text>

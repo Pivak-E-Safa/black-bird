@@ -66,8 +66,7 @@ const cartItem = props => {
         style={{ width: '30%' }}
         small
         right>
-        {configuration.currencySymbol}
-        {parseFloat(props.dealPrice)}
+        {configuration.currencySymbol} {parseFloat(props.dealPrice)}
       </TextDefault>
     </View>
   )

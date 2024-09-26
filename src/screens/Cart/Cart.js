@@ -46,12 +46,11 @@ import { DAYS } from '../../utils/enums'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { RectButton } from 'react-native-gesture-handler'
 import { textStyles } from '../../utils/textStyles'
-import Pickup from '../../components/Pickup'
 import { calculateDistance } from '../../utils/customFunctions'
 import Analytics from '../../utils/analytics'
-import { placeAnOrder } from '../../firebase/order';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { placeAnOrder } from '../../firebase/order'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
 // Constants
 // const PLACEORDER = gql`
@@ -84,8 +83,6 @@ function Cart(props) {
   const [loadingData, setLoadingData] = useState(true)
   const [minimumOrder, setMinimumOrder] = useState('')
   const [isPickedUp, setIsPickedUp] = useState(false)
-  const [orderDate, setOrderDate] = useState(moment())
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedRestaurant, setSelectedRestaurant] = useState({})
   const [deliveryCharges, setDeliveryCharges] = useState(0)
 
@@ -97,11 +94,7 @@ function Cart(props) {
   // })
 
   const onOpen = () => {
-    const modal = modalRef.current
-    if (modal) {
-      modal.open()
-      setIsModalOpen(true)
-    }
+    setIsPickedUp(!isPickedUp)
   }
 
   // const [mutateOrder, { loading: loadingOrderMutation }] = useMutation(
@@ -147,7 +140,7 @@ function Cart(props) {
 
   useEffect(() => {
     let isSubscribed = true
-    ;(async() => {
+    ;(async () => {
       if (data && !!data.restaurant) {
         const latOrigin = Number(data.restaurant.location[1])
         const lonOrigin = Number(data.restaurant.location[0])
@@ -273,30 +266,17 @@ function Cart(props) {
     //   orderDate: data.placeOrder.orderDate
     // })
     // if (paymentMethod.payment === 'COD') {
-      await subscribeOrders();
-      await clearCart()
-      props.navigation.reset({
-        routes: [
-          { name: 'Main' },
-          {
-            name: 'OrderDetail',
-            params: { id: orderId, restaurantId: cartRestaurant }
-          }
-        ]
-      })
-    // } else if (paymentMethod.payment === 'PAYPAL') {
-    //   props.navigation.replace('Paypal', {
-    //     id: data.placeOrder.orderId,
-    //     currency: configuration.currency
-    //   })
-    // } else if (paymentMethod.payment === 'STRIPE') {
-    //   props.navigation.replace('StripeCheckout', {
-    //     id: data.placeOrder.orderId,
-    //     amount: data.placeOrder.orderAmount,
-    //     email: data.placeOrder.user.email,
-    //     currency: configuration.currency
-    //   })
-    // }
+    await subscribeOrders()
+    await clearCart()
+    props.navigation.reset({
+      routes: [
+        { name: 'Main' },
+        {
+          name: 'OrderDetail',
+          params: { id: orderId, restaurantId: cartRestaurant }
+        }
+      ]
+    })
   }
   function onError(error) {
     // console.log('onError', error)
@@ -312,89 +292,78 @@ function Cart(props) {
     // }
   }
 
-  function calculateTip() {
-    if (tip) {
-      return tip
-    } else if (selectedTip) {
-      let total = 0
-      const delivery = isPickedUp ? 0 : deliveryCharges
-      total += +calculatePrice(delivery, true)
-      total += +taxCalculation()
-      const tipPercentage = (
-        (total / 100) *
-        parseFloat(selectedTip)
-      )
-      return tipPercentage
-    } else {
-      return 0
-    }
-  }
-
   function taxCalculation() {
-    const tax = data.restaurant ? +data.restaurant.tax : 0
-    if (tax === 0) {
-      return tax
+    let taxPercentage = 0
+    let taxAmount = 0
+    if (data.restaurant?.applyTax) {
+      if (paymentMethod.payment === 'COD') {
+        taxPercentage = data.restaurant.codTax
+      } else {
+        taxPercentage = data.restaurant.cardTax
+      }
+      const delivery = isPickedUp ? 0 : deliveryCharges
+      const amount = +calculatePrice(delivery)
+      taxAmount = (amount / 100) * taxPercentage
     }
-    const delivery = isPickedUp ? 0 : deliveryCharges
-    const amount = +calculatePrice(delivery, true)
-    const taxAmount = ((amount / 100) * tax)
     return taxAmount
   }
 
-  function calculatePrice(delivery = 0, withDiscount) {
+  function calculatePrice(delivery = 0) {
     let itemTotal = 0
     cart.forEach(cartItem => {
       itemTotal += cartItem.variation?.price * cartItem.quantity
     })
-    if (withDiscount && coupon && coupon.discount) {
-      itemTotal = itemTotal - (coupon.discount / 100) * itemTotal
-    }
     const deliveryAmount = delivery > 0 ? deliveryCharges : 0
-    return (itemTotal + deliveryAmount)
+    return itemTotal + deliveryAmount
   }
 
   function calculateTotal() {
     let total = 0
     const delivery = isPickedUp ? 0 : deliveryCharges
-    total += +calculatePrice(delivery, true)
+    total += +calculatePrice(delivery)
     total += +taxCalculation()
-    total += +calculateTip()
     return parseFloat(total)
   }
 
   function validateOrder() {
-    return true;  // TODO: remove this
+    return true // TODO: remove this
     // if (!data.restaurant.isAvailable || !isOpen()) {// TODO: FIX THIS condition, it gives null exception
     //   showAvailablityMessage()
     //   return
     // }
-    if (!cart.length && false) { // TODO: FIX THIS and remove && false
+    if (!cart.length && false) {
+      // TODO: FIX THIS and remove && false
       FlashMessage({
         message: i18n.t('validateItems')
       })
       return false
     }
-    if (calculatePrice(deliveryCharges, true) < minimumOrder && false) { // TODO: FIX THIS and remove && false
+    if (calculatePrice(deliveryCharges) < minimumOrder && false) {
+      // TODO: FIX THIS and remove && false
       FlashMessage({
         message: `The minimum amount of (${configuration.currencySymbol} ${minimumOrder}) for your order has not been reached.`
       })
       return false
     }
-    if (!location.id && false) { // TODO: FIX THIS and remove && false
+    if (!location.id && false) {
+      // TODO: FIX THIS and remove && false
       props.navigation.navigate('CartAddress')
       return false
     }
-    if (!paymentMethod && false) { // TODO: FIX THIS and remove && false
+    if (!paymentMethod && false) {
+      // TODO: FIX THIS and remove && false
       FlashMessage({
         message: 'Set payment method before checkout'
       })
       return false
     }
-    if (profile.phone.length < 1 && false) { // TODO: FIX THIS and remove && false
+    if (profile.phone.length < 1 && false) {
+      // TODO: FIX THIS and remove && false
       props.navigation.navigate('Profile', { backScreen: 'Cart' })
       return false
     }
-    if (profile.phone.length > 0 && !profile.phoneIsVerified && false) { // TODO: FIX THIS and remove && false
+    if (profile.phone.length > 0 && !profile.phoneIsVerified && false) {
+      // TODO: FIX THIS and remove && false
       FlashMessage({
         message: 'Phone number is not verified. Kindly verify phone number.'
       })
@@ -438,8 +407,6 @@ function Cart(props) {
       //     restaurant: cartRestaurant,
       //     orderInput: items,
       //     paymentMethod: paymentMethod.payment,
-      //     couponCode: coupon ? coupon.title : null,
-      //     tipping: +calculateTip(),
       //     taxationAmount: +taxCalculation(),
       //     orderDate: orderDate,
       //     isPickedUp: isPickedUp,
@@ -456,8 +423,6 @@ function Cart(props) {
 
       const orderData = {
         paymentMethod: paymentMethod.payment,
-        couponCode: coupon ? coupon.title : null,
-        tipping: +calculateTip(),
         taxationAmount: +taxCalculation(),
         createdAt: Timestamp.fromDate(new Date()),
         isPickedUp: isPickedUp,
@@ -471,17 +436,20 @@ function Cart(props) {
         deliveryCharges: data.restaurant.deliveryCharges
       }
 
-      const itemsData = transformOrder(cart);
+      const itemsData = transformOrder(cart)
 
       const addressData = {
         label: location.label,
         address: location.deliveryAddress,
         details: location.details,
         // location: [location.latitude, location.longitude],
-        location: new firebase.firestore.GeoPoint(31.690823473174465, 73.00329238299295),
+        location: new firebase.firestore.GeoPoint(
+          31.690823473174465,
+          73.00329238299295
+        )
       }
-      const orderId = await placeAnOrder(orderData, itemsData, addressData);
-      onCompleted(orderId);
+      const orderId = await placeAnOrder(orderData, itemsData, addressData)
+      onCompleted(orderId)
     } else {
       FlashMessage({
         message: i18n.t('paymentNotSupported')
@@ -730,7 +698,6 @@ function Cart(props) {
                     }}>
                     <TextDefault textColor={currentTheme.fontMainColor}>
                       {isPickedUp ? 'Pick Up' : 'Delivery'}{' '}
-                      {` (${orderDate.format('MM-D-YYYY, h:mm a')})`}
                     </TextDefault>
                   </View>
                   <View
@@ -740,7 +707,9 @@ function Cart(props) {
                       alignItems: 'center'
                     }}>
                     <TouchableOpacity onPress={onOpen}>
-                      <TextDefault textColor={currentTheme.iconColorPink}>Switch to {isPickedUp ? 'Delivery' : 'Pick Up'}{' '}</TextDefault>
+                      <TextDefault textColor={currentTheme.iconColorPink}>
+                        Switch to {isPickedUp ? 'Delivery' : 'Pick Up'}{' '}
+                      </TextDefault>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -762,9 +731,9 @@ function Cart(props) {
                         quantity={food.quantity}
                         dealName={food.title}
                         optionsTitle={food.optionsTitle}
-                        dealPrice={(
+                        dealPrice={
                           parseFloat(food.variation?.price) * food.quantity
-                        )}
+                        }
                         addQuantity={() => {
                           addQuantity(food.key)
                         }}
@@ -796,8 +765,7 @@ function Cart(props) {
                     small
                     style={{ width: '70%' }}
                     right>
-                    {configuration.currencySymbol}
-                    {calculatePrice(0, false)}
+                    {configuration.currencySymbol} {calculatePrice(0)}
                   </TextDefault>
                 </View>
                 {!isPickedUp && (
@@ -815,121 +783,32 @@ function Cart(props) {
                       style={{ width: '70%' }}
                       small
                       right>
-                      {configuration.currencySymbol}
-                      {deliveryCharges}
+                      {configuration.currencySymbol} {deliveryCharges}
                     </TextDefault>
                   </View>
                 )}
-                <View style={[styles().floatView, styles().pB10]}>
-                  <TextDefault
-                    numberOfLines={1}
-                    textColor={currentTheme.fontSecondColor}
-                    small
-                    style={{ width: '30%' }}>
-                    {i18n.t('taxFee')}
-                  </TextDefault>
-                  <TextDefault
-                    numberOfLines={1}
-                    textColor={currentTheme.fontMainColor}
-                    style={{ width: '70%' }}
-                    small
-                    right>
-                    {configuration.currencySymbol}
-                    {taxCalculation()}
-                  </TextDefault>
-                </View>
-                {!coupon ? (
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={[styles().pB10, styles().width100]}
-                    onPress={() => {
-                      props.navigation.navigate('Coupon', {
-                        paymentMethod,
-                        coupon
-                      })
-                    }}>
-                    <TextDefault
-                      numberOfLines={1}
-                      small
-                      textColor={currentTheme.buttonBackgroundPink}>
-                      {i18n.t('haveVoucher')}
-                    </TextDefault>
-                  </TouchableOpacity>
-                ) : (
-                  <View style={[styles().floatView, styles().pB10]}>
-                    <TextDefault
-                      numberOfLines={1}
-                      textColor={currentTheme.fontMainColor}
-                      small
-                      style={{ width: '30%' }}>
-                      {coupon ? coupon.title : null}
-                    </TextDefault>
-                    <View
-                      numberOfLines={1}
-                      style={[
-                        styles().floatText,
-                        styles(currentTheme).floatRight,
-                        { flexDirection: 'row', justifyContent: 'flex-end' }
-                      ]}>
-                      <TouchableOpacity
-                        activeOpacity={0.7}
-                        onPress={() => {
-                          props.navigation.setParams({ coupon: null })
-                        }}>
-                        <TextDefault
-                          small
-                          textColor={currentTheme.buttonBackgroundPink}>
-                          {coupon ? i18n.t('remove') : null}
-                        </TextDefault>
-                      </TouchableOpacity>
-                      <TextDefault textColor={currentTheme.fontMainColor} small>
-                        -{configuration.currencySymbol}
-                        {parseFloat(
-                          calculatePrice(0, false) - calculatePrice(0, true)
-                        )}
+
+                {data.restaurant?.applyTax && (
+                  <>
+                    <View style={[styles().floatView, styles().pB10]}>
+                      <TextDefault
+                        numberOfLines={1}
+                        textColor={currentTheme.fontSecondColor}
+                        small
+                        style={{ width: '30%' }}>
+                        {i18n.t('taxFee')}
+                      </TextDefault>
+                      <TextDefault
+                        numberOfLines={1}
+                        textColor={currentTheme.fontMainColor}
+                        style={{ width: '70%' }}
+                        small
+                        right>
+                        {configuration.currencySymbol} {taxCalculation()}
                       </TextDefault>
                     </View>
-                  </View>
+                  </>
                 )}
-                <View
-                  style={[styles().floatView, styles().pB10, styles().tipRow]}>
-                  <TextDefault
-                    numberOfLines={1}
-                    small
-                    textColor={currentTheme.fontSecondColor}
-                    style={{ width: '30%' }}>
-                    {'Tip'}
-                  </TextDefault>
-                  <View
-                    numberOfLines={1}
-                    style={[
-                      styles().floatText,
-                      styles(currentTheme).floatRight,
-                      {
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                        alignItems: 'center'
-                      }
-                    ]}>
-                    <TouchableOpacity
-                      activeOpacity={0.7}
-                      style={{ ...alignment.PxSmall }}
-                      onPress={() => {
-                        setSelectedTip(null)
-                        props.navigation.setParams({ tipAmount: null })
-                      }}>
-                      <TextDefault
-                        small
-                        textColor={currentTheme.buttonBackgroundPink}>
-                        {tip || selectedTip ? i18n.t('remove') : null}
-                      </TextDefault>
-                    </TouchableOpacity>
-                    <TextDefault textColor={currentTheme.fontMainColor} small>
-                      {configuration.currencySymbol}
-                      {parseFloat(calculateTip())}
-                    </TextDefault>
-                  </View>
-                </View>
                 <View
                   style={[
                     styles(currentTheme).horizontalLine,
@@ -952,8 +831,7 @@ function Cart(props) {
                     style={{ width: '70%' }}
                     bolder
                     right>
-                    {configuration.currencySymbol}
-                    {calculateTotal()}
+                    {configuration.currencySymbol} {calculateTotal()}
                   </TextDefault>
                 </View>
               </View>
@@ -1153,8 +1031,7 @@ function Cart(props) {
                         style={{ width: '45%' }}
                         small
                         right>
-                        {configuration.currencySymbol}
-                        {calculateTotal()}
+                        {configuration.currencySymbol} {calculateTotal()}
                       </TextDefault>
                     </TouchableOpacity>
                   </View>
@@ -1178,108 +1055,75 @@ function Cart(props) {
               </View>
             </ScrollView>
 
-            {!isModalOpen && (
-              <View style={styles(currentTheme).buttonContainer}>
-                {isLoggedIn && profile ? (
-                  <TouchableOpacity
-                    // disabled={loadingOrderMutation}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      if (validateOrder()) onPayment()
-                    }}
-                    style={styles(currentTheme).button}>
-                    {/* {loadingOrderMutation ? (
+            <View style={styles(currentTheme).buttonContainer}>
+              {isLoggedIn && profile ? (
+                <TouchableOpacity
+                  // disabled={loadingOrderMutation}
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    if (validateOrder()) onPayment()
+                  }}
+                  style={styles(currentTheme).button}>
+                  {/* {loadingOrderMutation ? (
                       <ActivityIndicator
                         size="large"
                         style={{ flex: 1, justifyContent: 'center' }}
                         color={currentTheme.buttonText}
                       />
                     ) : ( */}
-                      <>
-                        <View style={styles().buttontLeft}>
-                          <View style={styles(currentTheme).buttonLeftCircle}>
-                            <TextDefault
-                              bold
-                              center
-                              textColor={currentTheme.fontMainColor}
-                              smaller>
-                              {cartCount}
-                            </TextDefault>
-                          </View>
-                        </View>
+                  <>
+                    <View style={styles().buttontLeft}>
+                      <View style={styles(currentTheme).buttonLeftCircle}>
                         <TextDefault
-                          textColor={currentTheme.fontMainColor}
-                          style={{ width: '30%' }}
-                          bolder
-                          B700
-                          small
-                          center
-                          uppercase>
-                          {i18n.t('orderBtn')}
-                        </TextDefault>
-                        <TextDefault
-                          textColor={currentTheme.fontMainColor}
-                          style={{ width: '35%' }}
                           bold
-                          small
-                          right>
-                          {configuration.currencySymbol}
-                          {calculateTotal()}
+                          center
+                          textColor={currentTheme.fontMainColor}
+                          small>
+                          {cartCount}
                         </TextDefault>
-                      </>
-                    {/* )} */}
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      props.navigation.navigate({ name: 'CreateAccount' })
-                    }}
-                    style={styles(currentTheme).button}>
+                      </View>
+                    </View>
                     <TextDefault
                       textColor={currentTheme.fontMainColor}
-                      style={{ width: '100%' }}
-                      H5
+                      style={{ width: '30%' }}
                       bolder
+                      small
                       center
                       uppercase>
-                      {i18n.t('loginOrCreateAccount')}
+                      {i18n.t('orderBtn')}
                     </TextDefault>
-                  </TouchableOpacity>
-                )}
-              </View>
-            )}
+                    <TextDefault
+                      textColor={currentTheme.fontMainColor}
+                      style={{ width: '35%' }}
+                      bolder
+                      normal
+                      right>
+                      {configuration.currencySymbol} {calculateTotal()}
+                    </TextDefault>
+                  </>
+                  {/* )} */}
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => {
+                    props.navigation.navigate({ name: 'CreateAccount' })
+                  }}
+                  style={styles(currentTheme).button}>
+                  <TextDefault
+                    textColor={currentTheme.fontMainColor}
+                    style={{ width: '100%' }}
+                    H5
+                    bolder
+                    center
+                    uppercase>
+                    {i18n.t('loginOrCreateAccount')}
+                  </TextDefault>
+                </TouchableOpacity>
+              )}
+            </View>
           </>
         )}
-        <Modalize
-          ref={modalRef}
-          modalStyle={styles(currentTheme).modal}
-          modalHeight={350}
-          overlayStyle={styles().overlay}
-          handleStyle={styles().handle}
-          handlePosition="inside"
-          onClosed={() => {
-            setIsModalOpen(false)
-          }}
-          onOpened={() => {
-            setIsModalOpen(true)
-          }}
-          openAnimationConfig={{
-            timing: { duration: 400 },
-            spring: { speed: 20, bounciness: 10 }
-          }}
-          closeAnimationConfig={{
-            timing: { duration: 400 },
-            spring: { speed: 20, bounciness: 10 }
-          }}>
-          <Pickup
-            minimumTime={new Date()}
-            setOrderDate={setOrderDate}
-            isPickedUp={isPickedUp}
-            setIsPickedUp={setIsPickedUp}
-            orderDate={orderDate}
-          />
-        </Modalize>
       </View>
       <View
         style={{
@@ -1292,4 +1136,3 @@ function Cart(props) {
 }
 
 export default Cart
-

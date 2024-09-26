@@ -113,7 +113,7 @@ const styles = (props = null) =>
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: props !== null ? props.buttonBackground : 'black',
+      backgroundColor: props !== null ? props.iconColorPink : 'black',
       height: '75%',
       width: '95%',
       ...alignment.PLsmall,
@@ -122,10 +122,10 @@ const styles = (props = null) =>
     buttontLeft: {
       width: '35%',
       height: '50%',
-      justifyContent: 'center'
+      justifyContent: 'center',
     },
     buttonLeftCircle: {
-      backgroundColor: props != null ? props.menuBar : '#FFF',
+      backgroundColor: props != null ? props.themeBackgroundIcons : '#FFF',
       justifyContent: 'center',
       alignItems: 'center',
       width: scale(18),

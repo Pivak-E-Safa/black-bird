@@ -17,7 +17,6 @@ import MyOrders from '../screens/MyOrders/MyOrders'
 import Cart from '../screens/Cart/Cart'
 import RateAndReview from '../screens/RateAndReview/RateAndReview'
 import Payment from '../screens/Payment/Payment'
-import Paypal from '../screens/Paypal/Paypal'
 import StripeCheckout from '../screens/Stripe/StripeCheckout'
 import Profile from '../screens/Profile/Profile'
 import Addresses from '../screens/Addresses/Addresses'
@@ -26,7 +25,6 @@ import EditAddress from '../screens/EditAddress/EditAddress'
 import CartAddress from '../screens/CartAddress/CartAddress'
 import FullMap from '../screens/FullMap/FullMap'
 import OrderDetail from '../screens/OrderDetail/OrderDetail'
-import Coupon from '../screens/Coupon/Coupon'
 import Main from '../screens/Main/Main'
 import Restaurant from '../screens/Restaurant/Restaurant'
 import RestaurantDetails from '../screens/RestaurantDetails/RestaurantDetails'
@@ -124,8 +122,6 @@ function NoDrawer() {
         component={About}
         options={{ header: () => null }}
       />
-      <NavigationStack.Screen name="Coupon" component={Coupon} />
-      <NavigationStack.Screen name="Paypal" component={Paypal} />
       <NavigationStack.Screen name="Tip" component={Tip} />
       <NavigationStack.Screen name="RateAndReview" component={RateAndReview} />
 

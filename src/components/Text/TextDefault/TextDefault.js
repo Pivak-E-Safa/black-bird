@@ -19,6 +19,7 @@ function TextDefault(props) {
   if (props.left) customStyles.push(textStyles.Left)
   if (props.small) customStyles.push(textStyles.Small)
   if (props.smaller) customStyles.push(textStyles.Smaller)
+  if (props.normal) customStyles.push(textStyles.Normal)
   if (props.H5) customStyles.push(textStyles.H5)
   if (props.H4) customStyles.push(textStyles.H4)
   if (props.H3) customStyles.push(textStyles.H3)

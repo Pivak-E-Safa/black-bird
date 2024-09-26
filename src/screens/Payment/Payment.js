@@ -23,12 +23,6 @@ function Payment(props) {
       icon1: require('../../assets/images/visaIcon.png')
     },
     {
-      payment: 'PAYPAL',
-      label: i18n.t('paypal'),
-      index: 1,
-      icon: require('../../assets/images/paypal.png')
-    },
-    {
       payment: 'COD',
       label: i18n.t('cod'),
       index: 2,
