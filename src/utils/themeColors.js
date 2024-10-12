@@ -1,53 +1,8 @@
 export const theme = {
-  Pink: {
-    black: '#000000',
-    white: '#FFFFFF',
-    themeBackground: '#FAFAFA',
-    themeBackgroundIcons: 'rgba(250, 250, 250, 0.6)', // Changed to new branding color
-    menuBar: '#FFFFFF',
-    iconColor: '#333333',
-    iconColorPink: '#C26E29', // Changed to new branding color
-    itemCardColor: '#FFFFFF',
-    tagColor: '#C26E29', // Changed to new branding color
-    radioColor: '#C26E29', // Changed to new branding color
-    radioOuterColor: '#949393',
-    startColor: '#C26E29', // Changed to new branding color
-    startOutlineColor: '#C26E29', // Changed to new branding color
-    spinnerColor: '#C26E29', // Changed to new branding color
-    orderComplete: '#1DB20D',
-    orderUncomplete: '#fe0000',
-    horizontalLine: '#949393',
-    lightHorizontalLine: '#f0f0f0',
-    buttonBackground: '#C26E29', // Changed to new branding color
-    buttonText: '#FFFFFF',
-    buttonBackgroundPink: '#C26E29', // Changed to new branding color
-    buttonTextPink: '#FFFFFF',
-    fontWhite: '#FFFFFF',
-    shadowColor: '#2a2a2a',
-    cartContainer: '#FFFFFF',
-    textErrorColor: '#FA7751',
-    headerBackground: '#C26E29', // Changed to new branding color
-    headerMenuBackground: '#FAFAFA',
-    headerText: '#FFFFFF',
-    fontMainColor: '#3A2003', // Changed to new branding color
-    fontSecondColor: '#949393',
-    titleComponentBackground: 'rgba(39,111,191,0.1)',
-    titleComponentText: 'rgba(39,111,191,0.8)',
-    titleTextError: '#FFFFFF',
-    statusSecondColor: '#5A5858',
-    rippleColor: '#C26E29', // Changed to new branding color
-    backIcon: '#FFFFFF',
-    backIconBackground: '#000000', // Changed to new branding color
-    secondaryText: '#A3A0A0',
-    main: '#90EA93',
-    secondaryBackground: '#ECECEC',
-    shadow: '#707070',
-    errorInputBack: '#F7E7E5',
-    errorInputBorder: '#DB4A39'
-  },
   Dark: {
     black: '#000000', // Changed to new branding color
     white: '#FFFFFF',
+    menuBar: '#FFFFFF',
     themeBackground: '#000000', // Changed to new branding color
     themeBackgroundIcons: 'rgba(0, 0, 0, 0.6)', // Changed to new branding color
     menuBar: '#000000', // Changed to new branding color

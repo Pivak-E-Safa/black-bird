@@ -65,8 +65,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      AsyncStorage.getItem('theme').then(response =>
-        response !== 'Pink' ? themeSetter({ type: response }) : null
+      AsyncStorage.getItem('theme').then(response => themeSetter({ type: response })
       )
     } catch (error) {
       // Error retrieving data
