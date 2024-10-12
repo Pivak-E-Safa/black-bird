@@ -163,7 +163,7 @@ export const en = {
   privacyPolicy: 'Privacy Policy',
   and: 'and',
   whatsYourEmail: "What's your Email?",
-  checkAccount: "We'll check if you've an account",
+  checkAccount: "Already a member of the foodverse?",
   signInWithEmail: 'Sign in with your email',
   continueBtn: 'Continue',
   emailErr1: 'Email is required',

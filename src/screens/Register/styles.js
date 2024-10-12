@@ -43,7 +43,7 @@ const styles = (props = null) =>
     },
     form: {
       width: '100%',
-      ...alignment.MTlarge
+      ...alignment.MTxSmall
     },
     textField: {
       borderColor: '#efefef',
@@ -87,12 +87,13 @@ const styles = (props = null) =>
     },
     number: {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
     },
     countryCode: {
       flexDirection: 'row',
       width: '27%',
-      marginRight: '3%'
+      marginRight: '3%',
+      padding: 5
     },
     phoneNumber: {
       width: '70%'

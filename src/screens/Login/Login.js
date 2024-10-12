@@ -86,6 +86,7 @@ function Login(props) {
                 <TextDefault
                   H3
                   bolder
+                  textColor={currentTheme.horizontalLine}
                   style={{
                     textAlign: 'center',
                     ...alignment.MTlarge,
@@ -192,7 +193,7 @@ function Login(props) {
                       login(email, password);
                     }}
                     activeOpacity={0.7}
-                    style={styles().btn}>
+                    style={[styles().btn, {backgroundColor: currentTheme.iconColorPink}]}>
                     <TextDefault
                       H4
                       textColor={currentTheme.buttonTextPink}

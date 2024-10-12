@@ -191,10 +191,10 @@ export const useCreateAccount = () => {
     )
   })
   const openTerms = () => {
-    Linking.openURL(config.TERMS_AND_CONDITIONS)
+    // Linking.openURL(config.TERMS_AND_CONDITIONS)
   }
   const openPrivacyPolicy = () => {
-    Linking.openURL(config.PRIVACY_POLICY)
+    // Linking.openURL(config.PRIVACY_POLICY)
   }
   return {
     enableApple,

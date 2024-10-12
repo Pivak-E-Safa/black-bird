@@ -15,7 +15,7 @@ const FdEmailBtn = props => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      style={styles().mainContainer}
+      style={[styles().mainContainer, { backgroundColor: currentTheme.iconColorPink }]}
       onPress={props.onPress}>
       {props.loadingIcon ? (
         <Spinner backColor="rgba(0,0,0,0.1)" spinnerColor={'#FFF'} />

@@ -4,7 +4,8 @@ import { alignment } from '../../utils/alignment'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      height: '100%',
     },
     safeAreaViewStyles: {
       flex: 1,
@@ -14,12 +15,15 @@ const styles = (props = null) =>
     mainContainer: {
       flex: 1,
       alignItems: 'center',
+      height: '100%',
       backgroundColor: props !== null ? props.themeBackground : 'transparent',
       ...alignment.PTlarge
     },
     subContainer: {
       width: '85%',
-      height: '100%'
+      alignItems: 'center',
+      height: '100%',
+      marginTop: '20%'
     },
     alignItemsCenter: {
       alignItems: 'center'
@@ -50,7 +54,7 @@ const styles = (props = null) =>
     },
     form: {
       width: '100%',
-      ...alignment.MTlarge
+      ...alignment.MTxSmall
     },
     textField: {
       borderColor: '#efefef',
@@ -90,9 +94,9 @@ const styles = (props = null) =>
     btn: {
       position: 'relative',
       // marginTop: '55%',
-      width: '70%',
+      width: '60%',
       alignItems: 'center',
-      backgroundColor: props !== null ? props.black : '#000',
+      backgroundColor: props !== null ? props.iconColorPink : '#000',
       alignSelf: 'center',
       padding: 15,
       borderRadius: 10

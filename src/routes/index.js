@@ -131,7 +131,11 @@ function NoDrawer() {
       />
 
       {/* Authentication Login */}
-      <NavigationStack.Screen name="CreateAccount" component={CreateAccount} />
+      <NavigationStack.Screen
+        name="CreateAccount"
+        component={CreateAccount}
+        options={{ header: () => null }}
+      />
       <NavigationStack.Screen name="Login" component={Login} />
       <NavigationStack.Screen name="Register" component={Register} />
       <NavigationStack.Screen name="PhoneNumber" component={PhoneNumber} />

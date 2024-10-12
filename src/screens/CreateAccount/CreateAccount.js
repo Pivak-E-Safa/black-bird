@@ -13,7 +13,6 @@ import navigationOptions from './screenOptions'
 
 const CreateAccount = props => {
   const {
-    enableApple,
     loginButton,
     loginButtonSetter,
     loading,
@@ -37,63 +36,6 @@ const CreateAccount = props => {
       })
     )
   }, [navigation, currentTheme])
-
-  function renderAppleAction() {
-    if (loading && loginButton === 'Apple') {
-      return (
-        <View style={styles().buttonBackground}>
-          <Spinner backColor="rgba(0,0,0,0.1)" spinnerColor={'#FFF'} />
-        </View>
-      )
-    }
-    return (
-      <AppleAuthentication.AppleAuthenticationButton
-        buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
-        buttonStyle={
-          themeContext.ThemeValue === 'Dark'
-            ? AppleAuthentication.AppleAuthenticationButtonStyle.WHITE
-            : AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-        }
-        cornerRadius={10}
-        style={styles().appleBtn}
-        onPress={async() => {
-          try {
-            const credential = await AppleAuthentication.signInAsync({
-              requestedScopes: [
-                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                AppleAuthentication.AppleAuthenticationScope.EMAIL
-              ]
-            })
-            {
-              const user = {
-                appleId: credential.user,
-                phone: '',
-                email: credential.email,
-                password: '',
-                name:
-                  credential.fullName.givenName +
-                  ' ' +
-                  credential.fullName.familyName,
-                picture: '',
-                type: 'apple'
-              }
-              mutateLogin(user)
-            }
-            loginButtonSetter('Apple')
-            // signed in
-          } catch (e) {
-            if (e.code === 'ERR_CANCELLED') {
-              // handle that the user canceled the sign-in flow
-              loginButtonSetter(null)
-            } else {
-              // handle other errors
-              loginButtonSetter(null)
-            }
-          }
-        }}
-      />
-    )
-  }
 
   function renderGoogleAction() {
     return (
@@ -136,9 +78,6 @@ const CreateAccount = props => {
       </TextDefault>
       <View>
         <View style={styles().marginTop10}>{renderGoogleAction()}</View>
-        {enableApple && (
-          <View style={styles().marginTop10}>{renderAppleAction()}</View>
-        )}
         <View
           style={[
             styles().marginTop5,
@@ -146,34 +85,13 @@ const CreateAccount = props => {
           ]}>
           <View style={styles().line} />
           <View>
-            <TextDefault H4 bolder style={{ width: 50, textAlign: 'center' }}>
+            <TextDefault H4 bolder style={{ width: 50, textAlign: 'center', color: currentTheme.iconColorPink }}>
               {i18n.t('or')}
             </TextDefault>
           </View>
           <View style={styles().line} />
         </View>
         <View style={styles().marginTop5}>{renderEmailAction()}</View>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          ...alignment.MTlarge,
-          ...alignment.MBlarge
-        }}>
-        <TextDefault>{i18n.t('termCondition1')} </TextDefault>
-        <TouchableOpacity onPress={openTerms}>
-          <TextDefault bolder textColor={currentTheme.buttonBackgroundPink}>
-            {i18n.t('temrConditions')}
-          </TextDefault>
-        </TouchableOpacity>
-        <TextDefault>{i18n.t('and')}</TextDefault>
-        <TouchableOpacity onPress={openPrivacyPolicy}>
-          <TextDefault bolder textColor={currentTheme.buttonBackgroundPink}>
-            {' '}
-            {i18n.t('privacyPolicy')}
-          </TextDefault>
-        </TouchableOpacity>
       </View>
     </View>
   )

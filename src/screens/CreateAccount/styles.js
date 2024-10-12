@@ -6,20 +6,22 @@ const { height } = Dimensions.get('window')
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      backgroundColor: props !== null ? props.themeBackground : '#000000'
     },
     mainContainer: {
       alignItems: 'center',
-      backgroundColor: props !== null ? props.buttonText : 'transparent'
+      backgroundColor: props !== null ? props.themeBackground : '#000000'
     },
     subContainer: {
       display: 'flex',
       alignSelf: 'center',
-      width: '80%',
+      width: '100%',
       paddingBottom: 10,
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: props !== null ? props.themeBackground : '#000000'
     },
     whiteColor: {
       backgroundColor: props !== null ? props.buttonText : 'transparent'

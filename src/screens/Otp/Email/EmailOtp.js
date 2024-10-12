@@ -55,6 +55,7 @@ function EmailOtp(props) {
             <TextDefault
               H3
               bolder
+              textColor={currentTheme.horizontalLine}
               style={{
                 textAlign: 'center',
                 ...alignment.MTlarge,
@@ -65,7 +66,7 @@ function EmailOtp(props) {
             <TextDefault
               H5
               bold
-              textColor={currentTheme.fontSecondColor}
+              textColor={currentTheme.horizontalLine}
               style={{
                 textAlign: 'center'
               }}>

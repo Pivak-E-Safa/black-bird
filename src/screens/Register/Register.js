@@ -82,6 +82,7 @@ function Register(props) {
                 <TextDefault
                   H3
                   bolder
+                  textColor={currentTheme.horizontalLine}
                   style={{
                     textAlign: 'center',
                     ...alignment.MTlarge,
@@ -92,7 +93,7 @@ function Register(props) {
                 <TextDefault
                   H5
                   bold
-                  textColor={currentTheme.fontSecondColor}
+                  textColor={currentTheme.horizontalLine}
                   style={{
                     textAlign: 'center'
                   }}>
@@ -235,7 +236,7 @@ function Register(props) {
                   <TouchableOpacity
                     onPress={() => registerAction()}
                     activeOpacity={0.7}
-                    style={styles(currentTheme).btn}>
+                    style={[styles().btn, {backgroundColor: currentTheme.iconColorPink}]}>
                     <TextDefault
                       H4
                       textColor={currentTheme.buttonTextPink}
