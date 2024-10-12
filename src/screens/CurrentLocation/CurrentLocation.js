@@ -12,6 +12,7 @@ import LocationPermission from '../../assets/SVG/imageComponents/LocationPermiss
 import { scale } from '../../utils/scaling'
 import Analytics from '../../utils/analytics'
 import Spinner from '../../components/Spinner/Spinner'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function CurrentLocation() {
   const [loading, setLoading] = useState(false)
@@ -55,7 +56,7 @@ export default function CurrentLocation() {
   }
   StatusBar.setBarStyle('light-content')
   return (
-    <>
+    <SafeAreaView style={styles(currentTheme).safeAreaViewStyles}>
       <View
         style={[
           styles().flex,
@@ -71,16 +72,16 @@ export default function CurrentLocation() {
             </View>
             <View style={styles().descriptionEmpty}>
               <TextDefault textColor={currentTheme.fontMainColor} bolder center>
-                {'Love Bites uses your location to show the restaurants near you!'}
+                {'Help us locate your nearest restaurant!'}
               </TextDefault>
             </View>
             <TouchableOpacity
               activeOpacity={0.7}
-              style={styles(currentTheme).emptyButton}
+              style={[styles(currentTheme).emptyButton, {backgroundColor: currentTheme.iconColorPink}]}
               onPress={setCurrentLocation}>
               <TextDefault
                 style={{ paddingLeft: loading ? 40 : 0 }}
-                textColor={currentTheme.buttonText}
+                textColor={currentTheme.buttonTextPink}
                 bolder
                 center
                 uppercase>
@@ -112,6 +113,6 @@ export default function CurrentLocation() {
         </View>
       </View>
       <View style={{ paddingBottom: inset.bottom }} />
-    </>
+    </SafeAreaView>
   )
 }

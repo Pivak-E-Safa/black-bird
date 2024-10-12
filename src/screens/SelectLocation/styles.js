@@ -5,6 +5,10 @@ const styles = (props = null) =>
     flex: {
       flex: 1
     },
+    safeAreaViewStyles: {
+      flex: 1,
+      backgroundColor: props !== null ? props.headerBackground : 'transparent'
+    },
     button: {
       width: '100%',
       height: '8%',

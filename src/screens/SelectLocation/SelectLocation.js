@@ -14,6 +14,7 @@ import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
 import { mapStyle } from '../../utils/mapStyle'
 import CustomMarker from '../../assets/SVG/imageComponents/CustomMarker'
 import Analytics from '../../utils/analytics'
+import { SafeAreaView } from 'react-native-safe-area-context'
 const LATITUDE = 33.699265
 const LONGITUDE = 72.974575
 const LATITUDE_DELTA = 40
@@ -47,11 +48,11 @@ export default function SelectLocation(props) {
   useLayoutEffect(() => {
     navigation.setOptions(
       screenOptions({
-        title: 'Set Location',
-        fontColor: currentTheme.fontMainColor,
-        backColor: currentTheme.white,
+        title: '',
+        fontColor: currentTheme.iconColorPink,
+        backColor: currentTheme.headerBackground,
         iconColor: currentTheme.iconColorPink,
-        lineColor: currentTheme.lightHorizontalLine,
+        lineColor: currentTheme.headerBackground,
         setCurrentLocation
       })
     )
@@ -104,7 +105,7 @@ export default function SelectLocation(props) {
     setLabel('Selected Location')
   }
   return (
-    <>
+    <SafeAreaView style={styles(currentTheme).safeAreaViewStyles}>
       <View style={styles().flex}>
         <MapView
           ref={ref => {
@@ -143,14 +144,14 @@ export default function SelectLocation(props) {
         </View>
         <TouchableOpacity
           activeOpacity={0.7}
-          style={styles(currentTheme).button}
+          style={[styles(currentTheme).button, {backgroundColor: currentTheme.iconColorPink}]}
           onPress={onSelectLocation}>
-          <TextDefault textColor={currentTheme.buttonText} H4 bold>
+          <TextDefault textColor={currentTheme.buttonTextPink} H4 bold>
             {'Select Location'}
           </TextDefault>
         </TouchableOpacity>
       </View>
       <View style={{ paddingBottom: inset.bottom }} />
-    </>
+    </SafeAreaView>
   )
 }

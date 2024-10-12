@@ -5,10 +5,15 @@ import { scale } from '../../utils/scaling'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      backgroundColor: props !== null ? props.headerBackground : 'transparent'
+    },
+    safeAreaViewStyles: {
+      flex: 1,
+      backgroundColor: props !== null ? props.headerBackground : 'transparent'
     },
     screenBackground: {
-      backgroundColor: props != null ? props.themeBackground : '#FFF'
+      backgroundColor: props !== null ? props.headerBackground : 'FFF'
     },
     subContainerImage: {
       flex: 1,

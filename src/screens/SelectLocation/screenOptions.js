@@ -15,7 +15,8 @@ const screenOptions = props => ({
   headerStyle: {
     backgroundColor: props.backColor,
     borderBottomColor: props.lineColor,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    borderBottomWidth: 0,
+    borderBottom: 0,
   },
   headerTitleStyle: {
     color: props.fontColor,
