@@ -26,7 +26,7 @@ export default function Detail({
         <>
           <View
             style={{
-              paddingVertical: 47
+              paddingVertical: 20
             }}>
             <Button
               buttonProps={{
@@ -34,7 +34,7 @@ export default function Detail({
               }}
               buttonStyles={styles.chatButton(theme)}
               textStyles={styles.chatButtonText(theme)}
-              text={'Chat with rider'}
+              text={'Chat with Rider'}
             />
           </View>
           <View style={styles.line(theme)}></View>
@@ -42,9 +42,9 @@ export default function Detail({
       )}
       <View
         style={{
-          paddingVertical: 47
+          paddingTop: 20
         }}>
-        <TextDefault textColor={theme.main} bold H3>
+        <TextDefault textColor={theme.buttonTextPink} bold H3 textColor={theme.buttonTextPink}>
           Order Detail
         </TextDefault>
       </View>
@@ -52,24 +52,24 @@ export default function Detail({
         <View style={styles.row}>
           <TextDefault
             left
-            textColor={theme.secondaryText}
+            textColor={theme.buttonTextPink}
             bold
             style={styles.addressText}>
             Your order from:
           </TextDefault>
-          <TextDefault left bolder style={styles.addressText}>
+          <TextDefault left bolder style={styles.addressText} textColor={theme.buttonTextPink}>
             {from}
           </TextDefault>
         </View>
         <View style={styles.row}>
           <TextDefault
             left
-            textColor={theme.secondaryText}
+            textColor={theme.buttonTextPink}
             bold
             style={styles.addressText}>
             Your order no:
           </TextDefault>
-          <TextDefault left bolder style={styles.addressText}>
+          <TextDefault left bolder style={styles.addressText} textColor={theme.buttonTextPink}>
             {' '}
             {orderNo}
           </TextDefault>
@@ -77,12 +77,12 @@ export default function Detail({
         <View style={styles.row}>
           <TextDefault
             left
-            textColor={theme.secondaryText}
+            textColor={theme.buttonTextPink}
             bold
             style={styles.addressText}>
             Delivery address:
           </TextDefault>
-          <TextDefault left bolder style={styles.addressText} numberOfLines={4}>
+          <TextDefault left bolder style={styles.addressText} numberOfLines={4} textColor={theme.buttonTextPink}>
             {deliveryAddress}
           </TextDefault>
         </View>
@@ -149,20 +149,20 @@ const ItemRow = ({
   return (
     <View>
       <View style={styles.itemRow}>
-        <TextDefault left style={{ width: '10%' }} bolder>
+        <TextDefault left style={{ width: '10%' }} bolder textColor={theme.buttonTextPink}>
           {quantity}x
         </TextDefault>
         <View style={{ width: '60%' }}>
           <TextDefault
             left
             textCoonumberOfLines={4}
-            textColor={theme.secondaryText}>
+            textColor={theme.buttonTextPink}>
             {title}
           </TextDefault>
           {options.map((option, index) => (
             <TextDefault
               small
-              textColor={theme.secondaryText}
+              textColor={theme.buttonTextPink}
               left
               key={title + option + index}>
               +{option}
@@ -172,7 +172,7 @@ const ItemRow = ({
         <TextDefault
           right
           style={{ width: '20%' }}
-          textColor={theme.secondaryText}
+          textColor={theme.buttonTextPink}
           H5>
           {currency} {price}
         </TextDefault>
@@ -185,10 +185,10 @@ const ItemRow = ({
 const PriceRow = ({ theme, title, currency, price }) => {
   return (
     <View style={styles.priceRow}>
-      <TextDefault H5 textColor={theme.secondaryText}>
+      <TextDefault H5 textColor={theme.buttonTextPink}>
         {title}
       </TextDefault>
-      <TextDefault H5 textColor={theme.secondaryText}>
+      <TextDefault H5 textColor={theme.buttonTextPink}>
         {currency} {price}
       </TextDefault>
     </View>

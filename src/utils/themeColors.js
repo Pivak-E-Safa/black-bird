@@ -36,13 +36,13 @@ export const theme = {
     titleComponentBackground: 'rgba(39,111,191,0.1)',
     titleComponentText: 'rgba(39,111,191,0.8)',
     titleTextError: '#FFFFFF',
-    statusSecondColor: '#949393',
+    statusSecondColor: '#FF8C00',
     rippleColor: '#FF8C00', // Changed to new branding color
     backIcon: '#FFFFFF',
     backIconBackground: '#000000', // Changed to new branding color
     secondaryText: '#A3A0A0',
-    main: '#90EA93',
-    secondaryBackground: '#ECECEC',
+    main: '#f0cda3',
+    secondaryBackground: '#000000',
     shadow: '#707070',
     errorInputBack: '#F7E7E5',
     errorInputBorder: '#DB4A39'

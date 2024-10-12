@@ -40,8 +40,8 @@ export default function Status({
   return (
     <View style={styles.container(theme)}>
       <View style={styles.statusBox(theme)}>
-        <Circle color={theme.white} size={60} style={styles.icon}>
-          {orderStatus === 'PENDING' && <ArrowsLoading />}
+        <Circle color={theme.headerBackground} size={60} style={styles.icon}>
+          {orderStatus === 'PENDING' && <ArrowsLoading/>}
           {orderStatus === 'ACCEPTED' && <RestaurantPreparing />}
           {orderStatus === 'ASSIGNED' && <Rider />}
           {orderStatus === 'PICKED' && <Rider />}

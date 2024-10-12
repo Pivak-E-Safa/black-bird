@@ -4,10 +4,8 @@ import { verticalScale } from '../../../utils/scaling'
 const { width: WIDTH } = Dimensions.get('window')
 export default StyleSheet.create({
   container: theme => ({
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
     alignItems: 'center',
-    backgroundColor: theme.white
+    backgroundColor: theme !== null ? theme.headerBackground : 'transparent'
   }),
   line: theme => ({
     height: 1,
@@ -15,14 +13,16 @@ export default StyleSheet.create({
     backgroundColor: theme.secondaryText
   }),
   chatButton: theme => ({
-    paddingVertical: 25,
+    paddingVertical: 15,
     paddingHorizontal: 100,
-    backgroundColor: theme.black,
+    backgroundColor: theme.iconColorPink,
+    fontFamily: fontStyles.FredokaLight,
     borderRadius: 20
   }),
   chatButtonText: theme => ({
     color: theme.white,
-    fontFamily: fontStyles.FredokaLight
+    fontFamily: fontStyles.FredokaBold,
+    fontSize: 16,
   }),
   shadowBox: theme => ({
     elevation: 1,
@@ -34,11 +34,10 @@ export default StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: verticalScale(2),
     borderRadius: 20,
-    backgroundColor: theme.white
+    backgroundColor: theme !== null ? theme.headerBackground : 'transparent'
   }),
   addressContainer: {
-    margin: 20,
-    paddingVertical: 25,
+    paddingVertical: 5,
     width: WIDTH - 20,
     paddingLeft: 15
   },

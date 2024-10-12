@@ -14,7 +14,8 @@ import RestaurantMarker from '../../assets/SVG/restaurant-marker'
 import CustomerMarker from '../../assets/SVG/customer-marker'
 import TrackingRider from '../../components/OrderDetail/TrackingRider/TrackingRider'
 import OrdersContext from '../../context/Orders'
-import { mapStyles } from './mapStyles'
+import { mapStyle } from '../../utils/mapStyle'
+
 const { height: HEIGHT } = Dimensions.get('screen')
 
 function OrderDetail(props) {
@@ -51,9 +52,9 @@ function OrderDetail(props) {
   const subTotal = total - tipping - taxationAmount - deliveryCharges
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: themeContext.headerBackground }}>
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1, backgroundColor: themeContext.headerBackground }}
         showsVerticalScrollIndicator={false}
         overScrollMode="never">
         <MapView
@@ -68,7 +69,7 @@ function OrderDetail(props) {
           zoomEnabled={true}
           zoomControlEnabled={true}
           rotateEnabled={false}
-          customMapStyle={mapStyles}
+          customMapStyle={themeContext.ThemeValue === 'Dark' ? mapStyle : null}
           provider={PROVIDER_GOOGLE}>
           <Marker
             coordinate={{

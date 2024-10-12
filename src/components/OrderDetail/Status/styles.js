@@ -4,10 +4,9 @@ export default StyleSheet.create({
   container: theme => ({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    marginHorizontal: 5,
     zIndex: 1,
     elevation: 1,
-    backgroundColor: theme.secondaryBackground,
+    backgroundColor: theme.black,
     marginTop: -100
   }),
   statusBox: theme => ({
@@ -23,7 +22,7 @@ export default StyleSheet.create({
   }),
   icon: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   statusText: {
     marginLeft: 15
