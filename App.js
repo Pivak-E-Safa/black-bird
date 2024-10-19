@@ -6,11 +6,9 @@ import 'react-native-gesture-handler'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Sentry from 'sentry-expo'
 import { BackHandler, Platform, StatusBar, LogBox } from 'react-native'
-import { ApolloProvider } from '@apollo/client'
 import i18n from './i18n'
 import { exitAlert } from './src/utils/androidBackButton'
 import FlashMessage from 'react-native-flash-message'
-import setupApolloClient from './src/apollo/index'
 import ThemeReducer from './src/ui/ThemeReducer/ThemeReducer'
 import ThemeContext from './src/ui/ThemeContext/ThemeContext'
 import { ConfigurationProvider } from './src/context/Configuration'
@@ -35,7 +33,6 @@ LogBox.ignoreAllLogs() // Ignore all log notifications
 // Default Theme
 const themeValue = 'Dark'
 const { SENTRY_DSN } = getEnvVars()
-const client = setupApolloClient()
 // Sentry.init({
 //   dsn: SENTRY_DSN,
 //   enableInExpoDevelopment: true,
@@ -49,7 +46,7 @@ export default function App() {
   // Theme Reducer
   const [theme, themeSetter] = useReducer(ThemeReducer, themeValue)
   useEffect(() => {
-    ;(async() => {
+    ;(async () => {
       try {
         await SplashScreen.preventAutoHideAsync()
       } catch (e) {
@@ -65,7 +62,8 @@ export default function App() {
 
   useEffect(() => {
     try {
-      AsyncStorage.getItem('theme').then(response => themeSetter({ type: response })
+      AsyncStorage.getItem('theme').then(response =>
+        themeSetter({ type: response })
       )
     } catch (error) {
       // Error retrieving data
@@ -75,14 +73,14 @@ export default function App() {
 
   useEffect(() => {
     if (!appIsReady) return
-    ;(async() => {
+    ;(async () => {
       await SplashScreen.hideAsync()
     })()
   }, [appIsReady])
 
   useEffect(() => {
     if (!location) return
-    ;(async() => {
+    ;(async () => {
       AsyncStorage.setItem('location', JSON.stringify(location))
     })()
   }, [location])
@@ -144,27 +142,25 @@ export default function App() {
 
   if (appIsReady) {
     return (
-      <ApolloProvider client={client}>
-        <ThemeContext.Provider
-          value={{ ThemeValue: theme, dispatch: themeSetter }}>
-          <StatusBar
-            backgroundColor={Theme[theme].menuBar}
-            barStyle={theme === 'Dark' ? 'light-content' : 'dark-content'}
-          />
-          <LocationContext.Provider value={{ location, setLocation }}>
-            <ConfigurationProvider>
-              <AuthProvider>
-                <UserProvider>
-                  <OrdersProvider>
-                    <AppContainer />
-                  </OrdersProvider>
-                </UserProvider>
-              </AuthProvider>
-            </ConfigurationProvider>
-          </LocationContext.Provider>
-          <FlashMessage MessageComponent={MessageComponent} />
-        </ThemeContext.Provider>
-      </ApolloProvider>
+      <ThemeContext.Provider
+        value={{ ThemeValue: theme, dispatch: themeSetter }}>
+        <StatusBar
+          backgroundColor={Theme[theme].menuBar}
+          barStyle={theme === 'Dark' ? 'light-content' : 'dark-content'}
+        />
+        <LocationContext.Provider value={{ location, setLocation }}>
+          <ConfigurationProvider>
+            <AuthProvider>
+              <UserProvider>
+                <OrdersProvider>
+                  <AppContainer />
+                </OrdersProvider>
+              </UserProvider>
+            </AuthProvider>
+          </ConfigurationProvider>
+        </LocationContext.Provider>
+        <FlashMessage MessageComponent={MessageComponent} />
+      </ThemeContext.Provider>
     )
   } else {
     return null

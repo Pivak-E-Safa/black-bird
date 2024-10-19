@@ -1,26 +1,23 @@
-import React from 'react'
-import { useQuery } from '@apollo/client'
-import gql from 'graphql-tag'
+import React from 'react';
 
-import { getConfiguration } from '../apollo/queries'
+// Define a default configuration object
+const defaultConfiguration = {
+  currency: 'PKR',
+  currencySymbol: 'PKR',
+  deliveryRate: 150,
+};
 
-const GETCONFIGURATION = gql`
-  ${getConfiguration}
-`
+const ConfigurationContext = React.createContext({});
 
-const ConfigurationContext = React.createContext({})
-
-export const ConfigurationProvider = props => {
-  const { loading, data, error } = useQuery(GETCONFIGURATION)
-  const configuration =
-    loading || error || !data.configuration
-      ? { currency: 'PKR', currencySymbol: 'PKR', deliveryRate: 150 }
-      : data.configuration
+// Update the ConfigurationProvider
+export const ConfigurationProvider = (props) => {
+  // Simply provide the default configuration
   return (
-    <ConfigurationContext.Provider value={configuration}>
+    <ConfigurationContext.Provider value={defaultConfiguration}>
       {props.children}
     </ConfigurationContext.Provider>
-  )
-}
-export const ConfigurationConsumer = ConfigurationContext.Consumer
-export default ConfigurationContext
+  );
+};
+
+export const ConfigurationConsumer = ConfigurationContext.Consumer;
+export default ConfigurationContext;

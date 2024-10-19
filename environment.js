@@ -6,8 +6,6 @@
 import * as Updates from 'expo-updates'
 const ENV = {
   development: {
-    GRAPHQL_URL: 'https://prodlovebitesapi.herokuapp.com/graphql',
-    WS_GRAPHQL_URL: 'wss://prodlovebitesapi.herokuapp.com/graphql',
     SERVER_URL: 'https://prodlovebitesapi.herokuapp.com/', // put / at the end of server url
     IOS_CLIENT_ID_GOOGLE:
       '967541328677-nf8h4ou7rhmq9fahs87p057rggo95eah.apps.googleusercontent.com',
@@ -24,8 +22,6 @@ const ENV = {
     TEST_OTP: '111111'
   },
   staging: {
-    GRAPHQL_URL: 'https://staginglovebitesapi.herokuapp.com/graphql',
-    WS_GRAPHQL_URL: 'wss://staginglovebitesapi.herokuapp.com/graphql',
     SERVER_URL: 'https://staginglovebitesapi.herokuapp.com/', // put / at the end of server url
     IOS_CLIENT_ID_GOOGLE: '', // [Add your Google client id see documentation for more information on how to generate it][example: 967541328677 - ge2hpr1n095d0nro56kot0t4q388dsll.apps.googleusercontent.com]
     ANDROID_CLIENT_ID_GOOGLE: '', // [Add your Android google client id see documentation][example: 977541328677-u9lbhmiesp67j3md9b8nk6mkhooeljur.apps.googleusercontent.com]
@@ -38,8 +34,6 @@ const ENV = {
     TEST_OTP: '111111'
   },
   production: {
-    GRAPHQL_URL: 'https://prodlovebitesapi.herokuapp.com/graphql',
-    WS_GRAPHQL_URL: 'wss://prodlovebitesapi.herokuapp.com/graphql',
     SERVER_URL: 'https://prodlovebitesapi.herokuapp.com/', // put / at the end of server url
     IOS_CLIENT_ID_GOOGLE:
       '967541328677-nf8h4ou7rhmq9fahs87p057rggo95eah.apps.googleusercontent.com',
