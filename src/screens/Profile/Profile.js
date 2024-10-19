@@ -13,11 +13,8 @@ import {
   Platform,
   StatusBar
 } from 'react-native'
-// import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
 // import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
-import { updateUser, login } from '../../apollo/mutations'
 import i18n from '../../../i18n'
 import ChangePassword from './ChangePassword'
 import { theme } from '../../utils/themeColors'
@@ -33,12 +30,6 @@ import { useFocusEffect } from '@react-navigation/native'
 import Analytics from '../../utils/analytics'
 import { Feather } from '@expo/vector-icons'
 import { updateUserProfileByEmail } from '../../firebase/profile';
-
-const UPDATEUSER = gql`
-  ${updateUser}
-`
-
-
 
 function Profile(props) {
   const refName = useRef()
@@ -124,11 +115,7 @@ function Profile(props) {
 
   function onError(error) {
     try {
-      if (error.graphQLErrors) {
-        FlashMessage({
-          message: error.graphQLErrors[0].message
-        })
-      } else if (error.networkError) {
+      if (error.networkError) {
         FlashMessage({
           message: error.networkError.result.errors[0].message
         })

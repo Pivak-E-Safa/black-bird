@@ -6,11 +6,12 @@ const styles = (props = null) =>
     flex: {
       flex: 1,
       height: '100%',
+      paddingTop: '10%',
     },
     safeAreaViewStyles: {
       flex: 1,
       backgroundColor:
-        props !== null ? props.headerBackgroundTwo : 'transparent'
+        props !== null ? props.themeBackground : 'transparent'
     },
     mainContainer: {
       flex: 1,

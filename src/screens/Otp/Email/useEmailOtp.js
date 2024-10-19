@@ -1,7 +1,4 @@
 import { useState, useContext, useEffect, useRef } from 'react'
-import { sendOtpToEmail, createUser } from '../../../apollo/mutations'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../../utils/themeColors'
 import { FlashMessage } from '../../../ui/FlashMessage/FlashMessage'
@@ -12,12 +9,6 @@ import * as Notifications from 'expo-notifications'
 import Analytics from '../../../utils/analytics'
 import AuthContext from '../../../context/Auth'
 
-const SEND_OTP_TO_EMAIL = gql`
-  ${sendOtpToEmail}
-`
-const CREATEUSER = gql`
-  ${createUser}
-`
 const useEmailOtp = () => {
   const navigation = useNavigation()
   const route = useRoute()
@@ -36,10 +27,6 @@ const useEmailOtp = () => {
       FlashMessage({
         message: error.networkError.result.errors[0].message
       })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
-      })
     }
   }
 
@@ -53,10 +40,6 @@ const useEmailOtp = () => {
     if (error.networkError) {
       FlashMessage({
         message: error.networkError.result.errors[0].message
-      })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
       })
     }
   }
@@ -86,15 +69,15 @@ const useEmailOtp = () => {
     }
   }
 
-  const [mutate, { loading }] = useMutation(SEND_OTP_TO_EMAIL, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(SEND_OTP_TO_EMAIL, {
+  //   onCompleted,
+  //   onError
+  // })
 
-  const [mutateUser, { loading: updateUserLoading }] = useMutation(CREATEUSER, {
-    onCompleted: onCreateUserCompleted,
-    onError: onCreateUserError
-  })
+  // const [mutateUser, { loading: updateUserLoading }] = useMutation(CREATEUSER, {
+  //   onCompleted: onCreateUserCompleted,
+  //   onError: onCreateUserError
+  // })
 
   async function mutateRegister() {
     let notificationToken = null

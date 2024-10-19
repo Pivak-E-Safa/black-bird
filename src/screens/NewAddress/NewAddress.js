@@ -19,10 +19,7 @@ import styles from './styles'
 // import { OutlinedTextField } from 'react-native-material-textfield'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import * as Location from 'expo-location'
-import gql from 'graphql-tag'
 import { scale } from '../../utils/scaling'
-import { createAddress } from '../../apollo/mutations'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
@@ -35,9 +32,6 @@ import CustomMarker from '../../assets/SVG/imageComponents/CustomMarker'
 import SearchModal from '../../components/Address/SearchModal'
 import AddressText from '../../components/Address/AddressText'
 import Analytics from '../../utils/analytics'
-const CREATE_ADDRESS = gql`
-  ${createAddress}
-`
 
 const labelValues = [
   {
@@ -98,10 +92,10 @@ function NewAddress(props) {
     regionChange(regionObj)
   }, [regionObj])
 
-  const [mutate, { loading }] = useMutation(CREATE_ADDRESS, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(CREATE_ADDRESS, {
+  //   onCompleted,
+  //   onError
+  // })
 
   function regionChange(region) {
     Location.reverseGeocodeAsync({

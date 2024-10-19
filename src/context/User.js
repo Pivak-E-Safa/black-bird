@@ -215,24 +215,15 @@ export default UserContext
 
 // import React, { useState, useEffect, useContext } from 'react'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
-// import { useApolloClient, useQuery } from '@apolloo/client'
-// import gql from 'graphql-tag'
 // import uuid from 'uuid'
-// import { profile } from '../apollo/queries'
 // import { LocationContext } from './Location'
 // import AuthContext from './Auth'
 // import Analytics from '../utils/analytics'
-
-
-// const PROFILE = gql`
-//   ${profile}
-// `
 
 // const UserContext = React.createContext({})
 
 // export const UserProvider = props => {
 //   const { token, setToken } = useContext(AuthContext)
-//   const client = useApolloClient()
 //   const { location, setLocation } = useContext(LocationContext)
 //   const [cart, setCart] = useState([])
 //   const [restaurant, setRestaurant] = useState(null)

@@ -401,11 +401,11 @@ function OrderDetail(props) {
               activeOpacity={0.7}
               style={[styles().floatView, { justifyContent: 'center' }]}
               onPress={() =>
-                props.navigation.navigate('RateAndReview', {
-                  id: order.id,
-                  restaurant: restaurant,
-                  user: user
-                })
+                // props.navigation.navigate('RateAndReviewDummy', {
+                //   id: order.id,
+                //   restaurant: restaurant,
+                //   user: user
+                // })
               }>
               <MaterialIcons
                 name="rate-review"

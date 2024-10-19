@@ -3,36 +3,13 @@ import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons'
 import { callNumber } from '../../utils/callNumber'
-import gql from 'graphql-tag'
-import { chat } from '../../apollo/queries'
-import { subscriptionNewMessage } from '../../apollo/subscriptions'
-import { sendChatMessage } from '../../apollo/mutations'
-import { useMutation, useQuery } from '@apollo/client'
 import { Alert } from 'react-native'
 import { useUserContext } from '../../context/User'
 export const useChatScreen = ({ navigation, route }) => {
   const { id: orderId } = route.params
   console.log(orderId)
   const { profile } = useUserContext()
-  const { subscribeToMore: subscribeToMessages, data: chatData } = useQuery(
-    gql`
-      ${chat}
-    `,
-    {
-      variables: { order: orderId },
-      fetchPolicy: 'network-only',
-      onError
-    }
-  )
-  const [send] = useMutation(
-    gql`
-      ${sendChatMessage}
-    `,
-    {
-      onCompleted,
-      onError
-    }
-  )
+
   useEffect(() => {
     if (chatData) {
       setMessages(
@@ -106,21 +83,6 @@ export const useChatScreen = ({ navigation, route }) => {
       headerTitle: 'Contact your Rider'
     })
   }, [navigation])
-  useEffect(() => {
-    const unsubscribe = subscribeToMessages({
-      document: gql`
-        ${subscriptionNewMessage}
-      `,
-      variables: { order: orderId },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) return prev
-        return {
-          chat: [...prev.chat, subscriptionData.data.subscriptionNewMessage]
-        }
-      }
-    })
-    return unsubscribe
-  })
   const onSend = () => {
     send({
       variables: {

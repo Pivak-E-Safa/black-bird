@@ -1,7 +1,4 @@
 import { useState, useContext, useEffect, useRef } from 'react'
-import { sendOtpToPhoneNumber, updateUser } from '../../../apollo/mutations'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../../utils/themeColors'
 import { FlashMessage } from '../../../ui/FlashMessage/FlashMessage'
@@ -9,12 +6,6 @@ import UserContext from '../../../context/User'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import getEnvVars from '../../../../environment'
 
-const SEND_OTP_TO_PHONE = gql`
-  ${sendOtpToPhoneNumber}
-`
-const UPDATEUSER = gql`
-  ${updateUser}
-`
 const { TEST_OTP } = getEnvVars()
 const usePhoneOtp = () => {
   const navigation = useNavigation()
@@ -27,32 +18,24 @@ const usePhoneOtp = () => {
   const currentTheme = theme[themeContext.ThemeValue]
   const [seconds, setSeconds] = useState(30)
 
-  function onError(error) {
-    if (error.networkError) {
-      FlashMessage({
-        message: error.networkError.result.errors[0].message
-      })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
-      })
-    }
-  }
+  // function onError(error) {
+  //   if (error.networkError) {
+  //     FlashMessage({
+  //       message: error.networkError.result.errors[0].message
+  //     })
+  //   }
+  // }
 
-  function onCompleted(data) {
-    FlashMessage({
-      message: 'OTP sent to your phone.'
-    })
-  }
+  // function onCompleted(data) {
+  //   FlashMessage({
+  //     message: 'OTP sent to your phone.'
+  //   })
+  // }
 
   function onUpdateUserError(error) {
     if (error.networkError) {
       FlashMessage({
         message: error.networkError.result.errors[0].message
-      })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
       })
     }
   }
@@ -69,15 +52,15 @@ const usePhoneOtp = () => {
       })
   }
 
-  const [mutate, { loading }] = useMutation(SEND_OTP_TO_PHONE, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(SEND_OTP_TO_PHONE, {
+  //   onCompleted,
+  //   onError
+  // })
 
-  const [mutateUser, { loading: updateUserLoading }] = useMutation(UPDATEUSER, {
-    onCompleted: onUpdateUserCompleted,
-    onError: onUpdateUserError
-  })
+  // const [mutateUser, { loading: updateUserLoading }] = useMutation(UPDATEUSER, {
+  //   onCompleted: onUpdateUserCompleted,
+  //   onError: onUpdateUserError
+  // })
 
   const onCodeFilled = code => {
     if (code === otpFrom.current || code === TEST_OTP) {

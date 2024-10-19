@@ -4,7 +4,9 @@ import { alignment } from '../../utils/alignment'
 const styles = (props = null) =>
   StyleSheet.create({
     flex: {
-      flex: 1
+      flex: 1,
+      paddingTop: '10%',
+      backgroundColor: props !== null ? props.themeBackground : 'transparent',
     },
     mainContainer: {
       flex: 1,

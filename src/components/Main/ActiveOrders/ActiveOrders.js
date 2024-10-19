@@ -8,9 +8,6 @@ import { scale } from '../../../utils/scaling'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import TextError from '../../Text/TextError/TextError'
-import { useSubscription } from '@apollo/client'
-import { subscriptionOrder } from '../../../apollo/subscriptions'
-import gql from 'graphql-tag'
 import RandomShape from '../../../assets/SVG/RandomShape'
 import Analytics from '../../../utils/analytics'
 import OrdersContext from '../../../context/Orders'
@@ -81,13 +78,6 @@ const ActiveOrders = () => {
   )
 }
 const Item = ({ navigation, configuration, currentTheme, item }) => {
-  useSubscription(
-    gql`
-      ${subscriptionOrder}
-    `,
-    { variables: { id: item.id } }
-  )
-
   const checkStatus = status => {
     const obj = orderStatuses.filter(x => {
       return x.key === status

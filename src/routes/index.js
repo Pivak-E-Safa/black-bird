@@ -15,9 +15,7 @@ import SideBar from '../components/Sidebar/Sidebar'
 import ItemDetail from '../screens/ItemDetail/ItemDetail'
 import MyOrders from '../screens/MyOrders/MyOrders'
 import Cart from '../screens/Cart/Cart'
-import RateAndReview from '../screens/RateAndReview/RateAndReview'
 import Payment from '../screens/Payment/Payment'
-import StripeCheckout from '../screens/Stripe/StripeCheckout'
 import Profile from '../screens/Profile/Profile'
 import Addresses from '../screens/Addresses/Addresses'
 import NewAddress from '../screens/NewAddress/NewAddress'
@@ -35,6 +33,7 @@ import ThemeContext from '../ui/ThemeContext/ThemeContext'
 import { theme } from '../utils/themeColors'
 import screenOptions from './screenOptions'
 import { LocationContext } from '../context/Location'
+import UserContext from '../context/User'
 import Reorder from '../screens/Reorder/Reorder'
 import Chat from '../screens/Chat/Chat'
 import ChatScreen from '../screens/ChatWithRider/ChatScreen'
@@ -44,8 +43,6 @@ import EmailOtp from '../screens/Otp/Email/EmailOtp'
 import PhoneOtp from '../screens/Otp/Phone/PhoneOtp'
 import ForgotPasswordOtp from '../screens/Otp/ForgotPassword/ForgetPasswordOtp'
 import PhoneNumber from '../screens/PhoneNumber/PhoneNumber'
-import { useApolloClient, gql } from '@apollo/client'
-import { myOrders } from '../apollo/queries'
 
 const NavigationStack = createStackNavigator()
 const MainStack = createStackNavigator()
@@ -76,7 +73,11 @@ function NoDrawer() {
         textColor: currentTheme.headerText,
         iconColor: currentTheme.iconColorPink
       })}>
-      <NavigationStack.Screen name="Main" component={Main} options={{ header: () => null }}/>
+      <NavigationStack.Screen
+        name="Main"
+        component={Main}
+        options={{ header: () => null }}
+      />
       <NavigationStack.Screen
         name="Restaurant"
         component={Restaurant}
@@ -87,11 +88,13 @@ function NoDrawer() {
         component={RestaurantDetails}
         options={{ header: () => null }}
       />
-      {<NavigationStack.Screen 
-        name="ItemDetail" 
-        component={ItemDetail} 
-        options={{ header: () => null }}
-      />}
+      {
+        <NavigationStack.Screen
+          name="ItemDetail"
+          component={ItemDetail}
+          options={{ header: () => null }}
+        />
+      }
       <NavigationStack.Screen name="Cart" component={Cart} />
       <NavigationStack.Screen name="Profile" component={Profile} />
       <NavigationStack.Screen name="Addresses" component={Addresses} />
@@ -123,12 +126,6 @@ function NoDrawer() {
         options={{ header: () => null }}
       />
       <NavigationStack.Screen name="Tip" component={Tip} />
-      <NavigationStack.Screen name="RateAndReview" component={RateAndReview} />
-
-      <NavigationStack.Screen
-        name="StripeCheckout"
-        component={StripeCheckout}
-      />
 
       {/* Authentication Login */}
       <NavigationStack.Screen
@@ -176,8 +173,8 @@ function LocationStack() {
 }
 
 function AppContainer() {
-  const client = useApolloClient()
   const { location } = useContext(LocationContext)
+  const { isLoggedIn, loadingProfile, profile } = useContext(UserContext)
   const lastNotificationResponse = Notifications.useLastNotificationResponse()
   const handleNotification = useCallback(
     async response => {
@@ -185,12 +182,6 @@ function AppContainer() {
       const lastNotificationHandledId = await AsyncStorage.getItem(
         '@lastNotificationHandledId'
       )
-      await client.query({
-        query: gql`
-          ${myOrders}
-        `,
-        fetchPolicy: 'network-only'
-      })
       const identifier = response.notification.request.identifier
       if (lastNotificationHandledId === identifier) return
       await AsyncStorage.setItem('@lastNotificationHandledId', identifier)
@@ -214,7 +205,7 @@ function AppContainer() {
 
   useEffect(() => {
     Notifications.setNotificationHandler({
-      handleNotification: async() => ({
+      handleNotification: async () => ({
         shouldShowAlert: true,
         shouldPlaySound: false,
         shouldSetBadge: false
@@ -228,17 +219,47 @@ function AppContainer() {
         ref={ref => {
           navigationService.setGlobalRef(ref)
         }}>
-        {!location ? (
-          <LocationStack />
-        ) : (
-          <MainStack.Navigator initialRouteName="Drawer">
-            <MainStack.Screen
-              options={{ headerShown: false }}
-              name="Drawer"
-              component={Drawer}
-            />
-          </MainStack.Navigator>
-        )}
+        <MainStack.Navigator
+          initialRouteName={isLoggedIn ? 'Drawer' : 'CreateAccount'}>
+          {isLoggedIn ? (
+            !location ? (
+              <MainStack.Screen
+                name="LocationStack"
+                component={LocationStack}
+                options={{ headerShown: false }}
+              />
+            ) : (
+              <MainStack.Screen
+                name="Drawer"
+                component={Drawer}
+                options={{ headerShown: false }}
+              />
+            )
+          ) : (
+            <>
+              <MainStack.Screen
+                name="CreateAccount"
+                component={CreateAccount}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="Register"
+                component={Register}
+                options={{ headerShown: false }}
+              />
+              <MainStack.Screen
+                name="ForgotPassword"
+                component={ForgotPassword}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
+        </MainStack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   )

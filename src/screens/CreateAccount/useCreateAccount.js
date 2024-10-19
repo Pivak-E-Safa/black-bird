@@ -3,13 +3,10 @@ import { StatusBar, Platform } from 'react-native'
 import * as Notifications from 'expo-notifications'
 import * as Device from 'expo-device'
 import getEnvVars from '../../../environment'
-import gql from 'graphql-tag'
-import { login } from '../../apollo/mutations'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import * as Google from 'expo-auth-session/providers/google'
 import * as AuthSession from 'expo-auth-session'
-import { useMutation } from '@apollo/client'
 import * as AppleAuthentication from 'expo-apple-authentication'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import * as Linking from 'expo-linking'
@@ -24,14 +21,9 @@ const {
   EXPO_CLIENT_ID
 } = getEnvVars()
 
-const LOGIN = gql`
-  ${login}
-`
-
-
 export const useCreateAccount = () => {
   const navigation = useNavigation()
-  const [mutate] = useMutation(LOGIN, { onCompleted, onError })
+  // const [mutate] = useMutation(LOGIN, { onCompleted, onError })
   const [enableApple, setEnableApple] = useState(false)
   const [loginButton, loginButtonSetter] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -79,12 +71,12 @@ export const useCreateAccount = () => {
         notificationToken = (await Notifications.getExpoPushTokenAsync()).data
       }
     }
-    mutate({
-      variables: {
-        ...user,
-        notificationToken: notificationToken
-      }
-    })
+    // mutate({
+    //   variables: {
+    //     ...user,
+    //     notificationToken: notificationToken
+    //   }
+    // })
   }
 
   const googleSignUp = () => {

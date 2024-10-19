@@ -10,20 +10,9 @@ import { alignment } from '../../../utils/alignment'
 import { AntDesign, Ionicons } from '@expo/vector-icons'
 import { scale } from '../../../utils/scaling'
 import { DAYS } from '../../../utils/enums'
-import { profile } from '../../../apollo/queries'
-import { addFavouriteRestaurant } from '../../../apollo/mutations'
 import UserContext from '../../../context/User'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import Spinner from '../../Spinner/Spinner'
 import { FlashMessage } from '../../../ui/FlashMessage/FlashMessage'
-
-const ADD_FAVOURITE = gql`
-  ${addFavouriteRestaurant}
-`
-const PROFILE = gql`
-  ${profile}
-`
 
 function Item(props) {
   const navigation = useNavigation()
@@ -34,10 +23,10 @@ function Item(props) {
   const configuration = useContext(ConfigurationContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
-  const [mutate, { loading: loadingMutation }] = useMutation(ADD_FAVOURITE, {
-    onCompleted,
-    refetchQueries: [{ query: PROFILE }]
-  })
+  // const [mutate, { loading: loadingMutation }] = useMutation(ADD_FAVOURITE, {
+  //   onCompleted,
+  //   refetchQueries: [{ query: PROFILE }]
+  // })
   const { isAvailable, openingTimes } = item
   const isOpen = () => {
     const date = new Date()

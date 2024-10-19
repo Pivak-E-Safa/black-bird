@@ -7,12 +7,9 @@ import {
   Platform
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useMutation } from '@apollo/client'
 import { AntDesign, EvilIcons, SimpleLineIcons } from '@expo/vector-icons'
-import gql from 'graphql-tag'
 import i18n from '../../../i18n'
 import { scale } from '../../utils/scaling'
-import { deleteAddress } from '../../apollo/mutations'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import UserContext from '../../context/User'
 import { theme } from '../../utils/themeColors'
@@ -22,13 +19,10 @@ import { alignment } from '../../utils/alignment'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import EmptyAddress from '../../assets/SVG/imageComponents/EmptyAddress'
 import Analytics from '../../utils/analytics'
-const DELETE_ADDRESS = gql`
-  ${deleteAddress}
-`
 
 function Addresses() {
   const navigation = useNavigation()
-  const [mutate, { loading: loadingMutation }] = useMutation(DELETE_ADDRESS)
+  // const [mutate, { loading: loadingMutation }] = useMutation(DELETE_ADDRESS)
   const { profile } = useContext(UserContext)
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
@@ -128,7 +122,7 @@ function Addresses() {
                     disabled={loadingMutation}
                     style={styles().width10}
                     onPress={() => {
-                      mutate({ variables: { id: address.id } })
+                      // mutate({ variables: { id: address.id } })
                     }}>
                     <EvilIcons
                       name="trash"

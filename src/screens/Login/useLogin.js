@@ -1,9 +1,6 @@
 
 // import { useState, useContext } from 'react'
 // import * as Device from 'expo-device'
-// import { useMutation } from '@apolloo/client'
-// import gql from 'graphql-tag'
-// import { login, emailExist } from '../../apollo/mutations'
 // import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 // import { theme } from '../../utils/themeColors'
 // import * as Notifications from 'expo-notifications'
@@ -12,13 +9,6 @@
 // import AuthContext from '../../context/Auth'
 // import { useNavigation } from '@react-navigation/native'
 // import i18n from '../../../i18n'
-
-// const LOGIN = gql`
-//   ${login}
-// `
-// const EMAIL = gql`
-//   ${emailExist}
-// `
 
 // export const useLogin = () => {
 //   const navigation = useNavigation()
@@ -87,7 +77,6 @@
 //   function onError(error) {
 //     try {
 //       FlashMessage({
-//         message: error.graphQLErrors[0].message
 //       })
 //     } catch (e) {
 //       FlashMessage({
@@ -127,7 +116,6 @@
 //   function onLoginError(error) {
 //     try {
 //       FlashMessage({
-//         message: error.graphQLErrors[0].message
 //       })
 //     } catch (e) {
 //       FlashMessage({ message: 'Error in login Error' })
@@ -231,7 +219,6 @@ export const useLogin = () => {
         if (await checkUserExists(email)) {
           setRegisteredEmail(true);
         } else {
-          setEmailError('No user found with this email.'); // TODO: Remove this
           setRegisteredEmail(false);
           navigation.navigate('Register', { email });
         }

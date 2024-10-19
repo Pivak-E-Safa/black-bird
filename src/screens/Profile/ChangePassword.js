@@ -5,18 +5,11 @@ import Modal from 'react-native-modal'
 // import { TextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import i18n from '../../../i18n'
-import { changePassword } from '../../apollo/mutations'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import { theme } from '../../utils/themeColors'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
 import { alignment } from '../../utils/alignment'
 import TextDefault from '../../components/Text/TextDefault/TextDefault'
-
-const CHANGE_PASSWORD = gql`
-  ${changePassword}
-`
 
 function ChangePassword(props) {
   const [oldPassword, setOldPassword] = useState('')
@@ -26,22 +19,18 @@ function ChangePassword(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
 
-  const [mutate, { loading }] = useMutation(CHANGE_PASSWORD, {
-    onError,
-    onCompleted
-  })
+  // const [mutate, { loading }] = useMutation(CHANGE_PASSWORD, {
+  //   onError,
+  //   onCompleted
+  // })
 
-  function onError(error) {
-    if (error.networkError) {
-      FlashMessage({
-        message: error.networkError.result.errors[0].message
-      })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
-      })
-    }
-  }
+  // function onError(error) {
+  //   if (error.networkError) {
+  //     FlashMessage({
+  //       message: error.networkError.result.errors[0].message
+  //     })
+  //   }
+  // }
   function clearFields() {
     setOldPassword('')
     setNewPassword('')
@@ -49,17 +38,17 @@ function ChangePassword(props) {
     setNewPasswordError('')
   }
 
-  function onCompleted(data) {
-    if (data.changePassword) {
-      clearFields()
-      FlashMessage({
-        message: 'Password Updated'
-      })
-      props.hideModal()
-    } else {
-      Alert.alert('Error', 'Invalid password')
-    }
-  }
+  // function onCompleted(data) {
+  //   if (data.changePassword) {
+  //     clearFields()
+  //     FlashMessage({
+  //       message: 'Password Updated'
+  //     })
+  //     props.hideModal()
+  //   } else {
+  //     Alert.alert('Error', 'Invalid password')
+  //   }
+  // }
 
   return (
     <Modal
@@ -125,7 +114,7 @@ function ChangePassword(props) {
           </View>
 
           <TouchableOpacity
-            disabled={loading}
+            // disabled={loading}
             onPress={() => {
               if (newPassword === '' || oldPassword === '') {
                 props.hideModal()
@@ -141,7 +130,7 @@ function ChangePassword(props) {
                 oldPasswordError.length === 0 &&
                 newPasswordError.length === 0
               ) {
-                mutate({ variables: { oldPassword, newPassword } })
+                // mutate({ variables: { oldPassword, newPassword } })
               }
             }}
             style={[styles().btnContainer]}>

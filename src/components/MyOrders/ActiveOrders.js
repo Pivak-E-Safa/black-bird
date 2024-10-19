@@ -1,8 +1,5 @@
 import React, { useContext } from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { useSubscription } from '@apollo/client'
-import gql from 'graphql-tag'
-import { subscriptionOrder } from '../../apollo/subscriptions'
 import Heading from '../../components/MyOrders/Heading'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
@@ -48,12 +45,6 @@ const ActiveOrders = ({
 }
 
 const Item = ({ item, navigation, currentTheme }) => {
-  useSubscription(
-    gql`
-      ${subscriptionOrder}
-    `,
-    { variables: { id: item.id } }
-  )
   return (
     <TouchableOpacity
       activeOpacity={0.7}

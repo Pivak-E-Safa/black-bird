@@ -1,16 +1,10 @@
 import { useState, useContext } from 'react'
-import { forgotPassword } from '../../apollo/mutations'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import i18n from '../../../i18n'
 
-const FORGOT_PASSWORD = gql`
-  ${forgotPassword}
-`
 export const useForgotPassword = () => {
   const navigation = useNavigation()
   const route = useRoute()
@@ -18,10 +12,10 @@ export const useForgotPassword = () => {
   const [emailError, setEmailError] = useState(null)
   const [otp] = useState(Math.floor(100000 + Math.random() * 900000).toString())
 
-  const [mutate, { loading }] = useMutation(FORGOT_PASSWORD, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(FORGOT_PASSWORD, {
+  //   onCompleted,
+  //   onError
+  // })
 
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
@@ -59,10 +53,6 @@ export const useForgotPassword = () => {
     if (error.networkError) {
       FlashMessage({
         message: error.networkError.result.errors[0].message
-      })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
       })
     }
   }

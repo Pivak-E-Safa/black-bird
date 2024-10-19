@@ -61,23 +61,11 @@ export default OrdersContext
 
 
 // import React, { useEffect, useContext } from 'react'
-// import { useApolloClient, useQuery } from '@apollo/client'
-// import gql from 'graphql-tag'
-// import { myOrders } from '../apollo/queries'
-// import { orderStatusChanged } from '../apollo/subscriptions'
 // import UserContext from './User'
-
-// const ORDERS = gql`
-//   ${myOrders}
-// `
-// const SUBSCRIPTION_ORDERS = gql`
-//   ${orderStatusChanged}
-// `
 
 // const OrdersContext = React.createContext()
 
 // export const OrdersProvider = ({ children }) => {
-//   const client = useApolloClient()
 //   const { profile } = useContext(UserContext)
 //   const {
 //     called: calledOrders,

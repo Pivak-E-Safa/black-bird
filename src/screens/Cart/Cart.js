@@ -17,16 +17,12 @@ import {
   Alert,
   Animated
 } from 'react-native'
-// import { useMutation, useQuery } from '@apollo/client'
-// import gql from 'graphql-tag'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AntDesign, EvilIcons } from '@expo/vector-icons'
 import { Placeholder, PlaceholderLine, Fade } from 'rn-placeholder'
 import { Modalize } from 'react-native-modalize'
 import moment from 'moment'
 import CartItem from '../../components/CartItem/CartItem'
-// import { getTipping, orderFragment } from '../../apollo/queries'
-// import { placeOrder } from '../../apollo/mutations'
 import { scale } from '../../utils/scaling'
 import i18n from '../../../i18n'
 import { theme } from '../../utils/themeColors'
@@ -51,14 +47,6 @@ import Analytics from '../../utils/analytics'
 import { placeAnOrder } from '../../firebase/order'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
-
-// Constants
-// const PLACEORDER = gql`
-//   ${placeOrder}
-// `
-// const TIPPING = gql`
-//   ${getTipping}
-// `
 
 function Cart(props) {
   const configuration = useContext(ConfigurationContext)
@@ -233,12 +221,6 @@ function Cart(props) {
     //     cache.modify({
     //       fields: {
     //         orders(existingOrders = []) {
-    //           const newOrder = cache.writeFragment({
-    //             data: placeOrder,
-    //             fragment: gql`
-    //               ${orderFragment}
-    //             `
-    //           })
     //           return [newOrder, ...existingOrders]
     //         }
     //       }
@@ -279,17 +261,7 @@ function Cart(props) {
     })
   }
   function onError(error) {
-    // console.log('onError', error)
-    // if (error.graphQLErrors.length) {
-    //   console.log('error', JSON.stringify(error))
-    //   FlashMessage({
-    //     message: error.graphQLErrors[0].message
-    //   })
-    // } else {
-    //   FlashMessage({
-    //     message: error.message
-    //   })
-    // }
+    console.log('onError', error)
   }
 
   function taxCalculation() {

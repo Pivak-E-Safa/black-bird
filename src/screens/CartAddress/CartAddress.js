@@ -2,24 +2,17 @@ import React, { useContext, useEffect, useLayoutEffect } from 'react'
 import { View, TouchableOpacity, FlatList } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { EvilIcons } from '@expo/vector-icons'
-import { useMutation } from '@apollo/client'
-import gql from 'graphql-tag'
 import { scale } from '../../utils/scaling'
 import RadioButton from '../../ui/FdRadioBtn/RadioBtn'
 import UserContext from '../../context/User'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
-import { selectAddress } from '../../apollo/mutations'
 import i18n from '../../../i18n'
 import styles from './styles'
 import TextDefault from '../../components/Text/TextDefault/TextDefault'
 import { alignment } from '../../utils/alignment'
 import { LocationContext } from '../../context/Location'
 import Analytics from '../../utils/analytics'
-
-const SELECT_ADDRESS = gql`
-  ${selectAddress}
-`
 
 function CartAddresses(props) {
   const inset = useSafeAreaInsets()
@@ -28,7 +21,7 @@ function CartAddresses(props) {
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
 
-  const [mutate] = useMutation(SELECT_ADDRESS, { onError })
+  // const [mutate] = useMutation(SELECT_ADDRESS, { onError })
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
@@ -55,7 +48,7 @@ function CartAddresses(props) {
       deliveryAddress: address.deliveryAddress,
       details: address.details
     })
-    mutate({ variables: { id: address.id } })
+    // mutate({ variables: { id: address.id } })
     props.navigation.goBack()
   }
 

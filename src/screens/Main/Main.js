@@ -29,12 +29,9 @@ import {
   CollapsibleSubHeaderAnimator
 } from 'react-navigation-collapsible'
 import { Placeholder, PlaceholderLine, Fade } from 'rn-placeholder'
-// import gql from 'graphql-tag'
 import { useLocation } from '../../ui/hooks'
 import Item from '../../components/Main/Item/Item'
 import UserContext from '../../context/User'
-// import { restaurantList } from '../../apollo/queries'
-// import { selectAddress } from '../../apollo/mutations'
 import { verticalScale, scale } from '../../utils/scaling'
 import styles from './styles'
 import TextError from '../../components/Text/TextError/TextError'
@@ -51,13 +48,6 @@ import { fetchRestaurantList } from '../../firebase/restaurants'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Dropdown } from 'react-native-element-dropdown'
 import { fontStyles } from '../../utils/fontStyles'
-
-// const RESTAURANTS = gql`
-//   ${restaurantList}
-// `
-// const SELECT_ADDRESS = gql`
-//   ${selectAddress}
-// `
 
 function Main(props) {
   const [busy, setBusy] = useState(false)
@@ -512,18 +502,14 @@ export default Main
 //   AntDesign,
 //   MaterialCommunityIcons
 // } from '@expo/vector-icons'
-// import { useQuery, useMutation } from '@apolloo/client'
 // import {
 //   useCollapsibleSubHeader,
 //   CollapsibleSubHeaderAnimator
 // } from 'react-navigation-collapsible'
 // import { Placeholder, PlaceholderLine, Fade } from 'rn-placeholder'
-// import gql from 'graphql-tag'
 // import { useLocation } from '../../ui/hooks'
 // import Item from '../../components/Main/Item/Item'
 // import UserContext from '../../context/User'
-// import { restaurantList } from '../../apollo/queries'
-// import { selectAddress } from '../../apollo/mutations'
 // import { verticalScale, scale } from '../../utils/scaling'
 // import styles from './styles'
 // import TextError from '../../components/Text/TextError/TextError'
@@ -537,13 +523,6 @@ export default Main
 // import { alignment } from '../../utils/alignment'
 // import Spinner from '../../components/Spinner/Spinner'
 // import Analytics from '../../utils/analytics'
-
-// const RESTAURANTS = gql`
-//   ${restaurantList}
-// `
-// const SELECT_ADDRESS = gql`
-//   ${selectAddress}
-// `
 
 // function Main(props) {
 //   const [busy, setBusy] = useState(false)

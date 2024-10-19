@@ -18,10 +18,7 @@ import styles from './styles'
 // import { OutlinedTextField } from 'react-native-material-textfield'
 import { scale } from '../../utils/scaling'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import gql from 'graphql-tag'
-import { editAddress } from '../../apollo/mutations'
 import * as Location from 'expo-location'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../utils/themeColors'
 import { FlashMessage } from '../../ui/FlashMessage/FlashMessage'
@@ -33,10 +30,6 @@ import CustomMarker from '../../assets/SVG/imageComponents/CustomMarker'
 import AddressText from '../../components/Address/AddressText'
 import SearchModal from '../../components/Address/SearchModal'
 import analytics from '../../utils/analytics'
-
-const EDIT_ADDRESS = gql`
-  ${editAddress}
-`
 
 const labelValues = [
   {
@@ -79,10 +72,10 @@ function EditAddress(props) {
   const [modalVisible, setModalVisible] = useState(false)
   const regionObj = props.route.params.regionChange ?? null
 
-  const [mutate, { loading }] = useMutation(EDIT_ADDRESS, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(EDIT_ADDRESS, {
+  //   onCompleted,
+  //   onError
+  // })
   const themeContext = useContext(ThemeContext)
   const currentTheme = theme[themeContext.ThemeValue]
 

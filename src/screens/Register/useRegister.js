@@ -52,14 +52,14 @@ const useRegister = () => {
         name: firstname + ' ' + lastname
       }
       await setUser(data);
-      navigation.navigate('EmailOtp', {
-        user: {
-          phone: '+'.concat(country.callingCode[0]).concat(phone),
-          email: email.toLowerCase().trim(),
-          password: password,
-          name: firstname + ' ' + lastname
-        }
-      });
+      // navigation.navigate('EmailOtp', {
+      //   user: {
+      //     phone: '+'.concat(country.callingCode[0]).concat(phone),
+      //     email: email.toLowerCase().trim(),
+      //     password: password,
+      //     name: firstname + ' ' + lastname
+      //   }
+      // });
       const user = userCredential.user
       await user.updateProfile({
         displayName: `${firstname} ${lastname}`,

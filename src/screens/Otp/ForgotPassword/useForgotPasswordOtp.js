@@ -1,14 +1,8 @@
 import { useState, useContext, useEffect, useRef } from 'react'
-import { forgotPassword } from '../../../apollo/mutations'
-import gql from 'graphql-tag'
-import { useMutation } from '@apollo/client'
 import ThemeContext from '../../../ui/ThemeContext/ThemeContext'
 import { theme } from '../../../utils/themeColors'
 import { FlashMessage } from '../../../ui/FlashMessage/FlashMessage'
 import { useRoute, useNavigation } from '@react-navigation/native'
-const FORGOT_PASSWORD = gql`
-  ${forgotPassword}
-`
 
 export const useForgotPasswordOtp = () => {
   const route = useRoute()
@@ -32,17 +26,13 @@ export const useForgotPasswordOtp = () => {
       FlashMessage({
         message: error.networkError.result.errors[0].message
       })
-    } else if (error.graphQLErrors) {
-      FlashMessage({
-        message: error.graphQLErrors[0].message
-      })
     }
   }
 
-  const [mutate, { loading }] = useMutation(FORGOT_PASSWORD, {
-    onCompleted,
-    onError
-  })
+  // const [mutate, { loading }] = useMutation(FORGOT_PASSWORD, {
+  //   onCompleted,
+  //   onError
+  // })
 
   const onCodeFilled = code => {
     if (code === otpFrom.current) {
